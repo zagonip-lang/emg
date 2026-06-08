@@ -78,7 +78,7 @@ nav{
 }
 .nav-l a:hover{color:var(--gold2);}
 .nav-logo{display:flex;justify-content:center;}
-.nav-logo img{height:50px;width:auto;display:block;}
+.nav-logo img{height:50px;width:auto;display:block;filter:brightness(0) invert(1);-webkit-filter:brightness(0) invert(1);}
 .nav-r{display:flex;justify-content:flex-end;align-items:center;gap:2.8rem;}
 .nav-evlink{font-family:var(--display);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,231,212,0.78);text-decoration:none;transition:color .3s;}
 .nav-evlink:hover{color:var(--gold2);}
@@ -117,8 +117,9 @@ nav{
   margin-bottom:2.8rem;
   display:flex;align-items:center;justify-content:center;
   opacity:0;animation:fade 1s .1s forwards;
+  background:rgba(255,255,255,0.08);padding:.6rem;border-radius:12px;border:1px solid rgba(255,255,255,0.06);z-index:3;
 }
-.hero-crest img{height:110px;width:auto;opacity:1;filter:drop-shadow(0 2px 24px rgba(20,28,22,0.55));}
+.hero-crest img{display:none!important;height:0;width:0;overflow:hidden;}
 .hero-est{
   font-family:var(--body);font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;
   color:var(--gold2);margin-bottom:2.5rem;
@@ -323,6 +324,22 @@ footer{
 @media(max-width:900px){.corner{display:none;}}
 
 
+/* additional micro-animations */
+.nav-l a{opacity:0;transform:translateY(-8px);display:inline-block;}
+@keyframes navFade{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-crest{animation:float 6s ease-in-out infinite;will-change:transform;}
+@keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-6px);}100%{transform:translateY(0);}}
+
+.sv-icon{transition:transform .38s cubic-bezier(.16,1,.3,1);}
+.sv:hover .sv-icon{transform:translateY(-8px) rotate(-1deg) scale(1.04);}
+
+.btn-fill{transition:transform .22s ease,box-shadow .22s;}
+.btn-fill:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 6px 18px rgba(31,44,34,0.12);}
+
+.page-frame{animation:framePulse 8s ease-in-out infinite;opacity:.95;}
+@keyframes framePulse{0%{box-shadow:0 0 0 rgba(156,124,60,0);}50%{box-shadow:0 0 20px rgba(156,124,60,0.06);}100%{box-shadow:0 0 0 rgba(156,124,60,0);}}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.rv{opacity:1!important;transform:none!important;filter:none!important;}}
 </style>
 </head>
@@ -475,6 +492,36 @@ footer{
 const obs=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=(i*.1)+'s';e.target.classList.add('in');obs.unobserve(e.target);}})},{threshold:.08});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+scrollY-106,behavior:'smooth'});}})});
+
+// Staggered nav link entrance
+document.querySelectorAll('.nav-l a').forEach((a,i)=>{a.style.animation=`navFade .6s ${0.12 + i*0.08}s forwards cubic-bezier(.16,1,.3,1)`});
+
+// Animate stats numbers when visible
+const statsSection = document.querySelector('.stats');
+if(statsSection){
+  const statObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      document.querySelectorAll('.stat-n').forEach(el=>{
+        if(el.dataset.animated) return; el.dataset.animated = '1';
+        const raw = el.textContent || '';
+        const target = parseInt(raw.replace(/\D/g,'')) || 0;
+        const hasPlus = /\+$/.test(raw);
+        const duration = 1200;
+        const start = performance.now();
+        requestAnimationFrame(function step(now){
+          const t = Math.min((now - start) / duration, 1);
+          const val = Math.floor(t * target);
+          el.textContent = val + (hasPlus?'+':'');
+          if(t < 1) requestAnimationFrame(step);
+        });
+      });
+      statObserver.unobserve(entry.target);
+    });
+  },{threshold:0.25});
+  statObserver.observe(statsSection);
+}
+
 </script>
 </body>
 </html>
