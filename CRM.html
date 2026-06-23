@@ -456,6 +456,13 @@
         cursor: not-allowed;
         background: transparent;
     }
+    /* Previne auto-zoom-ul pe mobil prin setarea fontului la 16px */
+@media (max-width: 768px) {
+    .input-wrapper input, 
+    .input-wrapper select {
+        font-size: 16px !important;
+    }
+}
 </style>
 </head>
 
