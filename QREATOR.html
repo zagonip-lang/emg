@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>QREATOR</title>
+<title>Creators Hub CRM</title>
 
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
@@ -159,7 +159,7 @@
         position: relative;
     }
 
-    @media (min-width: 600px) {
+    @media (min-width: 768px) {
         .mac-titlebar {
             flex-direction: row;
             align-items: center;
@@ -204,7 +204,7 @@
         width: 100%;
     }
 
-    @media (min-width: 600px) {
+    @media (min-width: 768px) {
         .top-right-controls {
             width: auto;
             align-items: flex-end;
@@ -226,6 +226,7 @@
         display: flex;
         gap: 10px;
         width: 100%;
+        flex-wrap: wrap;
     }
 
     .btn-export { 
@@ -244,10 +245,10 @@
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); 
         transition: all 0.2s ease;
         flex: 1;
+        min-width: 140px;
         touch-action: manipulation;
     }
     .btn-export:hover {
-        background: #2563eb;
         transform: translateY(-1px);
     }
 
@@ -266,10 +267,8 @@
         gap: 6px;
         touch-action: manipulation;
     }
-    @media (min-width: 600px) {
-        .btn-logout {
-            padding: 8px 14px;
-        }
+    @media (min-width: 768px) {
+        .btn-logout { padding: 8px 14px; }
     }
     .btn-logout:hover {
         background: var(--danger-color);
@@ -494,8 +493,11 @@
         <div class="top-right-controls">
             <div class="sync-text-top" id="lastUpdateDisplay">Salvat local: Niciodată</div>
             <div class="controls-row-buttons">
+                <button class="btn-export" onclick="sincronizeazaGoogleSheets()" style="background: #10b981;">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizează Cloud
+                </button>
                 <button class="btn-export" onclick="exportExcelSecurizat()">
-                    <i class="fa-solid fa-lock"></i> Exportă Backup (.qcrm)
+                    <i class="fa-solid fa-lock"></i> Backup (.qcrm)
                 </button>
                 <button class="btn-logout" onclick="deschideModalLogout()" title="Deconectare">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> Deconectare
@@ -605,6 +607,9 @@
 <script>
 const USER_CORECT = "EMG";
 const PASS_CORECT = "EMG@2026";
+
+// URL GOOGLE APPS SCRIPT PENTRU SINCRONIZARE
+const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbxX8gDou2AtMNzcpzuk5c3GtAq5eLP1dS58qmeUkLsK-StzTeZboqyS2C_g5tBRObkviQ/exec';
 
 function verificaSesiune() {
     const logat = sessionStorage.getItem("is_auth");
@@ -879,6 +884,69 @@ function sterge(id){
     }
 }
 
+// LOGICA JAVASCRIPT CORECTĂ DE SINCRONIZARE AUTOMATĂ CU GOOGLE
+async function sincronizeazaGoogleSheets() {
+    if (GOOGLE_SYNC_URL === 'AICI_PUI_LINKUL_TAU_DE_LA_GOOGLE_APPS_SCRIPT') {
+        return alert("Te rugăm să adaugi URL-ul tău Google Apps Script la linia 288 în codul sursă al CRM-ului.");
+    }
+
+    const buton = document.querySelector("button[onclick='sincronizeazaGoogleSheets()']");
+    const textInitial = buton.innerHTML;
+    
+    buton.disabled = true;
+    buton.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Se sincronizează...`;
+
+    try {
+        const response = await fetch(GOOGLE_SYNC_URL);
+        if (!response.ok) throw new Error("Eroare la conectarea cu Google Drive.");
+        
+        const dateCloud = await response.json();
+        
+        if (dateCloud && Array.isArray(dateCloud)) {
+            let profileNoiAdaugate = 0;
+
+            dateCloud.forEach(creatorCloud => {
+                // Verificare duplicat după ID sau Username
+                const existaDeja = contacte.some(c => 
+                    (c.username !== "—" && creatorCloud.username && c.username.toLowerCase() === creatorCloud.username.toLowerCase()) || 
+                    (c.id.toString() === creatorCloud.id.toString())
+                );
+
+                if (!existaDeja) {
+                    contacte.push({
+                        id: parseInt(creatorCloud.id) || Date.now(),
+                        nume: creatorCloud.nume || "—",
+                        username: creatorCloud.username || "—",
+                        platforma: creatorCloud.platforma || "Nespecificat",
+                        followers: creatorCloud.followers || "—",
+                        telefon: creatorCloud.telefon || "",
+                        email: creatorCloud.email || "",
+                        adresa: creatorCloud.adresa || "",
+                        notite: creatorCloud.notite || "—"
+                    });
+                    profileNoiAdaugate++;
+                }
+            });
+
+            if (profileNoiAdaugate > 0) {
+                salveazaLocal();
+                afiseazaToate();
+                alert(`Sincronizare reușită! S-au descărcat ${profileNoiAdaugate} profile noi trimise direct de creatori.`);
+            } else {
+                alert("Sincronizare finalizată. Baza de date este deja la zi!");
+            }
+        } else if (dateCloud && dateCloud.error) {
+            alert("Eroare Google Script: " + dateCloud.error);
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Eroare de conexiune la Cloud. Verifică dacă ai publicat corect scriptul ca 'Anyone'.");
+    } finally {
+        buton.disabled = false;
+        buton.innerHTML = textInitial;
+    }
+}
+
 document.getElementById("importExcel").addEventListener("change", function(e){
     const file = e.target.files[0]; if(!file) return;
     document.getElementById("fileName").innerText = "Încarcă: " + file.name;
@@ -941,7 +1009,7 @@ document.getElementById("importExcel").addEventListener("change", function(e){
             }
         } catch (err) { 
             console.error(err);
-            alert("Eroare critică la decodificarea fișierului. Asigură-te că folosești fișierul .qcrm corect."); 
+            alert("Eroare critică la decodificarea fișierului."); 
         }
     };
     reader.readAsArrayBuffer(file);
