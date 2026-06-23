@@ -608,8 +608,8 @@
 const USER_CORECT = "EMG";
 const PASS_CORECT = "EMG@2026";
 
-// URL GOOGLE APPS SCRIPT PENTRU SINCRONIZARE
-const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbxX8gDou2AtMNzcpzuk5c3GtAq5eLP1dS58qmeUkLsK-StzTeZboqyS2C_g5tBRObkviQ/exec';
+// URL GOOGLE APPS SCRIPT PENTRU SINCRONIZARE (METODA SECURED JSONP)
+const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzx3dqMshnLsy9N1lO31FtGCMfY6MOFf45birhYd5xMggH7KrP3--BtQqm1W9qsx3LDCg/exec';
 
 function verificaSesiune() {
     const logat = sessionStorage.getItem("is_auth");
@@ -884,8 +884,8 @@ function sterge(id){
     }
 }
 
-// LOGICA JAVASCRIPT CORECTĂ DE SINCRONIZARE AUTOMATĂ CU GOOGLE
-async function sincronizeazaGoogleSheets() {
+// SCRIPTUL ACTUALIZAT: LOGICĂ DE SINCRONIZARE AUTOMATĂ PRIN METODA SECURED JSONP (FĂRĂ BLOCĂRI CORS)
+function sincronizeazaGoogleSheets() {
     if (GOOGLE_SYNC_URL === 'https://script.google.com/macros/s/AKfycbzx3dqMshnLsy9N1lO31FtGCMfY6MOFf45birhYd5xMggH7KrP3--BtQqm1W9qsx3LDCg/exec') {
         return alert("Te rugăm să adaugi URL-ul tău Google Apps Script la linia 288 în codul sursă al CRM-ului.");
     }
@@ -896,17 +896,23 @@ async function sincronizeazaGoogleSheets() {
     buton.disabled = true;
     buton.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Se sincronizează...`;
 
-    try {
-        const response = await fetch(GOOGLE_SYNC_URL);
-        if (!response.ok) throw new Error("Eroare la conectarea cu Google Drive.");
+    // Generăm un nume unic pentru funcția de răspuns (Callback)
+    const callbackName = 'googleSheetsCallback_' + Date.now();
+    
+    window[callbackName] = function(dateCloud) {
+        // Curățăm elementul de tip script adăugat temporar în document
+        const elementScript = document.getElementById(callbackName);
+        if(elementScript) elementScript.remove();
+        delete window[callbackName];
         
-        const dateCloud = await response.json();
-        
+        buton.disabled = false;
+        buton.innerHTML = textInitial;
+
         if (dateCloud && Array.isArray(dateCloud)) {
             let profileNoiAdaugate = 0;
 
             dateCloud.forEach(creatorCloud => {
-                // Verificare duplicat după ID sau Username
+                // Verificare dacă profilul există deja local după ID sau Username
                 const existaDeja = contacte.some(c => 
                     (c.username !== "—" && creatorCloud.username && c.username.toLowerCase() === creatorCloud.username.toLowerCase()) || 
                     (c.id.toString() === creatorCloud.id.toString())
@@ -931,20 +937,30 @@ async function sincronizeazaGoogleSheets() {
             if (profileNoiAdaugate > 0) {
                 salveazaLocal();
                 afiseazaToate();
-                alert(`Sincronizare reușită! S-au descărcat ${profileNoiAdaugate} profile noi trimise direct de creatori.`);
+                alert(`Sincronizare reușită! S-au descărcat ${profileNoiAdaugate} profile noi trimise de creatori.`);
             } else {
                 alert("Sincronizare finalizată. Baza de date este deja la zi!");
             }
         } else if (dateCloud && dateCloud.error) {
             alert("Eroare Google Script: " + dateCloud.error);
         }
-    } catch (error) {
-        console.error(error);
-        alert("Eroare de conexiune la Cloud. Verifică dacă ai publicat corect scriptul ca 'Anyone'.");
-    } finally {
+    };
+
+    // Creăm tagul de script care ocolește complet regulile CORS
+    const script = document.createElement('script');
+    script.id = callbackName;
+    // Lipim parametrul callback în URL-ul trimis către Google
+    script.src = GOOGLE_SYNC_URL + (GOOGLE_SYNC_URL.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+    
+    script.onerror = function() {
+        alert("Eroare de conexiune la Cloud. Verifică dacă ai adăugat corect linkul de Apps Script și dacă deployment-ul este setat pe 'Anyone'.");
         buton.disabled = false;
         buton.innerHTML = textInitial;
-    }
+        const elementScript = document.getElementById(callbackName);
+        if(elementScript) elementScript.remove();
+    };
+    
+    document.body.appendChild(script);
 }
 
 document.getElementById("importExcel").addEventListener("change", function(e){
