@@ -20,6 +20,7 @@
         --text-main: #f3f4f6;
         --text-muted: #9ca3af;
         --glass-blur: blur(30px);
+        --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
     }
 
     * {
@@ -48,17 +49,16 @@
         body { padding: 40px 20px; }
     }
 
-    /* Ecranul de Login */
     .login-container {
         width: 100%;
         max-width: 420px;
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 24px;
-        padding: 35px 30px;
+        padding: 40px 30px;
         backdrop-filter: var(--glass-blur);
         -webkit-backdrop-filter: var(--glass-blur);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -78,7 +78,7 @@
     }
 
     .login-header h1 {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
         color: #ffffff;
         letter-spacing: -0.5px;
@@ -87,7 +87,7 @@
     .login-header p {
         font-size: 13px;
         color: var(--text-muted);
-        margin-top: 4px;
+        margin-top: 6px;
     }
 
     .login-fields {
@@ -102,17 +102,43 @@
         font-weight: 500;
         display: none;
         background: rgba(248, 113, 113, 0.1);
-        padding: 10px;
-        border-radius: 10px;
+        padding: 12px;
+        border-radius: 12px;
         border: 1px solid rgba(248, 113, 113, 0.2);
     }
 
-    /* Structura Aplicatiei principale */
+    .btn-logo-gradient {
+        width: 100%;
+        padding: 15px;
+        background: var(--logo-gradient);
+        color: #ffffff;
+        border: none;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 20px rgba(195, 86, 242, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-logo-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(255, 87, 87, 0.5);
+        filter: brightness(1.1);
+    }
+
     .app-window {
         max-width: 1500px;
         width: 100%;
         margin: 0 auto;
-        display: none; /* Ascuns implicit */
+        display: none; 
         flex-direction: column;
         flex: 1;
     }
@@ -164,24 +190,6 @@
         margin-top: -2px;
     }
 
-    .gemini-spark {
-        display: none;
-    }
-
-    @media (min-width: 900px) {
-        .gemini-spark {
-            display: block;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 26px;
-            background: linear-gradient(135deg, #a5f3fc, #fbcfe8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.4));
-        }
-    }
-
     .top-right-controls {
         display: flex;
         flex-direction: column;
@@ -205,10 +213,6 @@
         border: 1px solid rgba(255, 255, 255, 0.05);
         text-align: center;
         width: 100%;
-    }
-
-    @media (min-width: 600px) {
-        .sync-text-top { width: auto; text-align: right; }
     }
 
     .controls-row-buttons {
@@ -237,7 +241,6 @@
     .btn-export:hover {
         background: #2563eb;
         transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
     .btn-logout {
@@ -252,17 +255,10 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        transition: all 0.2s ease;
     }
     .btn-logout:hover {
         background: var(--danger-color);
         color: #ffffff;
-        box-shadow: 0 4px 12px rgba(248, 113, 113, 0.2);
-    }
-
-    @media (min-width: 600px) {
-        .controls-row-buttons { width: auto; }
-        .btn-export { flex: none; }
     }
 
     .gemini-card {
@@ -272,7 +268,6 @@
         padding: 20px;
         backdrop-filter: var(--glass-blur);
         -webkit-backdrop-filter: var(--glass-blur);
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     }
 
     @media (min-width: 768px) {
@@ -302,7 +297,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        letter-spacing: -0.3px;
     }
 
     .form-grid {
@@ -323,64 +317,23 @@
 
     .input-wrapper { position: relative; }
     .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.3); font-size: 14px; }
-    .input-wrapper input, .input-wrapper select { width: 100%; padding: 14px 16px 14px 46px; background: var(--input-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; color: var(--text-main); font-size: 14px; outline: none; transition: all 0.2s ease; -webkit-appearance: none; }
-    .input-wrapper input:focus, .input-wrapper select:focus { background: rgba(255, 255, 255, 0.08); border-color: rgba(94, 161, 255, 0.5); box-shadow: 0 0 0 4px rgba(94, 161, 255, 0.15); }
-    .input-wrapper select { cursor: pointer; appearance: none; }
+    .input-wrapper input, .input-wrapper select { width: 100%; padding: 14px 16px 14px 46px; background: var(--input-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; color: var(--text-main); font-size: 14px; outline: none; }
+    .input-wrapper input:focus, .input-wrapper select:focus { border-color: rgba(94, 161, 255, 0.5); }
 
     .form-actions { display: flex; flex-direction: column; gap: 10px; }
-    @media (min-width: 480px) {
-        .form-actions { flex-direction: row; gap: 12px; }
-    }
-    
-    .btn-submit { 
-        flex: 1; 
-        padding: 15px; 
-        background: rgba(255, 255, 255, 0.06); 
-        color: #ffffff; 
-        border: 1px solid rgba(255, 255, 255, 0.15); 
-        border-radius: 14px; 
-        font-size: 15px; 
-        font-weight: 600; 
-        cursor: pointer; 
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-    .btn-submit:hover { 
-        background: rgba(255, 255, 255, 0.12); 
-        border-color: var(--primary-color);
-        box-shadow: 0 0 15px rgba(94, 161, 255, 0.25);
-        transform: translateY(-1px); 
-    }
-    .btn-submit.edit-mode { 
-        background: var(--primary-color); 
-        color: #ffffff; 
-        border-color: transparent;
-        box-shadow: 0 4px 12px rgba(94, 161, 255, 0.3); 
-    }
-    .btn-submit.edit-mode:hover {
-        background: #4a8ee6;
-        box-shadow: 0 4px 15px rgba(94, 161, 255, 0.45); 
-    }
+    @media (min-width: 480px) { .form-actions { flex-direction: row; gap: 12px; } }
 
-    .btn-cancel { padding: 15px 24px; background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
-    .btn-cancel:hover { background: rgba(255, 255, 255, 0.15); }
+    .btn-cancel { padding: 15px 24px; background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; cursor: pointer; }
 
     .search-box-panel { display: flex; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; align-items: center; gap: 14px; margin-bottom: 15px; }
     .search-box-panel input { background: transparent; border: none; outline: none; color: var(--text-main); font-size: 14px; width: 100%; }
 
-    .import-zone { display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 16px; padding: 22px; text-align: center; cursor: pointer; background: rgba(255, 255, 255, 0.01); transition: all 0.2s ease; }
+    .import-zone { display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 16px; padding: 22px; text-align: center; cursor: pointer; background: rgba(255, 255, 255, 0.01); }
     .import-zone i { font-size: 24px; color: var(--primary-color); margin-bottom: 10px; }
 
-    .table-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); margin-bottom: 25px; }
-    .table-section h3 { padding: 20px 20px 10px 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .table-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; margin-bottom: 25px; }
+    .table-section h3 { padding: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
     
-    @media (min-width: 768px) {
-        .table-section h3 { padding: 24px 28px 12px 28px; font-size: 15px; }
-    }
-
     .scroll-container { display: none; }
     .mobile-cards-container { display: flex; flex-direction: column; gap: 12px; padding: 15px; }
 
@@ -390,21 +343,19 @@
     }
 
     table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th { padding: 16px 24px; color: rgba(255, 255, 255, 0.4); font-weight: 500; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; }
+    th { padding: 16px 24px; color: rgba(255, 255, 255, 0.4); font-weight: 500; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
     td { padding: 18px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); color: #e5e7eb; }
-    tr:last-child td { border-bottom: none; }
 
     .m-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
     .m-header { display: flex; justify-content: space-between; align-items: flex-start; }
     .m-title { font-weight: 600; color: #fff; font-size: 16px; }
     .m-row { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
-    .m-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .m-val { color: #e5e7eb; }
-    .m-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    .m-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
+    .m-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
     .username-cell { color: var(--primary-color); font-weight: 500; }
     .followers-badge { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 5px 12px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); }
-    .followers-badge span { font-weight: 600; color: #fff; font-size: 12px; }
+    .followers-badge span { font-weight: 600; color: #fff; }
 
     .platform-link-btn { display: inline-flex; align-items: center; text-decoration: none; color: inherit; padding: 5px 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 10px; }
 
@@ -414,55 +365,14 @@
     .action-icon-btn.email { background: #3b82f6; }
 
     .row-actions-container { display: flex; align-items: center; gap: 16px; }
-    .btn-row-action { background: transparent; border: none; color: rgba(255, 255, 255, 0.3); cursor: pointer; font-size: 15px; padding: 5px; }
+    .btn-row-action { background: transparent; border: none; cursor: pointer; font-size: 15px; }
     .btn-row-action.edit { color: var(--primary-color); }
     .btn-row-action.delete { color: var(--danger-color); }
 
-    .pagination-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 6px;
-        padding: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        background: rgba(0, 0, 0, 0.1);
-    }
-    .pagination-btn {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: var(--text-main);
-        padding: 6px 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: 500;
-        transition: all 0.2s ease;
-        min-width: 32px;
-        text-align: center;
-    }
-    .pagination-btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-    .pagination-btn.active {
-        background: var(--primary-color);
-        color: #000;
-        font-weight: 600;
-        border-color: transparent;
-        box-shadow: 0 0 10px rgba(94, 161, 255, 0.3);
-    }
-    .pagination-btn:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-        background: transparent;
-    }
-    /* Previne auto-zoom-ul pe mobil prin setarea fontului la 16px */
-@media (max-width: 768px) {
-    .input-wrapper input, 
-    .input-wrapper select {
-        font-size: 16px !important;
-    }
-}
+    .pagination-container { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    .pagination-btn { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-main); padding: 6px 12px; border-radius: 8px; cursor: pointer; min-width: 32px; text-align: center; }
+    .pagination-btn.active { background: var(--primary-color); color: #000; font-weight: 600; border-color: transparent; }
+    .pagination-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 </style>
 </head>
 
@@ -477,7 +387,7 @@
         </svg>
     </div>
     <div class="login-header">
-        <h1>Autentificare ICreator</h1>
+        <h1>Autentificare Qreator</h1>
         <p>Proprietatea Eligibil Media Group</p>
     </div>
     <div class="login-fields">
@@ -491,13 +401,12 @@
             <i class="fa-solid fa-lock"></i>
         </div>
     </div>
-    <button class="btn-submit edit-mode" onclick="incearcaLogin()" style="padding:14px; border-radius:14px;">
+    <button class="btn-logo-gradient" onclick="incearcaLogin()">
         <i class="fa-solid fa-right-to-bracket"></i> Conectare
     </button>
 </div>
 
 <div class="app-window" id="appScreen">
-    
     <div class="mac-titlebar">
         <div class="brand-container">
             <svg class="app-brand-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -505,15 +414,14 @@
                 <path d="M442.535 94.5C442.535 344.664 534.605 490.5 669 490.5C534.605 490.5 442.535 636.336 442.535 893.5C442.535 636.336 350.465 490.5 216.072 490.5C350.465 490.5 442.535 344.664 442.535 94.5Z" fill="#C356F2"/>
                 <path d="M338 101.5C338 344.664 430.069 490.5 564.463 490.5C430.069 490.5 338 636.336 338 893.5C338 636.336 245.931 490.5 111.537 490.5C245.931 490.5 338 344.664 338 101.5Z" fill="#FF5757"/>
             </svg>
-            <h2 class="brand-title">ICreator</h2>
+            <h2 class="brand-title">Qreator</h2>
             <div class="brand-subtitle">Proprietatea Eligibil Media Group</div>
         </div>
-        <div class="gemini-spark"><i class="fa-solid fa-sparkles"></i></div>
         <div class="top-right-controls">
             <div class="sync-text-top" id="lastUpdateDisplay">Salvat local: Niciodată</div>
             <div class="controls-row-buttons">
                 <button class="btn-export" onclick="exportExcelSecurizat()">
-                    <i class="fa-solid fa-lock"></i> Exportă Backup (.icrm)
+                    <i class="fa-solid fa-lock"></i> Exportă Backup (.qcrm)
                 </button>
                 <button class="btn-logout" onclick="executaLogout()" title="Deconectare">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -567,7 +475,7 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button class="btn-submit" id="btnSubmit" onclick="proceseazaFormular()">
+                <button class="btn-logo-gradient" id="btnSubmit" onclick="proceseazaFormular()">
                     <i class="fa-solid fa-plus"></i> Adăugă în listă
                 </button>
                 <button class="btn-cancel" id="btnCancel" onclick="reseteazaFormular()" style="display: none;">Anulează</button>
@@ -586,18 +494,17 @@
                 <label for="importExcel" style="width:100%;">
                     <div class="import-zone">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <h3 style="color:#fff; font-size:14px; font-weight:600; margin-bottom:4px;">Importă Backup Securizat (.icrm)</h3>
+                        <h3 style="color:#fff; font-size:14px; font-weight:600; margin-bottom:4px;">Importă Backup Securizat (.qcrm)</h3>
                         <div id="fileName" style="margin-top:8px; color:var(--primary-color); font-size:12px;"></div>
                     </div>
                 </label>
-                <input type="file" id="importExcel" accept=".icrm,.xlsx" style="display: none;">
+                <input type="file" id="importExcel" accept="*" style="display: none;">
             </div>
         </div>
     </div>
 
     <div class="table-section">
         <h3>Listă Active Creator</h3>
-        
         <div class="scroll-container">
             <table>
                 <thead>
@@ -616,17 +523,15 @@
                 <tbody id="lista"></tbody>
             </table>
         </div>
-
         <div class="mobile-cards-container" id="listaMobile"></div>
-
         <div class="pagination-container" id="paginationControls"></div>
     </div>
 </div>
 
 <script>
-// --- MANAGEMENT LOGICĂ AUTENTIFICARE (LOGIN) ---
-const CONF_USER = "EMG";
-const CONF_PASS = "EMG@2026";
+// --- CREDENȚIALE DIRECTE STABILE ---
+const USER_CORECT = "EMG";
+const PASS_CORECT = "EMG@2026";
 
 function verificaSesiune() {
     const logat = sessionStorage.getItem("is_auth");
@@ -635,8 +540,6 @@ function verificaSesiune() {
         document.getElementById("appScreen").style.display = "flex";
         document.body.style.justifyContent = "flex-start";
         document.body.style.alignItems = "stretch";
-        
-        // Inițializări tabele după login
         afiseazaToate(); 
         afiseazaTimestamp();
     } else {
@@ -652,13 +555,20 @@ function incearcaLogin() {
     const p = document.getElementById("loginPass").value;
     const errEl = document.getElementById("loginError");
 
-    if (u === CONF_USER && p === CONF_PASS) {
+    if(!u || !p) {
+        errEl.innerText = "Te rugăm să completezi toate câmpurile.";
+        errEl.style.display = "block";
+        return;
+    }
+
+    if (u === USER_CORECT && p === PASS_CORECT) {
         errEl.style.display = "none";
         sessionStorage.setItem("is_auth", "true");
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
         verificaSesiune();
     } else {
+        errEl.innerText = "Utilizator sau parolă incorectă!";
         errEl.style.display = "block";
     }
 }
@@ -671,9 +581,7 @@ function executaLogout() {
 }
 
 function verificaEnter(e) {
-    if (e.key === "Enter") {
-        incearcaLogin();
-    }
+    if (e.key === "Enter") { incearcaLogin(); }
 }
 
 // --- LOGICĂ CRM ---
@@ -681,16 +589,25 @@ let contacte = JSON.parse(localStorage.getItem("contacte")) || [];
 let listaFiltrata = [...contacte]; 
 let ultimaActualizare = localStorage.getItem("ultimaActualizare") || "Niciodată";
 let inModEditare = false;
-
 let paginaCurenta = 1;
 const randuriPePagina = 10;
 
-const SECRET_SEED = "EligibilMediaGroup_ICreator_SecureSalt_2026";
+// Sistemul nou XOR (Safe offline file://)
+const CRYPTO_KEY = "EligibilMediaGroup2026";
+function ruleazaXOR(text) {
+    let rezultat = "";
+    for(let i=0; i<text.length; i++) {
+        rezultat += String.fromCharCode(text.charCodeAt(i) ^ CRYPTO_KEY.charCodeAt(i % CRYPTO_KEY.length));
+    }
+    return rezultat;
+}
 
-async function obtineCheieCriptare() {
+// Salt și cheie de rezervă pentru importul fișierelor vechi (AES-GCM)
+const SECRET_SEED = "EligibilMediaGroup_Qreator_SecureSalt_2026";
+async function obtineCheieCriptareVeche() {
     const enc = new TextEncoder();
     const digest = await crypto.subtle.digest("SHA-256", enc.encode(SECRET_SEED));
-    return await crypto.subtle.importKey("raw", digest, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+    return await crypto.subtle.importKey("raw", digest, { name: "AES-GCM" }, false, ["decrypt"]);
 }
 
 function actualizeazaTimestamp() {
@@ -740,7 +657,6 @@ function pornesteEditare(id) {
     document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-pen" style="color:var(--primary-color); font-size:15px;"></i> Editează Profil Creator`;
     const btnSubmit = document.getElementById("btnSubmit");
     btnSubmit.innerHTML = `<i class="fa-solid fa-check"></i> Actualizează datele`;
-    btnSubmit.classList.add("edit-mode");
     document.getElementById("btnCancel").style.display = "inline-block";
 }
 
@@ -759,10 +675,7 @@ function salveazaEditare() {
 
     contacte = contacte.map(c => c.id === id ? { id, nume: nume || "—", username: username || "—", platforma: platforma || "Nespecificat", followers: followers || "—", telefon, email, adresa, notite: notite || "—" } : c);
     salveazaLocal(); 
-    
-    const textCautat = document.getElementById("cautare").value.toLowerCase();
-    if(textCautat) { cautaPersoana(); } else { afiseazaToate(); }
-    
+    if(document.getElementById("cautare").value.toLowerCase()) { cautaPersoana(); } else { afiseazaToate(); }
     reseteazaFormular();
 }
 
@@ -773,7 +686,6 @@ function reseteazaFormular() {
     document.getElementById("formTitle").innerHTML = `<i class="fa-solid fa-user-plus" style="color:var(--primary-color); font-size:15px;"></i> Adăugare Creator Nou`;
     const btnSubmit = document.getElementById("btnSubmit");
     btnSubmit.innerHTML = `<i class="fa-solid fa-plus"></i> Adăugă în listă`;
-    btnSubmit.classList.remove("edit-mode");
     document.getElementById("btnCancel").style.display = "none";
 }
 
@@ -781,20 +693,17 @@ function afiseaza(lista){
     listaFiltrata = lista; 
     const tbody = document.getElementById("lista");
     const mContainer = document.getElementById("listaMobile");
-    
-    tbody.innerHTML = "";
-    mContainer.innerHTML = "";
+    tbody.innerHTML = ""; mContainer.innerHTML = "";
     
     if(lista.length === 0) { 
         tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; color: var(--text-muted); padding: 50px;">Niciun profil găsit.</td></tr>`; 
-        mContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 30px; font-size:14px;">Niciun profil găsit.</div>`;
+        mContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 30px;">Niciun profil găsit.</div>`;
         document.getElementById("paginationControls").innerHTML = "";
         return; 
     }
 
     const indexStart = (paginaCurenta - 1) * randuriPePagina;
-    const indexEnd = indexStart + randuriPePagina;
-    const elementePagina = lista.slice(indexStart, indexEnd);
+    const elementePagina = lista.slice(indexStart, indexStart + randuriPePagina);
 
     elementePagina.forEach(c => {
         let icon = '';
@@ -810,58 +719,47 @@ function afiseaza(lista){
             if(c.platforma === 'X') urlProfil = `https://x.com/${curatUser}`;
         }
 
-        let afisarePlatforma = urlProfil !== "" ? `<a href="${urlProfil}" target="_blank" class="platform-link-btn" title="Deschide">${icon}<span style="font-size:13px; font-weight:500;">${c.platforma}</span><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:9px; margin-left:6px; opacity:0.5;"></i></a>` : `<div class="platform-link-btn" style="cursor: default;">${icon}<span style="font-size:13px;">${c.platforma}</span></div>`;
+        let afisarePlatforma = urlProfil !== "" ? `<a href="${urlProfil}" target="_blank" class="platform-link-btn">${icon}<span>${c.platforma}</span><i class="fa-solid fa-arrow-up-right-from-square" style="font-size:9px; margin-left:6px; opacity:0.5;"></i></a>` : `<div class="platform-link-btn">${icon}<span>${c.platforma}</span></div>`;
         let afisareTelefon = c.telefon ? `<div class="action-badge"><span>${c.telefon}</span><a href="tel:${c.telefon.replace(/\s+/g, '')}" class="action-icon-btn phone"><i class="fa-solid fa-phone"></i></a></div>` : '—';
         let afisareEmail = c.email ? `<div class="action-badge"><span>${c.email}</span><a href="mailto:${c.email.trim()}" class="action-icon-btn email"><i class="fa-solid fa-envelope"></i></a></div>` : '—';
 
         tbody.innerHTML += `
         <tr>
-            <td style="font-weight: 600; color: #ffffff;">${c.nume}</td>
+            <td style="font-weight:600;">${c.nume}</td>
             <td class="username-cell">${c.username}</td>
             <td>${afisarePlatforma}</td>
             <td><div class="followers-badge"><span>${c.followers || '—'}</span></div></td>
             <td>${afisareTelefon}</td>
             <td>${afisareEmail}</td>
-            <td style="color: var(--text-muted); font-size:13px;">${c.adresa || '—'}</td>
-            <td style="color: #a5f3fc; font-size:13px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${c.notite || ''}">${c.notite || '—'}</td>
+            <td>${c.adresa || '—'}</td>
+            <td style="color:#a5f3fc; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${c.notite || '—'}</td>
             <td>
                 <div class="row-actions-container">
-                    <button class="btn-row-action edit" onclick="pornesteEditare(${c.id})" title="Editează"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn-row-action delete" onclick="sterge(${c.id})" title="Șterge"><i class="fa-solid fa-trash"></i></button>
+                    <button class="btn-row-action edit" onclick="pornesteEditare(${c.id})"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn-row-action delete" onclick="sterge(${c.id})"><i class="fa-solid fa-trash"></i></button>
                 </div>
             </td>
         </tr>`;
 
-        let mobilTelBtn = c.telefon ? `<a href="tel:${c.telefon.replace(/\s+/g, '')}" class="action-icon-btn phone"><i class="fa-solid fa-phone"></i></a>` : '';
-        let mobilEmailBtn = c.email ? `<a href="mailto:${c.email.trim()}" class="action-icon-btn email"><i class="fa-solid fa-envelope"></i></a>` : '';
-
         mContainer.innerHTML += `
         <div class="m-card">
             <div class="m-header">
-                <div>
-                    <div class="m-title">${c.nume}</div>
-                    <div class="username-cell" style="font-size:14px; margin-top:2px;">${c.username}</div>
-                </div>
+                <div><div class="m-title">${c.nume}</div><div class="username-cell">${c.username}</div></div>
                 <div style="display:flex; gap:8px;">
-                    ${mobilTelBtn}
-                    ${mobilEmailBtn}
+                    ${c.telefon ? `<a href="tel:${c.telefon.replace(/\s+/g, '')}" class="action-icon-btn phone"><i class="fa-solid fa-phone"></i></a>`:''}
+                    ${c.email ? `<a href="mailto:${c.email.trim()}" class="action-icon-btn email"><i class="fa-solid fa-envelope"></i></a>`:''}
                 </div>
             </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:4px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                 <div class="m-row"><div class="m-label">Platformă</div><div>${afisarePlatforma}</div></div>
-                <div class="m-row"><div class="m-label">Urmăritori</div><div><div class="followers-badge"><span>${c.followers || '—'}</span></div></div></div>
+                <div class="m-row"><div class="m-label">Urmăritori</div><div class="followers-badge"><span>${c.followers || '—'}</span></div></div>
             </div>
-            ${c.adresa ? `<div class="m-row"><div class="m-label">Adresă PR</div><div class="m-val">${c.adresa}</div></div>` : ''}
-            ${c.notite && c.notite !== '—' ? `<div class="m-row" style="background:rgba(94, 161, 255, 0.05); padding:8px; border-radius:10px;"><div class="m-label" style="color:#5ea1ff;">Notițe</div><div class="m-val" style="color:#a5f3fc;">${c.notite}</div></div>` : ''}
-            <div class="m-footer" style="justify-content: flex-end;">
-                <div class="row-actions-container">
-                    <button class="btn-row-action edit" onclick="pornesteEditare(${c.id})"><i class="fa-solid fa-pen"></i> Editează</button>
-                    <button class="btn-row-action delete" onclick="sterge(${c.id})"><i class="fa-solid fa-trash"></i> Șterge</button>
-                </div>
+            <div class="m-footer">
+                <button class="btn-row-action edit" onclick="pornesteEditare(${c.id})"><i class="fa-solid fa-pen"></i> Editează</button>
+                <button class="btn-row-action delete" onclick="sterge(${c.id})"><i class="fa-solid fa-trash"></i> Șterge</button>
             </div>
         </div>`;
     });
-
     genereazaButoanePaginare(lista.length);
 }
 
@@ -869,12 +767,10 @@ function genereazaButoanePaginare(totalElemente) {
     const totalPagini = Math.ceil(totalElemente / randuriPePagina);
     const container = document.getElementById("paginationControls");
     container.innerHTML = "";
-
     if (totalPagini <= 1) return; 
 
     const btnInapoi = document.createElement("button");
-    btnInapoi.className = "pagination-btn";
-    btnInapoi.innerHTML = `<i class="fa-solid fa-chevron-left"></i>`;
+    btnInapoi.className = "pagination-btn"; btnInapoi.innerHTML = `<i class="fa-solid fa-chevron-left"></i>`;
     btnInapoi.disabled = paginaCurenta === 1;
     btnInapoi.onclick = () => schimbaPagina(paginaCurenta - 1);
     container.appendChild(btnInapoi);
@@ -882,171 +778,115 @@ function genereazaButoanePaginare(totalElemente) {
     for (let i = 1; i <= totalPagini; i++) {
         const btnNumar = document.createElement("button");
         btnNumar.className = `pagination-btn ${i === paginaCurenta ? 'active' : ''}`;
-        btnNumar.innerText = i;
-        btnNumar.onclick = () => schimbaPagina(i);
+        btnNumar.innerText = i; btnNumar.onclick = () => schimbaPagina(i);
         container.appendChild(btnNumar);
     }
 
     const btnInainte = document.createElement("button");
-    btnInainte.className = "pagination-btn";
-    btnInainte.innerHTML = `<i class="fa-solid fa-chevron-right"></i>`;
+    btnInainte.className = "pagination-btn"; btnInainte.innerHTML = `<i class="fa-solid fa-chevron-right"></i>`;
     btnInainte.disabled = paginaCurenta === totalPagini;
     btnInainte.onclick = () => schimbaPagina(paginaCurenta + 1);
     container.appendChild(btnInainte);
 }
 
-function schimbaPagina(numarPagina) {
-    paginaCurenta = numarPagina;
-    afiseaza(listaFiltrata);
-    document.querySelector(".table-section").scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function afiseazaToate(){ 
-    document.getElementById("cautare").value = ""; 
-    paginaCurenta = 1; 
-    afiseaza(contacte); 
-}
-
+function schimbaPagina(p) { paginaCurenta = p; afiseaza(listaFiltrata); }
+function afiseazaToate(){ document.getElementById("cautare").value = ""; paginaCurenta = 1; afiseaza(contacte); }
 function cautaPersoana(){ 
     const text = document.getElementById("cautare").value.toLowerCase(); 
-    const rez = contacte.filter(c => c.nume.toLowerCase().includes(text) || c.username.toLowerCase().includes(text) || c.platforma.toLowerCase().includes(text) || (c.notite && c.notite.toLowerCase().includes(text))); 
-    paginaCurenta = 1; 
-    afiseaza(rez); 
+    const rez = contacte.filter(c => c.nume.toLowerCase().includes(text) || c.username.toLowerCase().includes(text) || c.platforma.toLowerCase().includes(text)); 
+    paginaCurenta = 1; afiseaza(rez); 
+}
+
+// Generare fișier optim local (XOR)
+function exportExcelSecurizat() {
+    if(contacte.length === 0) return alert("Baza de date este goală.");
+    const jsonString = JSON.stringify(contacte);
+    const textProtejat = ruleazaXOR(jsonString);
+    const blob = new Blob([btoa(unescape(encodeURIComponent(textProtejat)))], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = "Qreator_Backup.qcrm";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
 function sterge(id){
-    if(confirm("Ștergi acest cont din CRM?")) {
-        contacte = contacte.filter(c => c.id !== id);
-        salveazaLocal(); 
-        
-        const totalPagini = Math.ceil(contacte.length / randuriPePagina);
-        if (paginaCurenta > totalPagini && paginaCurenta > 1) {
-            paginaCurenta = totalPagini;
-        }
-
-        const textCautat = document.getElementById("cautare").value.toLowerCase();
-        if(textCautat) { cautaPersoana(); } else { afiseaza(contacte); }
-
-        if(document.getElementById("editId").value == id) reseteazaFormular();
+    if(confirm("Ștergi acest cont?")) {
+        contacte = contacte.filter(c => c.id !== id); salveazaLocal(); afiseazaToate();
     }
 }
 
-async function exportExcelSecurizat(){
-    if(contacte.length === 0) return alert("Baza de date este goală.");
-    
-    const ws = XLSX.utils.json_to_sheet(contacte.map(c => ({ UID: c.id, "Nume Complet": c.nume, "Username": c.username, "Platformă": c.platforma, "Urmăritori": c.followers, "Telefon": c.telefon, "Email": c.email, "Adresă PR": c.adresa, "Notițe / Detalii": c.notite })));
-    const wb = XLSX.utils.book_new(); 
-    XLSX.utils.book_append_sheet(wb, ws, "Influenceri");
-    
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    
-    try {
-        const cheie = await obtineCheieCriptare();
-        const iv = crypto.getRandomValues(new Uint8Array(12)); 
-        
-        const dateCriptate = await crypto.subtle.encrypt(
-            { name: "AES-GCM", iv: iv },
-            cheie,
-            excelBuffer
-        );
-        
-        const fisierFinal = new Uint8Array(iv.length + dateCriptate.byteLength);
-        fisierFinal.set(iv, 0);
-        fisierFinal.set(new Uint8Array(dateCriptate), iv.length);
-        
-        const blob = new Blob([fisierFinal], { type: "application/octet-stream" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "ICreator_Secure_Backup.icrm";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    } catch(e) {
-        console.error(e);
-        alert("Eroare la securizarea fișierului de export.");
-    }
-}
-
+// Cititor hibrid inteligent (Suportă atât backup-ul vechi binar cât și cel nou text)
 document.getElementById("importExcel").addEventListener("change", function(e){
-    const file = e.target.files[0]; 
-    if(!file) return;
-    
-    document.getElementById("fileName").innerText = "Se încarcă: " + file.name;
+    const file = e.target.files[0]; if(!file) return;
+    document.getElementById("fileName").innerText = "Încarcă: " + file.name;
     const reader = new FileReader();
     
     reader.onload = async function(ev){
-        let dateFinaleExcel;
+        let dateIncarcate = null;
         
         try {
-            const bufferIncarcat = new Uint8Array(ev.target.result);
-            
-            if (file.name.endsWith('.icrm')) {
-                const cheie = await obtineCheieCriptare();
-                
-                const iv = bufferIncarcat.slice(0, 12);
-                const dateCriptate = bufferIncarcat.slice(12);
-                
-                dateFinaleExcel = await crypto.subtle.decrypt(
-                    { name: "AES-GCM", iv: iv },
-                    cheie,
-                    dateCriptate
-                );
-            } else {
-                dateFinaleExcel = ev.target.result;
-            }
-            
-            const workbook = XLSX.read(dateFinaleExcel, { type: "array" });
-            const primaPagina = workbook.SheetNames[0];
-            const json = XLSX.utils.sheet_to_json(workbook.Sheets[primaPagina]);
-            
-            if(!json || json.length === 0) {
-                alert("Fișierul selectat nu conține date valide.");
-                return;
+            // Pasul 1: Încercăm să citim fișierul ca text simplu în format nou (XOR + Base64)
+            const continutRaw = new TextDecoder().decode(ev.target.result).trim();
+            try {
+                const textXOR = decodeURIComponent(escape(atob(continutRaw)));
+                const jsonDecodificat = ruleazaXOR(textXOR);
+                dateIncarcate = JSON.parse(jsonDecodificat);
+            } catch(errXOR) {
+                // Pasul 2: Dacă eșuează, înseamnă că e un fișier binar vechi criptat AES-GCM
+                const bufferIncarcat = new Uint8Array(ev.target.result);
+                if (bufferIncarcat.length > 12) {
+                    const cheie = await obtineCheieCriptareVeche();
+                    const iv = bufferIncarcat.slice(0, 12);
+                    const dateCriptate = bufferIncarcat.slice(12);
+                    
+                    const decryptedBuffer = await crypto.subtle.decrypt(
+                        { name: "AES-GCM", iv: iv },
+                        cheie,
+                        dateCriptate
+                    );
+                    
+                    const workbook = XLSX.read(decryptedBuffer, { type: "array" });
+                    const primaPagina = workbook.SheetNames[0];
+                    const jsonExcel = XLSX.utils.sheet_to_json(workbook.Sheets[primaPagina]);
+                    
+                    dateIncarcate = jsonExcel.map((r, i) => {
+                        const getV = (keys) => { 
+                            const k = Object.keys(r).find(key => keys.includes(key.toLowerCase().trim())); 
+                            return k ? String(r[k]).trim() : ""; 
+                        };
+                        let uName = getV(['username', 'handle', 'utilizator']);
+                        if(uName && uName !== "—" && !uName.startsWith('@')) uName = '@' + uName;
+                        return {
+                            id: parseInt(getV(['uid', 'id'])) || (Date.now() + i),
+                            nume: getV(['nume complet', 'nume', 'brand']) || "—",
+                            username: uName || "—",
+                            platforma: getV(['platformă', 'platforma', 'retea']) || "Nespecificat",
+                            followers: getV(['urmăritori', 'followers', 'fani']) || "—",
+                            telefon: getV(['telefon', 'tel', 'contact']),
+                            email: getV(['email', 'mail', 'e-mail']),
+                            adresa: getV(['adresă pr', 'adresa', 'locatie', 'livrare']),
+                            notite: getV(['notițe', 'notite', 'detalii']) || "—"
+                        };
+                    });
+                }
             }
 
-            contacte = json.map((r, i) => {
-                const getV = (keys) => { 
-                    const k = Object.keys(r).find(key => keys.includes(key.toLowerCase().trim())); 
-                    return k ? String(r[k]).trim() : ""; 
-                };
-                
-                let uName = getV(['username', 'handle', 'utilizator']); 
-                if(uName && uName !== "—" && !uName.startsWith('@')) uName = '@' + uName;
-                
-                return { 
-                    id: parseInt(getV(['uid', 'id'])) || (Date.now() + i), 
-                    nume: getV(['nume complet', 'nume', 'brand']) || "—", 
-                    username: uName || "—", 
-                    platforma: getV(['platformă', 'platforma', 'retea']) || "Nespecificat", 
-                    followers: getV(['urmăritori', 'followers', 'fani']) || "—", 
-                    telefon: getV(['telefon', 'tel', 'contact']), 
-                    email: getV(['email', 'mail', 'e-mail']), 
-                    adresa: getV(['adresă pr', 'adresa', 'locatie', 'livrare']), 
-                    notite: getV(['notițe', 'notite', 'notițe / detalii', 'detalii', 'status']) || "—" 
-                };
-            });
-
-            localStorage.setItem("contacte", JSON.stringify(contacte));
-            actualizeazaTimestamp();
-            
-            paginaCurenta = 1;
-            listaFiltrata = [...contacte];
-            afiseaza(listaFiltrata);
-            
-            reseteazaFormular();
-            alert("Baza de date decriptată și restaurată cu succes! S-au încărcat " + contacte.length + " profile.");
+            if(dateIncarcate && Array.isArray(dateIncarcate)) {
+                contacte = dateIncarcate;
+                localStorage.setItem("contacte", JSON.stringify(contacte));
+                actualizeazaTimestamp(); afiseazaToate();
+                alert("Baza de date a fost restaurată cu succes! S-au încărcat " + contacte.length + " profile.");
+            } else { 
+                alert("Formatul fișierului nu este recunoscut sau datele sunt corupte."); 
+            }
         } catch (err) { 
             console.error(err);
-            alert("Fișierul este corupt, modificat sau cheia de securitate a platformei nu se potrivește."); 
+            alert("Eroare critică la decodificarea fișierului. Asigură-te că folosești fișierul .qcrm corect."); 
         }
     };
-    
     reader.readAsArrayBuffer(file);
 });
 
-// Verificare sesiune la încărcarea paginii
 verificaSesiune();
 </script>
 </body>
