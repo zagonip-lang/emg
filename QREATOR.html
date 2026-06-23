@@ -608,9 +608,6 @@
 const USER_CORECT = "EMG";
 const PASS_CORECT = "EMG@2026";
 
-// URL GOOGLE APPS SCRIPT PENTRU SINCRONIZARE (METODA SECURED JSONP)
-const GOOGLE_SYNC_URL = 'AICI_PUI_LINKUL_TAU_DE_LA_GOOGLE_APPS_SCRIPT';
-
 function verificaSesiune() {
     const logat = sessionStorage.getItem("is_auth");
     if (logat === "true") {
@@ -691,7 +688,7 @@ function salveazaLocal(){ localStorage.setItem("contacte", JSON.stringify(contac
 
 function proceseazaFormular() { if(inModEditare) { salveazaEditare(); } else { adaugaPersoana(); } }
 
-function adaugaPersoana(){
+function adaugaPersoana()){
     const nume = document.getElementById("nume").value.trim();
     let username = document.getElementById("username").value.trim();
     const platforma = document.getElementById("platforma").value;
@@ -884,50 +881,89 @@ function sterge(id){
     }
 }
 
-function doGet(e) {
-  try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var lastRow = sheet.getLastRow();
-    var lastColumn = sheet.getLastColumn();
+// SINCRONIZARE COMPLET INTEGRATĂ DIRECT LA INTERFAȚĂ
+function sincronizeazaGoogleSheets() {
+    const buton = document.querySelector("button[onclick='sincronizeazaGoogleSheets()']");
+    const textInitial = buton.innerHTML;
     
-    // Dacă tabelul e gol sau are doar headerul
-    if (lastRow <= 1) {
-      var callback = e.parameter.callback || "callback";
-      return ContentService.createTextOutput(callback + "([])")
-                           .setMimeType(ContentService.MimeType.JAVASCRIPT);
-    }
-    
-    var range = sheet.getRange(1, 1, lastRow, lastColumn);
-    var rows = range.getValues();
-    var headers = rows[0];
-    var data = [];
-    
-    for (var i = 1; i < rows.length; i++) {
-      var row = rows[i];
-      var record = {};
-      var areDate = false;
-      
-      for (var j = 0; j < headers.length; j++) {
-        var valoare = row[j] !== undefined ? row[j].toString().trim() : "";
-        record[headers[j].toString().trim().toLowerCase()] = valoare;
-        if (valoare !== "") areDate = true;
-      }
-      if (areDate) data.push(record);
-    }
-    
-    // METODĂ JSONP COMPATIBILĂ ONLINE: Trimitem datele încapsulate în funcția callback solicitată de browser
-    var callback = e.parameter.callback || "callback";
-    var output = callback + "(" + JSON.stringify(data) + ")";
-    
-    return ContentService.createTextOutput(output)
-                         .setMimeType(ContentService.MimeType.JAVASCRIPT);
-                         
-  } catch (error) {
-    var callback = e.parameter.callback || "callback";
-    return ContentService.createTextOutput(callback + "(" + JSON.stringify({"error": error.toString()}) + ")")
-                         .setMimeType(ContentService.MimeType.JAVASCRIPT);
-  }
+    // URL-ul tău Google Script injectat în siguranță
+    const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzx3dqMshnLsy9N1lO31FtGCMfY6MOFf45birhYd5xMggH7KrP3--BtQqm1W9qsx3LDCg/exec';
 
+    buton.disabled = true;
+    buton.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Se sincronizează...`;
+
+    const callbackName = 'googleSheetsCallback_' + Date.now();
+    
+    window[callbackName] = function(dateCloud) {
+        const elementScript = document.getElementById(callbackName);
+        if(elementScript) elementScript.remove();
+        delete window[callbackName];
+        
+        buton.disabled = false;
+        buton.innerHTML = textInitial;
+
+        if (dateCloud && Array.isArray(dateCloud)) {
+            let profileNoiAdaugate = 0;
+
+            dateCloud.forEach(creatorCloud => {
+                // Mapăm flexibil proprietățile indiferent de scrierea din tabel (Litere mici/mari)
+                const numeRaw = creatorCloud.nume || creatorCloud["nume complet"] || "—";
+                let userRaw = creatorCloud.username || creatorCloud.handle || creatorCloud.utilizator || "—";
+                const platformaRaw = creatorCloud.platforma || creatorCloud["platformă"] || "Nespecificat";
+                const followersRaw = creatorCloud.followers || creatorCloud["urmăritori"] || "—";
+                const telefonRaw = creatorCloud.telefon || creatorCloud.tel || creatorCloud.contact || "";
+                const emailRaw = creatorCloud.email || creatorCloud.mail || creatorCloud["e-mail"] || "";
+                const adresaRaw = creatorCloud.adresa || creatorCloud["adresă pr"] || creatorCloud.locatie || "";
+                const notiteRaw = creatorCloud.notite || creatorCloud["notițe"] || creatorCloud.detalii || "—";
+
+                if (userRaw !== "—" && !userRaw.startsWith('@')) userRaw = '@' + userRaw;
+
+                // Verificăm duplicarea ca să nu re-importăm ce avem deja salvat local
+                const existaDeja = contacte.some(c => 
+                    (c.username !== "—" && userRaw !== "—" && c.username.toLowerCase() === userRaw.toLowerCase())
+                );
+
+                if (!existaDeja) {
+                    contacte.push({
+                        id: creatorCloud.id ? parseInt(creatorCloud.id) : Date.now() + Math.floor(Math.random() * 1000),
+                        nume: numeRaw,
+                        username: userRaw,
+                        platforma: platformaRaw,
+                        followers: followersRaw,
+                        telefon: telefonRaw,
+                        email: emailRaw,
+                        adresa: adresaRaw,
+                        notite: notiteRaw
+                    });
+                    profileNoiAdaugate++;
+                }
+            });
+
+            if (profileNoiAdaugate > 0) {
+                salveazaLocal();
+                afiseazaToate();
+                alert(`Sincronizare reușită! S-au adăugat și afișat corect ${profileNoiAdaugate} profile noi.`);
+            } else {
+                alert("Sincronizare finalizată. Datele locale sunt identice cu cele din Cloud!");
+            }
+        } else if (dateCloud && dateCloud.error) {
+            alert("Eroare trimisă de Google Script: " + dateCloud.error);
+        }
+    };
+
+    const script = document.createElement('script');
+    script.id = callbackName;
+    script.src = GOOGLE_SYNC_URL + (GOOGLE_SYNC_URL.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+    
+    script.onerror = function() {
+        alert("Eroare de rețea. Verifică dacă ai publicat corect scriptul în Google Sheets ('Anyone').");
+        buton.disabled = false;
+        buton.innerHTML = textInitial;
+        const elementScript = document.getElementById(callbackName);
+        if(elementScript) elementScript.remove();
+    };
+    
+    document.body.appendChild(script);
 }
 
 document.getElementById("importExcel").addEventListener("change", function(e){
