@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Creators Hub CRM</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -126,6 +126,7 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        touch-action: manipulation;
     }
 
     .btn-logo-gradient:hover {
@@ -237,6 +238,7 @@
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); 
         transition: all 0.2s ease;
         flex: 1;
+        touch-action: manipulation;
     }
     .btn-export:hover {
         background: #2563eb;
@@ -247,14 +249,21 @@
         background: rgba(248, 113, 113, 0.1);
         border: 1px solid rgba(248, 113, 113, 0.2);
         color: var(--danger-color);
-        padding: 8px 14px;
-        font-size: 13px;
+        padding: 12px 18px; /* Mărit pentru o zonă de atingere optimă pe mobil */
+        font-size: 14px;
         font-weight: 600;
         border-radius: 20px;
         cursor: pointer;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
+        touch-action: manipulation; /* Elimină latența de click pe mobil */
+    }
+    @media (min-width: 600px) {
+        .btn-logout {
+            padding: 8px 14px;
+        }
     }
     .btn-logout:hover {
         background: var(--danger-color);
@@ -317,7 +326,21 @@
 
     .input-wrapper { position: relative; }
     .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.3); font-size: 14px; }
-    .input-wrapper input, .input-wrapper select { width: 100%; padding: 14px 16px 14px 46px; background: var(--input-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; color: var(--text-main); font-size: 14px; outline: none; }
+    
+    /* REZOLVARE ZOOM MOBIL: Fontul de 16px dezactivează zoom-ul automat pe iOS/Android */
+    .input-wrapper input, .input-wrapper select { 
+        width: 100%; 
+        padding: 14px 16px 14px 46px; 
+        background: var(--input-bg); 
+        border: 1px solid rgba(255, 255, 255, 0.08); 
+        border-radius: 14px; 
+        color: var(--text-main); 
+        font-size: 16px; 
+        outline: none; 
+    }
+    @media (min-width: 768px) {
+        .input-wrapper input, .input-wrapper select { font-size: 14px; }
+    }
     .input-wrapper input:focus, .input-wrapper select:focus { border-color: rgba(94, 161, 255, 0.5); }
 
     .form-actions { display: flex; flex-direction: column; gap: 10px; }
@@ -326,7 +349,8 @@
     .btn-cancel { padding: 15px 24px; background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; font-size: 15px; cursor: pointer; }
 
     .search-box-panel { display: flex; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; align-items: center; gap: 14px; margin-bottom: 15px; }
-    .search-box-panel input { background: transparent; border: none; outline: none; color: var(--text-main); font-size: 14px; width: 100%; }
+    .search-box-panel input { background: transparent; border: none; outline: none; color: var(--text-main); font-size: 16px; width: 100%; }
+    @media (min-width: 768px) { .search-box-panel input { font-size: 14px; } }
 
     .import-zone { display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 16px; padding: 22px; text-align: center; cursor: pointer; background: rgba(255, 255, 255, 0.01); }
     .import-zone i { font-size: 24px; color: var(--primary-color); margin-bottom: 10px; }
@@ -423,8 +447,8 @@
                 <button class="btn-export" onclick="exportExcelSecurizat()">
                     <i class="fa-solid fa-lock"></i> Exportă Backup (.qcrm)
                 </button>
-                <button class="btn-logout" onclick="executaLogout()" title="Deconectare">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <button class="btn-logout" id="logoutBtnMobile" title="Deconectare">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Deconectare
                 </button>
             </div>
         </div>
@@ -574,11 +598,23 @@ function incearcaLogin() {
 }
 
 function executaLogout() {
-    if(confirm("Sigur doriți să vă deconectați?")) {
-        sessionStorage.removeItem("is_auth");
-        verificaSesiune();
-    }
+    sessionStorage.removeItem("is_auth");
+    verificaSesiune();
 }
+
+// Handler robust dedicat pentru mobil/desktop care ocolește blocajele de context
+document.getElementById("logoutBtnMobile").addEventListener("click", function(e) {
+    e.preventDefault();
+    if(confirm("Sigur doriți să vă deconectați?")) {
+        executaLogout();
+    }
+});
+document.getElementById("logoutBtnMobile").addEventListener("touchend", function(e) {
+    e.preventDefault();
+    if(confirm("Sigur doriți să vă deconectați?")) {
+        executaLogout();
+    }
+});
 
 function verificaEnter(e) {
     if (e.key === "Enter") { incearcaLogin(); }
@@ -592,7 +628,6 @@ let inModEditare = false;
 let paginaCurenta = 1;
 const randuriPePagina = 10;
 
-// Sistemul nou XOR (Safe offline file://)
 const CRYPTO_KEY = "EligibilMediaGroup2026";
 function ruleazaXOR(text) {
     let rezultat = "";
@@ -602,7 +637,6 @@ function ruleazaXOR(text) {
     return rezultat;
 }
 
-// Salt și cheie de rezervă pentru importul fișierelor vechi (AES-GCM)
 const SECRET_SEED = "EligibilMediaGroup_Qreator_SecureSalt_2026";
 async function obtineCheieCriptareVeche() {
     const enc = new TextEncoder();
@@ -797,7 +831,6 @@ function cautaPersoana(){
     paginaCurenta = 1; afiseaza(rez); 
 }
 
-// Generare fișier optim local (XOR)
 function exportExcelSecurizat() {
     if(contacte.length === 0) return alert("Baza de date este goală.");
     const jsonString = JSON.stringify(contacte);
@@ -815,7 +848,6 @@ function sterge(id){
     }
 }
 
-// Cititor hibrid inteligent (Suportă atât backup-ul vechi binar cât și cel nou text)
 document.getElementById("importExcel").addEventListener("change", function(e){
     const file = e.target.files[0]; if(!file) return;
     document.getElementById("fileName").innerText = "Încarcă: " + file.name;
@@ -823,16 +855,13 @@ document.getElementById("importExcel").addEventListener("change", function(e){
     
     reader.onload = async function(ev){
         let dateIncarcate = null;
-        
         try {
-            // Pasul 1: Încercăm să citim fișierul ca text simplu în format nou (XOR + Base64)
             const continutRaw = new TextDecoder().decode(ev.target.result).trim();
             try {
                 const textXOR = decodeURIComponent(escape(atob(continutRaw)));
                 const jsonDecodificat = ruleazaXOR(textXOR);
                 dateIncarcate = JSON.parse(jsonDecodificat);
             } catch(errXOR) {
-                // Pasul 2: Dacă eșuează, înseamnă că e un fișier binar vechi criptat AES-GCM
                 const bufferIncarcat = new Uint8Array(ev.target.result);
                 if (bufferIncarcat.length > 12) {
                     const cheie = await obtineCheieCriptareVeche();
