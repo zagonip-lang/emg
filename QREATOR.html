@@ -1,3 +1,5 @@
+Iată codul complet și actualizat pentru CRM (index.html) care folosește metoda JSONP. Această metodă este infailibilă pentru rularea online, deoarece ocolește complet restricțiile CORS ale browserelor, citind datele din Google Sheets ca pe un script sigur.
+Tot ce trebuie să faci este să pui link-ul tău de Google Apps Script la linia 288 (în locul textului 'AICI_PUI_LINKUL_TAU_DE_LA_GOOGLE_APPS_SCRIPT').
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -609,7 +611,7 @@ const USER_CORECT = "EMG";
 const PASS_CORECT = "EMG@2026";
 
 // URL GOOGLE APPS SCRIPT PENTRU SINCRONIZARE (METODA SECURED JSONP)
-const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzx3dqMshnLsy9N1lO31FtGCMfY6MOFf45birhYd5xMggH7KrP3--BtQqm1W9qsx3LDCg/exec';
+const GOOGLE_SYNC_URL = 'AICI_PUI_LINKUL_TAU_DE_LA_GOOGLE_APPS_SCRIPT';
 
 function verificaSesiune() {
     const logat = sessionStorage.getItem("is_auth");
