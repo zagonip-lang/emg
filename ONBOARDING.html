@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Onboarding Creator - Qreator</title>
+
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    :root {
+        --bg-color: #080810;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --card-border: rgba(255, 255, 255, 0.12);
+        --input-bg: rgba(255, 255, 255, 0.04);
+        --primary-color: #5ea1ff;
+        --success-color: #34d399;
+        --danger-color: #f87171;
+        --text-main: #f3f4f6;
+        --text-muted: #9ca3af;
+        --glass-blur: blur(30px);
+        --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(circle at 80% 20%, #1e1b4b 0%, transparent 40%),
+                    radial-gradient(circle at 20% 80%, #0f172a 0%, transparent 50%),
+                    #030712;
+        background-attachment: fixed;
+        color: var(--text-main);
+        min-height: 100vh;
+        padding: 40px 15px;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 550px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        padding: 40px 30px;
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .logo-holder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .app-brand-logo {
+        height: 80px; 
+        width: auto;
+    }
+
+    .brand-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+
+    .brand-subtitle {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-muted);
+        margin-top: -4px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    @media (min-width: 550px) {
+        .form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        .span-2 { grid-column: span 2; }
+    }
+
+    .input-wrapper { position: relative; }
+    .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.3); font-size: 14px; }
+    
+    .input-wrapper input, .input-wrapper select { 
+        width: 100%; 
+        padding: 14px 16px 14px 46px; 
+        background: var(--input-bg); 
+        border: 1px solid rgba(255, 255, 255, 0.08); 
+        border-radius: 14px; 
+        color: var(--text-main); 
+        font-size: 15px; 
+        outline: none; 
+        transition: border-color 0.2s ease;
+    }
+    .input-wrapper input:focus, .input-wrapper select:focus { border-color: rgba(195, 86, 242, 0.6); }
+
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        background: var(--logo-gradient);
+        color: #ffffff;
+        border: none;
+        border-radius: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 20px rgba(195, 86, 242, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(255, 87, 87, 0.5);
+        filter: brightness(1.1);
+    }
+
+    /* Ecran succes */
+    .success-screen {
+        display: none;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .success-screen i {
+        font-size: 60px;
+        color: var(--success-color);
+        margin-bottom: 20px;
+    }
+    .success-screen h2 { font-size: 24px; margin-bottom: 10px; color: #fff; }
+    .success-screen p { color: var(--text-muted); font-size: 14px; }
+
+    /* Subsol Oficial */
+    .form-footer {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .footer-company {
+        font-size: 12px;
+        font-weight: 600;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+    }
+    .footer-contacts {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+    .footer-link {
+        color: var(--text-muted);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease;
+    }
+    .footer-link:hover {
+        color: var(--primary-color);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+    <form id="creatorForm">
+        <div class="logo-holder" style="margin-bottom: 24px;">
+            <svg class="app-brand-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M547.072 87.5C547.072 344.664 639.141 490.5 773.535 490.5C639.141 490.5 547.072 636.336 547.072 893.5C547.072 636.336 455.002 490.5 320.609 490.5C455.002 490.5 547.072 344.664 547.072 87.5Z" fill="#5E17EB"/>
+                <path d="M442.535 94.5C442.535 344.664 534.605 490.5 669 490.5C534.605 490.5 442.535 636.336 442.535 893.5C442.535 636.336 350.465 490.5 216.072 490.5C350.465 490.5 442.535 344.664 442.535 94.5Z" fill="#C356F2"/>
+                <path d="M338 101.5C338 344.664 430.069 490.5 564.463 490.5C430.069 490.5 338 636.336 338 893.5C338 636.336 245.931 490.5 111.537 490.5C245.931 490.5 338 344.664 338 101.5Z" fill="#FF5757"/>
+            </svg>
+            <h1 class="brand-title">Alătură-te Qreator</h1>
+            <div class="brand-subtitle">Completează datele tale de profil pentru baza noastră de date</div>
+        </div>
+
+        <div class="form-grid" style="margin-bottom: 24px;">
+            <div class="input-wrapper">
+                <input type="text" name="nume" placeholder="Nume Complet / Brand" required>
+                <i class="fa-solid fa-signature"></i>
+            </div>
+            
+            <div class="input-wrapper">
+                <input type="text" name="username" placeholder="@username (ex: @popescu)" required>
+                <i class="fa-solid fa-at"></i>
+            </div>
+
+            <div class="input-wrapper">
+                <select name="platforma" required>
+                    <option value="" disabled selected>Selectează Platforma Principală</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="X">X (Twitter)</option>
+                    <option value="Altele">Altele</option>
+                </select>
+                <i class="fa-solid fa-globe"></i>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="text" name="followers" placeholder="Număr Urmăritori (ex: 50K)" required>
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="tel" name="telefon" placeholder="Telefon Contact" required>
+                <i class="fa-solid fa-phone"></i>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="email" name="email" placeholder="E-mail Contact" required>
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+
+            <div class="input-wrapper span-2">
+                <input type="text" name="adresa" placeholder="Adresă completă livrare PR / Campanii ( include Județ/Oraș )" required>
+                <i class="fa-solid fa-box"></i>
+            </div>
+
+            <div class="input-wrapper span-2">
+                <input type="text" name="notite" placeholder="Mențiuni speciale / Categorii de nișă">
+                <i class="fa-solid fa-note-sticky"></i>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+            <i class="fa-solid fa-paper-plane"></i> Trimite Profilul
+        </button>
+    </form>
+
+    <div class="success-screen" id="successScreen">
+        <i class="fa-solid fa-circle-check"></i>
+        <h2>Datele au fost trimise!</h2>
+        <p>Îți mulțumim! Profilul tău a fost înregistrat cu succes în rețeaua Eligibil Media Group.</p>
+    </div>
+
+    <div class="form-footer">
+        <div class="footer-company">ELIGIBIL MEDIA GROUP SRL</div>
+        <div class="footer-contacts">
+            <a href="tel:0730001689" class="footer-link">
+                <i class="fa-solid fa-phone" style="color: var(--primary-color);"></i> 0730001689
+            </a>
+            <a href="mailto:office@eligibil.com" class="footer-link">
+                <i class="fa-solid fa-envelope" style="color: var(--primary-color);"></i> office@eligibil.com
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+// URL-ul generat din Google Sheets
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKIsfju0ONAj1dJy07PUoY3r9xU6szmElGkBaCduzc9jgcxJ6PeyvwUbPu0i10d_-P/exec';
+
+document.getElementById('creatorForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Se trimite...`;
+
+    const formData = new FormData(this);
+    formData.append('id', Date.now());
+
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+    })
+    .then(() => {
+        document.getElementById('creatorForm').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Eroare!', error);
+        alert('A apărut o problemă la trimitere. Te rugăm să încerci din nou.');
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Trimite Profilul`;
+    });
+});
+</script>
+</body>
+</html>
