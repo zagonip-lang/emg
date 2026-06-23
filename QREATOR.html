@@ -688,7 +688,7 @@ function salveazaLocal(){ localStorage.setItem("contacte", JSON.stringify(contac
 
 function proceseazaFormular() { if(inModEditare) { salveazaEditare(); } else { adaugaPersoana(); } }
 
-function adaugaPersoana()){
+function adaugaPersoana() {
     const nume = document.getElementById("nume").value.trim();
     let username = document.getElementById("username").value.trim();
     const platforma = document.getElementById("platforma").value;
@@ -881,12 +881,11 @@ function sterge(id){
     }
 }
 
-// SINCRONIZARE COMPLET INTEGRATĂ DIRECT LA INTERFAȚĂ
+// SINCRONIZARE CLOUD COMPLET RECONFIGURATĂ
 function sincronizeazaGoogleSheets() {
     const buton = document.querySelector("button[onclick='sincronizeazaGoogleSheets()']");
     const textInitial = buton.innerHTML;
     
-    // URL-ul tău Google Script injectat în siguranță
     const GOOGLE_SYNC_URL = 'https://script.google.com/macros/s/AKfycbzx3dqMshnLsy9N1lO31FtGCMfY6MOFf45birhYd5xMggH7KrP3--BtQqm1W9qsx3LDCg/exec';
 
     buton.disabled = true;
@@ -906,7 +905,6 @@ function sincronizeazaGoogleSheets() {
             let profileNoiAdaugate = 0;
 
             dateCloud.forEach(creatorCloud => {
-                // Mapăm flexibil proprietățile indiferent de scrierea din tabel (Litere mici/mari)
                 const numeRaw = creatorCloud.nume || creatorCloud["nume complet"] || "—";
                 let userRaw = creatorCloud.username || creatorCloud.handle || creatorCloud.utilizator || "—";
                 const platformaRaw = creatorCloud.platforma || creatorCloud["platformă"] || "Nespecificat";
@@ -918,7 +916,6 @@ function sincronizeazaGoogleSheets() {
 
                 if (userRaw !== "—" && !userRaw.startsWith('@')) userRaw = '@' + userRaw;
 
-                // Verificăm duplicarea ca să nu re-importăm ce avem deja salvat local
                 const existaDeja = contacte.some(c => 
                     (c.username !== "—" && userRaw !== "—" && c.username.toLowerCase() === userRaw.toLowerCase())
                 );
@@ -1034,7 +1031,10 @@ document.getElementById("importExcel").addEventListener("change", function(e){
     reader.readAsArrayBuffer(file);
 });
 
-verificaSesiune();
+// Verificarea automată a sesiunii la pornire
+window.onload = function() {
+    verificaSesiune();
+};
 </script>
 </body>
 </html>
