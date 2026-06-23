@@ -884,83 +884,50 @@ function sterge(id){
     }
 }
 
-// SCRIPTUL ACTUALIZAT: LOGICĂ DE SINCRONIZARE AUTOMATĂ PRIN METODA SECURED JSONP (FĂRĂ BLOCĂRI CORS)
-function sincronizeazaGoogleSheets() {
-    if (GOOGLE_SYNC_URL === 'AICI_PUI_LINKUL_TAU_DE_LA_GOOGLE_APPS_SCRIPT') {
-        return alert("Te rugăm să adaugi URL-ul tău Google Apps Script la linia 288 în codul sursă al CRM-ului.");
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var lastRow = sheet.getLastRow();
+    var lastColumn = sheet.getLastColumn();
+    
+    // Dacă tabelul e gol sau are doar headerul
+    if (lastRow <= 1) {
+      var callback = e.parameter.callback || "callback";
+      return ContentService.createTextOutput(callback + "([])")
+                           .setMimeType(ContentService.MimeType.JAVASCRIPT);
     }
-
-    const buton = document.querySelector("button[onclick='sincronizeazaGoogleSheets()']");
-    const textInitial = buton.innerHTML;
     
-    buton.disabled = true;
-    buton.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Se sincronizează...`;
-
-    // Generăm un nume unic pentru funcția de răspuns (Callback)
-    const callbackName = 'googleSheetsCallback_' + Date.now();
+    var range = sheet.getRange(1, 1, lastRow, lastColumn);
+    var rows = range.getValues();
+    var headers = rows[0];
+    var data = [];
     
-    window[callbackName] = function(dateCloud) {
-        // Curățăm elementul de tip script adăugat temporar în document
-        const elementScript = document.getElementById(callbackName);
-        if(elementScript) elementScript.remove();
-        delete window[callbackName];
-        
-        buton.disabled = false;
-        buton.innerHTML = textInitial;
-
-        if (dateCloud && Array.isArray(dateCloud)) {
-            let profileNoiAdaugate = 0;
-
-            dateCloud.forEach(creatorCloud => {
-                // Verificare dacă profilul există deja local după ID sau Username
-                const existaDeja = contacte.some(c => 
-                    (c.username !== "—" && creatorCloud.username && c.username.toLowerCase() === creatorCloud.username.toLowerCase()) || 
-                    (c.id.toString() === creatorCloud.id.toString())
-                );
-
-                if (!existaDeja) {
-                    contacte.push({
-                        id: parseInt(creatorCloud.id) || Date.now(),
-                        nume: creatorCloud.nume || "—",
-                        username: creatorCloud.username || "—",
-                        platforma: creatorCloud.platforma || "Nespecificat",
-                        followers: creatorCloud.followers || "—",
-                        telefon: creatorCloud.telefon || "",
-                        email: creatorCloud.email || "",
-                        adresa: creatorCloud.adresa || "",
-                        notite: creatorCloud.notite || "—"
-                    });
-                    profileNoiAdaugate++;
-                }
-            });
-
-            if (profileNoiAdaugate > 0) {
-                salveazaLocal();
-                afiseazaToate();
-                alert(`Sincronizare reușită! S-au descărcat ${profileNoiAdaugate} profile noi trimise de creatori.`);
-            } else {
-                alert("Sincronizare finalizată. Baza de date este deja la zi!");
-            }
-        } else if (dateCloud && dateCloud.error) {
-            alert("Eroare Google Script: " + dateCloud.error);
-        }
-    };
-
-    // Creăm tagul de script care ocolește complet regulile CORS
-    const script = document.createElement('script');
-    script.id = callbackName;
-    // Lipim parametrul callback în URL-ul trimis către Google
-    script.src = GOOGLE_SYNC_URL + (GOOGLE_SYNC_URL.includes('?') ? '&' : '?') + 'callback=' + callbackName;
+    for (var i = 1; i < rows.length; i++) {
+      var row = rows[i];
+      var record = {};
+      var areDate = false;
+      
+      for (var j = 0; j < headers.length; j++) {
+        var valoare = row[j] !== undefined ? row[j].toString().trim() : "";
+        record[headers[j].toString().trim().toLowerCase()] = valoare;
+        if (valoare !== "") areDate = true;
+      }
+      if (areDate) data.push(record);
+    }
     
-    script.onerror = function() {
-        alert("Eroare de conexiune la Cloud. Verifică dacă ai adăugat corect linkul de Apps Script și dacă deployment-ul este setat pe 'Anyone'.");
-        buton.disabled = false;
-        buton.innerHTML = textInitial;
-        const elementScript = document.getElementById(callbackName);
-        if(elementScript) elementScript.remove();
-    };
+    // METODĂ JSONP COMPATIBILĂ ONLINE: Trimitem datele încapsulate în funcția callback solicitată de browser
+    var callback = e.parameter.callback || "callback";
+    var output = callback + "(" + JSON.stringify(data) + ")";
     
-    document.body.appendChild(script);
+    return ContentService.createTextOutput(output)
+                         .setMimeType(ContentService.MimeType.JAVASCRIPT);
+                         
+  } catch (error) {
+    var callback = e.parameter.callback || "callback";
+    return ContentService.createTextOutput(callback + "(" + JSON.stringify({"error": error.toString()}) + ")")
+                         .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
 }
 
 document.getElementById("importExcel").addEventListener("change", function(e){
