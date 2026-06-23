@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Creators Hub CRM</title>
 
-<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='180' height='180'><rect width='800' height='800' fill='%23000000'/><g transform='scale(0.85) translate(60, 60)'><path d='M547.072 87.5C547.072 344.664 639.141 490.5 773.535 490.5C639.141 490.5 547.072 636.336 547.072 893.5C547.072 636.336 455.002 490.5 320.609 490.5C455.002 490.5 547.072 344.664 547.072 87.5Z' fill='%235E17EB'/><path d='M442.535 94.5C442.535 344.664 534.605 490.5 669 490.5C534.605 490.5 442.535 636.336 442.535 893.5C442.535 636.336 350.465 490.5 216.072 490.5C350.465 490.5 442.535 344.664 442.535 94.5Z' fill='%23C356F2'/><path d='M338 101.5C338 344.664 430.069 490.5 564.463 490.5C430.069 490.5 338 636.336 338 893.5C338 636.336 245.931 490.5 111.537 490.5C245.931 490.5 338 344.664 338 101.5Z' fill='%23FF5757'/></g></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='180' height='180'><rect width='800' height='800' fill='%23030712'/><g transform='scale(0.85) translate(60, 60)'><path d='M547.072 87.5C547.072 344.664 639.141 490.5 773.535 490.5C639.141 490.5 547.072 636.336 547.072 893.5C547.072 636.336 455.002 490.5 320.609 490.5C455.002 490.5 547.072 344.664 547.072 87.5Z' fill='%235E17EB'/><path d='M442.535 94.5C442.535 344.664 534.605 490.5 669 490.5C534.605 490.5 442.535 636.336 442.535 893.5C442.535 636.336 350.465 490.5 216.072 490.5C350.465 490.5 442.535 344.664 442.535 94.5Z' fill='%23C356F2'/><path d='M338 101.5C338 344.664 430.069 490.5 564.463 490.5C430.069 490.5 338 636.336 338 893.5C338 636.336 245.931 490.5 111.537 490.5C245.931 490.5 338 344.664 338 101.5Z' fill='%23FF5757'/></g></svg>">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Qreator">
@@ -646,21 +646,10 @@ function incearcaLogin() {
     }
 }
 
-function deschideModalLogout() {
-    document.getElementById("logoutModal").style.display = "flex";
-}
-function inchideModalLogout() {
-    document.getElementById("logoutModal").style.display = "none";
-}
-function executaLogout() {
-    inchideModalLogout();
-    sessionStorage.removeItem("is_auth");
-    verificaSesiune();
-}
-
-function verificaEnter(event) {
-    if (event.key === "Enter") { incearcaLogin(); }
-}
+function deschideModalLogout() { document.getElementById("logoutModal").style.display = "flex"; }
+function inchideModalLogout() { document.getElementById("logoutModal").style.display = "none"; }
+function executaLogout() { inchideModalLogout(); sessionStorage.removeItem("is_auth"); verificaSesiune(); }
+function verificaEnter(event) { if (event.key === "Enter") { incearcaLogin(); } }
 
 // --- LOGICĂ CRM ---
 let contacte = JSON.parse(localStorage.getItem("contacte")) || [];
