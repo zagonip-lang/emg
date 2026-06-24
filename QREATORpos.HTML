@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-<title>Qreator POS - Master Control Plus</title>
+<title>Qreator POS - Mobile Friendly Events</title>
 
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,13 +30,12 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-user-select: none; user-select: none; }
 
-    /* FIX DEFINITIV ZOOM iOS + GESTURI */
     html, body {
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
         background: radial-gradient(circle at 90% 10%, #1e1b4b 0%, transparent 40%),
                     radial-gradient(circle at 10% 90%, #0f172a 0%, transparent 50%),
                     #030712;
-        background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 15px; -webkit-font-smoothing: antialiased;
+        background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 12px; -webkit-font-smoothing: antialiased;
         touch-action: pan-x pan-y;
     }
 
@@ -47,94 +46,94 @@
     .navbar .pos-logo { height: 35px; margin: 0; }
 
     /* LOGIN */
-    .login-container { max-width: 360px; margin: 60px auto; text-align: center; display: flex; flex-direction: column; gap: 15px; }
+    .login-container { max-width: 360px; margin: 40px auto; text-align: center; display: flex; flex-direction: column; gap: 15px; }
     .pin-dots { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
     .pin-dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
     .pin-dot.active { background: var(--primary-color); box-shadow: 0 0 12px var(--primary-color); transform: scale(1.1); }
     .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .num-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px 0; font-size: 24px; font-weight: 600; color: #fff; cursor: pointer; transition: background 0.1s; }
+    .num-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 16px; padding: 18px 0; font-size: 24px; font-weight: 600; color: #fff; cursor: pointer; transition: background 0.1s; }
     .num-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.15); }
 
     /* NAVBAR */
     .navbar {
-        display: flex; justify-content: space-between; align-items: center; padding: 12px 20px;
-        background: rgba(255, 255, 255, 0.01); border: 1px solid var(--card-border); border-radius: 24px; margin-bottom: 20px; backdrop-filter: var(--glass-blur);
+        display: flex; justify-content: space-between; align-items: center; padding: 12px 18px;
+        background: rgba(255, 255, 255, 0.01); border: 1px solid var(--card-border); border-radius: 20px; margin-bottom: 15px; backdrop-filter: var(--glass-blur);
     }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+    .brand h1 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
     .nav-tabs { display: flex; gap: 8px; }
-    .nav-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 12px 16px; font-size: 14px; font-weight: 600; border-radius: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
-    .nav-btn.active { background: rgba(255, 255, 255, 0.07); color: #fff; border-color: var(--card-border); }
+    .nav-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-    .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 22px; backdrop-filter: var(--glass-blur); margin-bottom: 20px; }
+    .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; backdrop-filter: var(--glass-blur); margin-bottom: 15px; }
     
     /* SALA VIRTUALĂ */
-    .table-actions-top { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
-    .action-badge { padding: 10px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-main); transition: all 0.15s; }
+    .table-actions-top { display: flex; gap: 8px; margin-bottom: 15px; }
+    .action-badge { padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-main); }
     
-    .sala-virtuala-container {
-        width: 100%; height: 420px; background: rgba(0, 0, 0, 0.25); border: 2px dashed var(--card-border); border-radius: 24px; position: relative; overflow: hidden;
-    }
-    .table-box {
-        width: 105px; height: 105px; background: rgba(16, 185, 129, 0.08); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 22px;
-        position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: all 0.2s;
-    }
+    .sala-virtuala-container { width: 100%; height: 420px; background: rgba(0, 0, 0, 0.25); border: 2px dashed var(--card-border); border-radius: 24px; position: relative; overflow: hidden; }
+    .table-box { width: 105px; height: 105px; background: rgba(16, 185, 129, 0.08); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 22px; position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; }
     .table-box.occupied { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); }
-    .table-box.selected-now { border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); transform: scale(1.05); }
-    .table-box b { font-size: 14px; color: #fff; }
+    .table-box.selected-now { border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
 
-    /* LAYOUT ADAPTIV COMANDĂ */
-    .horeca-layout { display: grid; grid-template-columns: 1fr; gap: 20px; opacity: 0; display: none; transition: opacity 0.3s ease; }
+    /* INTERFAȚĂ INTELIGENTĂ ADAPTIVĂ - OPTIMIZATĂ PENTRU EVENTS MOBIL */
+    .horeca-layout { display: none; grid-template-columns: 1fr; gap: 15px; opacity: 0; transition: opacity 0.3s ease; }
     .horeca-layout.show-flow { display: grid; opacity: 1; }
-    @media (min-width: 950px) { .horeca-layout.show-flow { grid-template-columns: 1.2fr 1fr; } }
     
-    /* BARA DE CĂUTARE FIX PENTRU iOS */
-    .search-wrapper { position: relative; margin-bottom: 15px; }
+    /* Pe ecrane mari (Tablete landscape / Desktop), le punem în paralel */
+    @media (min-width: 992px) { 
+        .horeca-layout.show-flow { grid-template-columns: 1.3fr 1fr; } 
+    }
+    
+    /* CAUTARE ȘI CATEGORII Touch-Friendly */
+    .search-wrapper { position: relative; margin-bottom: 12px; }
     .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
     .search-input { width: 100%; padding: 14px 14px 14px 42px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 14px; color: #fff; font-size: 16px !important; outline: none; -webkit-user-select: text; user-select: text; }
-    .search-input:focus { border-color: var(--primary-color); }
 
-    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 15px; }
-    .cat-btn { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); color: var(--text-muted); padding: 12px 20px; border-radius: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; }
+    .categories-bar::-webkit-scrollbar { display: none; }
+    .cat-btn { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; font-size: 13px; }
     .cat-btn.active { background: var(--logo-gradient); color: #fff; border-color: transparent; }
     
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; max-height: 400px; overflow-y: auto; }
-    .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 12px; text-align: center; cursor: pointer; }
-    .product-card b { display: block; font-size: 14px; color: #fff; margin-bottom: 6px; }
+    /* Grid Produse adaptabil automat de la telefoane mici la tablete */
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; max-height: 340px; overflow-y: auto; padding-right: 2px; }
+    .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px 8px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 85px; }
+    .product-card b { display: block; font-size: 13px; color: #fff; line-height: 1.3; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-card span { font-size: 12px; }
 
-    /* SECȚIUNE BON FISCAL */
-    .bill-panel { display: flex; flex-direction: column; justify-content: space-between; min-height: 520px; }
-    .bill-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 240px; margin: 10px 0; }
-    .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 10px 14px; border-radius: 14px; border: 1px solid var(--card-border); }
+    /* PANOU BON FISCAL */
+    .bill-panel { display: flex; flex-direction: column; justify-content: space-between; min-height: auto; }
+    @media (min-width: 992px) { .bill-panel { min-height: 520px; } }
     
-    .btn-delete-item { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger-color); width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .bill-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 220px; margin: 10px 0; }
+    .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 8px 12px; border-radius: 12px; border: 1px solid var(--card-border); }
+    .bill-item b { font-size: 13px; }
+    .bill-item small { font-size: 11px; }
+    
+    .btn-delete-item { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger-color); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-    /* BUTOANE ȘI INPUTURI */
-    .btn-block { width: 100%; padding: 15px; border-radius: 16px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; }
-    .btn-block:active { transform: scale(0.98); }
+    .btn-block { width: 100%; padding: 14px; border-radius: 14px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-primary { background: var(--logo-gradient); color: #fff; }
     .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); color: #fff; }
 
-    /* MODALS */
-    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.85); backdrop-filter:blur(15px); display:none; justify-content:center; align-items:center; z-index: 9999; }
-    .modal-box { background:#0f172a; border:1px solid var(--card-border); border-radius:28px; padding:30px; width:92%; max-width:430px; text-align:center; }
+    /* MODALE */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.85); backdrop-filter:blur(15px); display:none; justify-content:center; align-items:center; z-index: 9999; p: 10px; }
+    .modal-box { background:#0f172a; border:1px solid var(--card-border); border-radius:24px; padding:24px; width:95%; max-width:400px; text-align:center; }
     .payment-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-    .pay-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 10px; border-radius: 18px; font-size: 15px; font-weight: bold; border: none; cursor: pointer; color: #fff; }
+    .pay-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; border-radius: 16px; font-size: 14px; font-weight: bold; border: none; cursor: pointer; color: #fff; }
     
-    .mgr-pin-display { font-size: 28px; letter-spacing: 10px; margin: 15px 0; font-family: monospace; color: var(--warning-color); height: 35px; }
+    .mgr-pin-display { font-size: 28px; letter-spacing: 10px; margin: 12px 0; font-family: monospace; color: var(--warning-color); height: 35px; }
 
-    /* PANOU MASTER SPECIFIC */
-    .master-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
+    /* MASTER PANEL */
+    .master-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
     @media(min-width: 768px) { .master-grid { grid-template-columns: 1fr 1fr 1fr; } }
     
-    .kpi-box-master { border-radius: 20px; padding: 20px; text-align: left; position: relative; overflow: hidden; }
-    .kpi-box-master h4 { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; }
-    .kpi-box-master .kpi-val { font-size: 26px; font-weight: 800; color: #fff; font-family: monospace; }
+    .kpi-box-master { border-radius: 16px; padding: 16px; text-align: left; }
+    .kpi-box-master h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+    .kpi-box-master .kpi-val { font-size: 22px; font-weight: 800; color: #fff; font-family: monospace; }
     
-    .master-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
-    .master-table th, .master-table td { padding: 10px; border-bottom: 1px solid var(--card-border); }
-    .master-table th { color: var(--text-muted); font-weight: 600; }
-    .master-input-cash { background: var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; color:#fff; width:110px; font-size:14px; text-align:center; outline:none; -webkit-user-select: text; user-select: text; }
+    .master-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+    .master-table th, .master-table td { padding: 8px; border-bottom: 1px solid var(--card-border); }
+    .master-input-cash { background: var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; color:#fff; width:100px; font-size:14px; text-align:center; outline:none; -webkit-user-select: text; user-select: text; }
 </style>
 </head>
 <body>
@@ -150,7 +149,7 @@
     <div id="screen-login" class="app-screen active">
         <div class="login-container gemini-card">
             <div id="loginLogoInject"></div>
-            <h2 style="color:#fff; font-size: 22px;">Qreator POS</h2>
+            <h2 style="color:#fff; font-size: 20px;">Qreator POS</h2>
             <p style="color:var(--text-muted); font-size:13px;">Introduceți codul PIN</p>
             <div class="pin-dots">
                 <div class="pin-dot" id="l-dot0"></div>
@@ -188,9 +187,9 @@
             </div>
         </div>
 
-        <div id="ospatarHeader" style="display:none; justify-content:space-between; align-items:center; margin-bottom:15px; padding:0 10px;">
-            <span style="font-weight:bold; font-size:18px;"><i class="fa-solid fa-user-tie" style="color:var(--primary-color);"></i> Terminal: <span id="txtUserActual">Ospătar</span></span>
-            <button class="action-badge" style="background:rgba(239,68,68,0.2); color:var(--danger-color); border:none;" onclick="logout()"><i class="fa-solid fa-power-off"></i> Ieșire</button>
+        <div id="ospatarHeader" style="display:none; justify-content:space-between; align-items:center; margin-bottom:12px; padding:0 4px;">
+            <span style="font-weight:bold; font-size:16px;"><i class="fa-solid fa-user-tie" style="color:var(--primary-color);"></i> Terminal: <span id="txtUserActual">Ospătar</span></span>
+            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none; padding: 6px 12px;" onclick="logout()"><i class="fa-solid fa-power-off"></i> Ieșire</button>
         </div>
 
         <div id="tab-mese" class="module-panel">
@@ -202,7 +201,8 @@
             </div>
 
             <div class="horeca-layout" id="zonaIncasareContextuala">
-                <div class="gemini-card">
+                
+                <div class="gemini-card" style="margin-bottom:10px;">
                     <div class="search-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută produs rapid..." oninput="filtreazaProduseDupaText()">
@@ -213,29 +213,29 @@
                 
                 <div class="gemini-card bill-panel">
                     <div>
-                        <div style="display:flex; justify-content:between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:8px; margin-bottom:12px;">
-                            <div class="current-table-title" id="titluComandaMasa" style="font-weight:700; font-size:16px; color:#fff;">Masă neselectată</div>
-                            <button class="action-badge" id="btnInapoiLaSala" style="margin-left:auto; background:rgba(255,255,255,0.05);" onclick="inchideZonaDeIncasare()"><i class="fa-solid fa-arrow-left"></i> Înapoi la Sală</button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:8px; margin-bottom:10px;">
+                            <div class="current-table-title" id="titluComandaMasa" style="font-weight:700; font-size:15px; color:#fff;">Gestiune Bon</div>
+                            <button class="action-badge" id="btnInapoiLaSala" style="background:rgba(255,255,255,0.05); font-size:12px; padding:6px 10px;" onclick="inchideZonaDeIncasare()"><i class="fa-solid fa-arrow-left"></i> Înapoi</button>
                         </div>
                         <div class="bill-items" id="elementeBon"></div>
                     </div>
                     <div>
-                        <div style="background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.3); padding: 10px; border-radius: 14px; margin-bottom: 12px;">
-                            <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: var(--warning-color); margin-bottom: 6px;"><i class="fa-solid fa-shield-halved"></i> Discount (Aprobare Manager)</div>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px;">
-                                <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('procent', 10)">-10%</button>
-                                <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('procent', 20)">-20%</button>
-                                <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('valoare', 10)">-10 lei</button>
+                        <div style="background: rgba(245, 158, 11, 0.04); border: 1px dashed rgba(245, 158, 11, 0.25); padding: 8px; border-radius: 12px; margin-bottom: 10px;">
+                            <div style="font-size: 10px; text-transform: uppercase; font-weight: bold; color: var(--warning-color); margin-bottom: 4px;"><i class="fa-solid fa-shield-halved"></i> Discount Manager</div>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:4px;">
+                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('procent', 10)">-10%</button>
+                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('procent', 20)">-20%</button>
+                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('valoare', 10)">-10L</button>
                             </div>
-                            <div id="statusDiscountAplicat" style="font-size: 12px; color: var(--success-color); margin-top: 5px; display: none; font-weight: 600;"></div>
+                            <div id="statusDiscountAplicat" style="font-size: 11px; color: var(--success-color); margin-top: 4px; display: none; font-weight: 600;"></div>
                         </div>
 
-                        <div class="bill-totals" style="background:rgba(255,255,255,0.02); border:1px solid var(--card-border); padding:14px; border-radius:16px; margin-bottom:12px;">
-                            <div style="display:flex; justify-content:between; font-size:14px; color:var(--text-muted); margin-bottom:4px;" id="randSubtotal"><span>Subtotal:</span><span id="txtSubtotal">0.00 lei</span></div>
-                            <div style="display:flex; justify-content:between; font-size:14px; color:var(--warning-color); margin-bottom:4px; display:none;" id="randReducere"><span>Reducere:</span><span id="txtReducere">0.00 lei</span></div>
-                            <div style="display:flex; justify-content:between; font-size:18px; font-weight:800;"><span>Total de plată:</span><span id="txtTotal" style="color:var(--primary-color);">0.00 lei</span></div>
+                        <div class="bill-totals" style="background:rgba(255,255,255,0.01); border:1px solid var(--card-border); padding:12px; border-radius:14px; margin-bottom:10px;">
+                            <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--text-muted); margin-bottom:2px;" id="randSubtotal"><span>Subtotal:</span><span id="txtSubtotal">0.00 lei</span></div>
+                            <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--warning-color); margin-bottom:2px; display:none;" id="randReducere"><span>Reducere:</span><span id="txtReducere">0.00 lei</span></div>
+                            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:800;"><span>Total de plată:</span><span id="txtTotal" style="color:var(--primary-color);">0.00 lei</span></div>
                         </div>
-                        <button class="btn-block btn-primary" onclick="deschideSelectiePlata()"><i class="fa-solid fa-cash-register"></i> Încasează / Emite Document</button>
+                        <button class="btn-block btn-primary" onclick="deschideSelectiePlata()"><i class="fa-solid fa-cash-register"></i> Încasează Bon</button>
                     </div>
                 </div>
             </div>
@@ -245,29 +245,24 @@
     <div id="screen-master" class="app-screen">
         <div class="navbar">
             <div class="brand">
-                <i class="fa-solid fa-user-gear" style="font-size: 24px; color: var(--warning-color);"></i>
-                <h1>Qreator POS — MASTER Core</h1>
+                <i class="fa-solid fa-user-gear" style="font-size: 20px; color: var(--warning-color);"></i>
+                <h1>Qreator MASTER</h1>
             </div>
-            <button class="nav-btn" style="color:var(--danger-color);" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</button>
+            <button class="nav-btn" style="color:var(--danger-color); padding:6px;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
 
         <div class="master-grid">
-            
-            <div class="gemini-card kpi-box-master" style="background: linear-gradient(135deg, rgba(94, 23, 235, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: rgba(94, 23, 235, 0.4);">
-                <h4><i class="fa-solid fa-chart-line" style="color:#C356F2;"></i> Încasări Totale Zi</h4>
+            <div class="gemini-card kpi-box-master" style="background: linear-gradient(135deg, rgba(94, 23, 235, 0.12) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: rgba(94, 23, 235, 0.3);">
+                <h4>Încasări Totale Zi</h4>
                 <div class="kpi-val" id="txtKPIIncasariTotale">0.00 lei</div>
-                <small style="color:var(--text-muted); font-size:11px; display:block; margin-top:5px;">Toate vânzările procesate (Cash + Card)</small>
             </div>
-
             <div class="gemini-card kpi-box-master">
-                <h4><i class="fa-solid fa-vault" style="color:var(--success-color);"></i> Sold Sertar (Rest)</h4>
+                <h4>Sold Sertar (Rest)</h4>
                 <div class="kpi-val" id="txtMasterSoldSertar" style="color:var(--success-color);">100.00 lei</div>
-                <small style="color:var(--text-muted); font-size:11px; display:block; margin-top:5px;">Numerar fizic estimat în sertar</small>
             </div>
-
-            <div class="gemini-card" style="padding: 15px 20px; display:flex; flex-direction:column; justify-content:center;">
-                <h4 style="font-size:11px; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:8px;"><i class="fa-solid fa-arrow-right-arrow-left"></i> Modifică Rest Sertar</h4>
-                <div style="display:flex; gap:8px; align-items:center;">
+            <div class="gemini-card" style="padding: 12px 16px; display:flex; flex-direction:column; justify-content:center;">
+                <h4 style="font-size:11px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Modifică Fond Rest</h4>
+                <div style="display:flex; gap:6px; align-items:center;">
                     <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="0.00">
                     <button class="action-badge" style="background:var(--success-color); color:#000; padding:10px;" onclick="modificaBaniRest('intrare')"><i class="fa-solid fa-plus"></i></button>
                     <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:10px;" onclick="modificaBaniRest('iesire')"><i class="fa-solid fa-minus"></i></button>
@@ -276,25 +271,25 @@
         </div>
 
         <div class="master-grid" style="grid-template-columns: 1fr; margin-top:0;">
-            <div class="gemini-card" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:15px 22px;">
-                <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border); margin:0;" onclick="genereazaRaport('X')"><i class="fa-solid fa-file-lines"></i> RAPORT X</button>
-                <button class="btn-block" style="background:var(--danger-color); color:#fff; margin:0;" onclick="genereazaRaport('Z')"><i class="fa-solid fa-receipt"></i> RAPORT Z (Închidere)</button>
+            <div class="gemini-card" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px;">
+                <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border);" onclick="genereazaRaport('X')">RAPORT X</button>
+                <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="genereazaRaport('Z')">RAPORT Z</button>
             </div>
         </div>
 
-        <div class="gemini-card" style="margin-top:15px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:10px; margin-bottom:10px;">
-                <h3 style="color:#fff; font-size:16px;"><i class="fa-solid fa-list-check"></i> Jurnal Activitate Zi</h3>
-                <button class="action-badge" style="background:var(--primary-color); color:#000;" onclick="exportaJurnalCSV()"><i class="fa-solid fa-file-excel"></i> Export CSV</button>
+        <div class="gemini-card" style="margin-top:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="color:#fff; font-size:14px;"><i class="fa-solid fa-list-check"></i> Jurnal Vânzări zilnic</h3>
+                <button class="action-badge" style="background:var(--primary-color); color:#000; padding:6px 12px; font-size:12px;" onclick="exportaJurnalCSV()">Export CSV</button>
             </div>
             <div style="overflow-x:auto;">
                 <table class="master-table">
                     <thead>
                         <tr>
-                            <th>Operațiune</th>
-                            <th>Detalii/Sursă</th>
+                            <th>Tip</th>
+                            <th>Detalii</th>
                             <th>Sumă</th>
-                            <th>Metodă</th>
+                            <th>Mod</th>
                         </tr>
                     </thead>
                     <tbody id="listaJurnalMaster"></tbody>
@@ -304,24 +299,24 @@
     </div>
 
     <div class="modal-overlay" id="modalVerificareManager">
-        <div class="modal-box" style="max-width: 340px;">
-            <i class="fa-solid fa-user-shield" style="font-size: 40px; color: var(--warning-color); margin-bottom: 10px;"></i>
+        <div class="modal-box" style="max-width: 320px;">
+            <i class="fa-solid fa-user-shield" style="font-size: 32px; color: var(--warning-color); margin-bottom: 8px;"></i>
             <h4>Autorizare Manager</h4>
             <div class="mgr-pin-display" id="txtMgrPinUrmarit"></div>
             <div id="mgrPinAlert" style="color:var(--danger-color); font-size:12px; display:none; margin-bottom:10px; font-weight:bold;">Cod incorect!</div>
             <div class="numpad" style="gap:8px;">
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(1)">1</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(2)">2</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(3)">3</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(4)">4</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(5)">5</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(6)">6</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(7)">7</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(8)">8</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(9)">9</button>
-                <button class="num-btn" style="padding:12px 0; color:var(--danger-color);" onclick="clearMgrPin()">C</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(0)">0</button>
-                <button class="num-btn" style="padding:12px 0; color:var(--text-muted);" onclick="inchideModal('modalVerificareManager')">X</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(1)">1</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(2)">2</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(3)">3</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(4)">4</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(5)">5</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(6)">6</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(7)">7</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(8)">8</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(9)">9</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px; color:var(--danger-color);" onclick="clearMgrPin()">C</button>
+                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(0)">0</button>
+                <button class="num-btn" style="padding:10px 0; font-size:16px; color:var(--text-muted);" onclick="inchideModal('modalVerificareManager')">X</button>
             </div>
         </div>
     </div>
@@ -329,20 +324,20 @@
     <div class="modal-overlay" id="modalMetodaPlata">
         <div class="modal-box">
             <h4>Formă Închidere Bon</h4>
-            <p id="txtSumaDePlata" style="margin:12px 0; font-size:18px; color:var(--primary-color); font-weight: 800;"></p>
-            <button id="btnProformaClient" class="btn-block" style="background:var(--warning-color); color:#000; margin-bottom: 15px;" onclick="genereazaProforma()"><i class="fa-solid fa-file-invoice"></i> EMITE PROFORMĂ CLIENT</button>
+            <p id="txtSumaDePlata" style="margin:10px 0; font-size:18px; color:var(--primary-color); font-weight: 800;"></p>
+            <button id="btnProformaClient" class="btn-block" style="background:var(--warning-color); color:#000; margin-bottom: 12px;" onclick="genereazaProforma()"><i class="fa-solid fa-file-invoice"></i> EMITE PROFORMĂ CLIENT</button>
             <div class="payment-options-grid">
                 <button class="pay-btn" style="background:#10b981;" onclick="confirmaMetoda('Cash')"><i class="fa-solid fa-money-bill-wave"></i> CASH</button>
                 <button class="pay-btn" style="background:#3b82f6;" onclick="confirmaMetoda('Card')"><i class="fa-solid fa-credit-card"></i> CARD</button>
             </div>
-            <button class="btn-block btn-secondary" style="margin-top:15px;" onclick="inchideModal('modalMetodaPlata')">Anulează</button>
+            <button class="btn-block btn-secondary" style="margin-top:12px;" onclick="inchideModal('modalMetodaPlata')">Anulează</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="modalConfirmareFinala">
         <div class="modal-box">
             <h4>Tipărire Bon Fiscal</h4>
-            <p id="txtDetaliiConfirmare" style="margin:15px 0; font-size:14px;"></p>
+            <p id="txtDetaliiConfirmare" style="margin:12px 0; font-size:14px;"></p>
             <button class="btn-block btn-primary" onclick="executaIncasareFinala()">Trimite la Casa de Marcat</button>
             <button class="btn-block btn-secondary" style="margin-top:8px;" onclick="inchideModal('modalConfirmareFinala')">Revizuire</button>
         </div>
@@ -557,12 +552,12 @@ function actualizeazaInterfataBon() {
     const c = document.getElementById("elementeBon"); c.innerHTML = "";
     let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
     if(!m) return;
-    document.getElementById("titluComandaMasa").innerText = (userRol === 'events') ? "Vânzare Directă Specială" : `Panou Lucru: ${m.nume}`;
+    document.getElementById("titluComandaMasa").innerText = (userRol === 'events') ? "Vânzare Directă Specială" : `Masa: ${m.nume}`;
     
     let subtotal = 0;
     m.comanda.forEach(i => {
         subtotal += i.pret * i.cantitate;
-        c.innerHTML += `<div class="bill-item"><div><b>${i.nume}</b><br><small>${i.cantitate} x ${i.pret} lei</small></div><div style="display:flex; align-items:center; gap:10px;"><span style="font-family:monospace; font-weight:bold;">${(i.pret*i.cantitate).toFixed(2)}</span><button class="btn-delete-item" onclick="stergeDePeBon(${i.id})"><i class="fa-solid fa-minus"></i></button></div></div>`;
+        c.innerHTML += `<div class="bill-item"><div><b>${i.nume}</b><br><small>${i.cantitate} x ${i.pret} lei</small></div><div style="display:flex; align-items:center; gap:8px;"><span style="font-family:monospace; font-weight:bold;">${(i.pret*i.cantitate).toFixed(2)}</span><button class="btn-delete-item" onclick="stergeDePeBon(${i.id})"><i class="fa-solid fa-minus"></i></button></div></div>`;
     });
     
     let reducere = 0;
@@ -636,22 +631,19 @@ function executaIncasareFinala() {
 function genereazaProforma() { 
     if(userRol === 'events') return;
     inchideModal('modalMetodaPlata'); 
-    alert("Proformă / Nota de plată a fost trimisă la imprimantă!"); 
+    alert("Proformă trimisă la imprimantă!"); 
 }
 
 function inchideModal(id) { document.getElementById(id).style.display = "none"; }
 
-/* CONTROL ȘI COLECTARE DATE MASTER */
+/* CONTROL MASTER */
 function salveazaDateMaster() {
     localStorage.setItem("q_sold_sertar", soldSertarRest);
     localStorage.setItem("q_jurnal_registru", JSON.stringify(jurnalRegistru));
 }
 
 function actualizeazaPanouMaster() {
-    // Calcul încasări brute brute (doar tipul Vânzare)
     let totalIncasariZi = jurnalRegistru.filter(j => j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
-    
-    // Alocare în DOM a noii căsuțe cerute și a celei de sertar
     document.getElementById("txtKPIIncasariTotale").innerText = totalIncasariZi.toFixed(2) + " lei";
     document.getElementById("txtMasterSoldSertar").innerText = soldSertarRest.toFixed(2) + " lei";
 
@@ -659,7 +651,7 @@ function actualizeazaPanouMaster() {
     tbody.innerHTML = "";
     
     if(jurnalRegistru.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată în această zi fizică.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată.</td></tr>`;
         return;
     }
 
@@ -669,7 +661,7 @@ function actualizeazaPanouMaster() {
             <td><b>${j.tip}</b></td>
             <td>${j.sursa}</td>
             <td style="color:${colorSuma}; font-family:monospace; font-weight:bold;">${j.suma.toFixed(2)} lei</td>
-            <td><span class="action-badge" style="padding:4px 8px; font-size:11px;">${j.metoda}</span></td>
+            <td><span class="action-badge" style="padding:2px 6px; font-size:11px;">${j.metoda}</span></td>
         </tr>`;
     });
 }
@@ -677,17 +669,16 @@ function actualizeazaPanouMaster() {
 function modificaBaniRest(directie) {
     let input = document.getElementById("numSumaSertar");
     let valoare = parseFloat(input.value);
-    if(isNaN(valoare) || valoare <= 0) { alert("Introduceți o sumă validă!"); return; }
+    if(isNaN(valoare) || valoare <= 0) { alert("Suma invalidă!"); return; }
 
     if(directie === "intrare") {
         soldSertarRest += valoare;
         jurnalRegistru.push({ tip: "Alimentare Rest", sursa: "Depunere Master", suma: valoare, metoda: "Cash" });
     } else {
-        if(valoare > soldSertarRest) { alert("Fonduri insuficiente în sertarul de rest!"); return; }
+        if(valoare > soldSertarRest) { alert("Fonduri insuficiente!"); return; }
         soldSertarRest -= valoare;
         jurnalRegistru.push({ tip: "Retragere Bani", sursa: "Scoatere Master", suma: valoare, metoda: "Cash" });
     }
-    
     input.value = "";
     salveazaDateMaster();
     actualizeazaPanouMaster();
@@ -698,31 +689,24 @@ function genereazaRaport(tip) {
     let cashTot = jurnalRegistru.filter(j => j.metoda === "Cash" && j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
     let cardTot = jurnalRegistru.filter(j => j.metoda === "Card").reduce((s, j) => s + j.suma, 0);
 
-    let textRaport = `=== RAPORT FISCAL ${tip} ===\nÎncasări Totale Zi: ${totalVanzari.toFixed(2)} lei\n  - Din care Cash: ${cashTot.toFixed(2)} lei\n  - Din care Card: ${cardTot.toFixed(2)} lei\nSold Sertar Rest: ${soldSertarRest.toFixed(2)} lei\n====================`;
-    alert(textRaport);
+    alert(`=== RAPORT ${tip} ===\nÎncasări Zi: ${totalVanzari.toFixed(2)} lei\n- Cash: ${cashTot.toFixed(2)} lei\n- Card: ${cardTot.toFixed(2)} lei\nSertar: ${soldSertarRest.toFixed(2)} lei`);
 
     if(tip === 'Z') {
         jurnalRegistru = [];
         salveazaDateMaster();
         actualizeazaPanouMaster();
-        alert("Ziua fiscală a fost resetată.");
     }
 }
 
 function exportaJurnalCSV() {
-    if(jurnalRegistru.length === 0) { alert("Nu există date de exportat!"); return; }
-    let csvContent = "data:text/csv;charset=utf-8,Tip Operațiune,Sursă/Detalii,Sumă,Metodă Plată\n";
-    jurnalRegistru.forEach(j => {
-        csvContent += `"${j.tip}","${j.sursa}",${j.suma},"${j.metoda}"\n`;
-    });
-    
+    if(jurnalRegistru.length === 0) { alert("Nu există date!"); return; }
+    let csvContent = "data:text/csv;charset=utf-8,Tip,Sursă,Sumă,Metodă\n";
+    jurnalRegistru.forEach(j => csvContent += `"${j.tip}","${j.sursa}",${j.suma},"${j.metoda}"\n`);
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `Export_Master_${new Date().toISOString().slice(0,10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    link.setAttribute("download", `Export_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
 }
 </script>
 </body>
