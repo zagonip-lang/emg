@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ro" style="background: #030712;">
+<html lang="ro">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
@@ -7,7 +7,8 @@
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
     :root {
@@ -19,11 +20,13 @@
         --success-color: #10b981;
         --danger-color: #ef4444;
         --warning-color: #eab308;
-        --text-main: #f3f4f6;
+        --text-main: #ffffff;
         --text-muted: #9ca3af;
         --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
+        --category-gradient: linear-gradient(135deg, #5E17EB 0%, #9D4EDD 100%);
     }
 
+    /* RESTAURARE COMPLETĂ FONT NATIV SISTEM + FIX TEXT ALB PE MOBIL */
     * { 
         box-sizing: border-box; 
         margin: 0; 
@@ -31,16 +34,30 @@
         -webkit-user-select: none; 
         user-select: none;
         touch-action: manipulation;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        color: var(--text-main);
     }
+
+    /* Excepție esențială pentru ca iconițele să își păstreze fontul lor special, altfel apăreau pătrățele */
+    .fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        font-style: normal;
+        font-weight: 900;
+    }
+    
     html, body {
-        background: #030712;
-        background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 70%);
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)) 12px; 
-        -webkit-font-smoothing: antialiased;
-        overflow-x: hidden; 
+        margin: 0;
+        padding: 0;
         width: 100%;
+        min-height: 100vh;
+        background: #030712;
+        background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 100%);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+
+    body {
+        padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)) 12px;
     }
 
     .app-screen { display: none; width: 100%; overflow-x: hidden; }
@@ -58,67 +75,129 @@
     .pin-dot.active { background: var(--primary-color); box-shadow: 0 0 12px var(--primary-color); }
     
     .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .num-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 0; font-size: 24px; font-weight: 700; color: #fff; cursor: pointer; }
+    .num-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 0; font-size: 24px; font-weight: 700; cursor: pointer; -webkit-appearance: none; }
     .num-btn:active { background: rgba(255,255,255,0.2); }
 
     /* LAYOUT HEADER TERMINAL */
     .header-terminal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding: 4px; }
-    .action-badge { padding: 12px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); border-radius: 14px; font-size: 14px; font-weight: 700; color: var(--text-main); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; }
+    .action-badge { padding: 12px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; -webkit-appearance: none; }
     .action-badge:active { background: rgba(255,255,255,0.15); }
 
     /* INTERACTIVE LOGO FOR SECRET MENU */
     .logo-interactive-trigger { cursor: pointer; transform: scale(0.85); width: 55px; -webkit-tap-highlight-color: transparent; }
     .logo-interactive-trigger:active { transform: scale(0.75); opacity: 0.8; }
 
-    /* INPUT STYLING */
-    input, select, input:focus, select:focus { font-size: 16px !important; color: #fff; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 14px; outline: none; min-height: 50px; }
+    /* INPUTS & SELECTS FIX PENTRU TOATE TIPURILE DE MOBIL (iOS / Android) */
+    input, select, input:focus, select:focus { 
+        font-size: 16px !important; 
+        background: var(--input-bg) !important; 
+        border: 1px solid var(--card-border) !important; 
+        border-radius: 14px !important; 
+        padding: 14px !important; 
+        outline: none !important; 
+        min-height: 50px !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        -webkit-appearance: none;
+        appearance: none;
+    }
     .search-wrapper { position: relative; margin-bottom: 12px; }
-    .search-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px; }
-    .search-input { width: 100%; padding-left: 44px; -webkit-user-select: text; user-select: text; }
+    .search-input { width: 100%; padding-left: 14px; -webkit-user-select: text; user-select: text; }
 
-    /* CATEGORII */
-    .categories-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; width: 100%; }
+    /* REDESIGN BARA SI BUTOANE CATEGORII */
+    .categories-bar { 
+        display: flex; 
+        gap: 8px; 
+        overflow-x: auto; 
+        padding: 4px 2px 12px 2px; 
+        margin-bottom: 14px; 
+        width: 100%; 
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
     .categories-bar::-webkit-scrollbar { display: none; }
-    .cat-btn { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); color: var(--text-main); padding: 12px 20px; border-radius: 14px; font-weight: 700; font-size: 14px; white-space: nowrap; cursor: pointer; min-height: 48px; }
-    .cat-btn.active { background: var(--logo-gradient); color: #fff; border-color: transparent; }
     
-    /* PRODUCTS GRID */
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 10px; max-height: 290px; overflow-y: auto; }
-    .product-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); border-radius: 16px; padding: 14px 6px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; min-height: 95px; cursor: pointer; }
-    .product-card:active { background: rgba(255,255,255,0.12); transform: scale(0.97); }
-    .product-card b { font-size: 13px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #fff; }
-    .product-card span { font-size: 12px; color: var(--primary-color); font-weight: 800; margin-top: 4px; }
+    .cat-btn { 
+        background: rgba(255, 255, 255, 0.05); 
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        padding: 10px 22px; 
+        border-radius: 14px; 
+        font-weight: 700; 
+        font-size: 14px; 
+        letter-spacing: 0.3px;
+        color: rgba(255, 255, 255, 0.85) !important;
+        white-space: nowrap; 
+        cursor: pointer; 
+        min-height: 46px; 
+        -webkit-appearance: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .cat-btn:active {
+        transform: scale(0.95);
+    }
+    .cat-btn.active { 
+        background: var(--category-gradient); 
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(94, 23, 235, 0.4);
+    }
+    .cat-btn.active * { color: #ffffff !important; }
+    
+    /* RE-PROIECTARE BUTOANE SELECȚII VÂNZARE (PRODUSE) */
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; max-height: 290px; overflow-y: auto; padding: 2px; }
+    .product-card { 
+        background: rgba(255, 255, 255, 0.05); 
+        border: 1px solid rgba(255, 255, 255, 0.16); 
+        border-radius: 16px; 
+        padding: 14px 8px; 
+        text-align: center; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        min-height: 100px; 
+        cursor: pointer; 
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        -webkit-tap-highlight-color: transparent;
+    }
+    .product-card:active { background: rgba(255,255,255,0.18); border-color: var(--primary-color); transform: scale(0.96); }
+    .product-card b { font-size: 14px; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.2; }
+    .product-card span { font-size: 13px; color: var(--primary-color); font-weight: 800; background: rgba(94, 161, 255, 0.12); padding: 2px 8px; border-radius: 8px; }
 
     /* COȘ CURENT */
     .bill-items { display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; margin: 10px 0; }
     .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 14px; border: 1px solid var(--card-border); font-size: 14px; }
     
     .qty-controls { display: flex; align-items: center; gap: 6px; }
-    .btn-qty { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); color: #fff; width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; }
+    .btn-qty { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; -webkit-appearance: none; }
     .btn-qty:active { background: rgba(255,255,255,0.25); }
     .qty-num { min-width: 24px; text-align: center; font-size: 15px; font-weight: 800; }
 
     /* BIG ACTIONS BUTTONS */
-    .btn-block { width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; }
+    .btn-block { width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; -webkit-appearance: none; }
     .btn-block:active { transform: scale(0.98); opacity: 0.9; }
-    .btn-primary { background: var(--logo-gradient); color: #fff; box-shadow: 0 4px 15px rgba(94, 23, 235, 0.3); }
-    .btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); color: #fff; }
+    .btn-primary { background: var(--logo-gradient); box-shadow: 0 4px 15px rgba(94, 23, 235, 0.3); }
+    .btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); }
 
     /* MASTER GRIDS */
     .grid-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px; }
     .master-kpi-subbox { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px; border-radius: 14px; }
     .master-kpi-subbox h5 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
-    .master-kpi-subbox div { font-size: 16px; font-weight: 800; font-family: monospace; }
+    .master-kpi-subbox div { font-size: 16px; font-weight: 800; font-family: monospace !important; }
     
     .master-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
     .master-table th, .master-table td { padding: 10px 6px; border-bottom: 1px solid var(--card-border); text-align: left; }
 
     /* MODALS */
-    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.95); backdrop-filter:blur(14px); display:none; justify-content:center; align-items:center; z-index: 9999; padding: 14px; overflow-y: auto; }
-    .modal-box { background:#0f172a; border:1px solid rgba(255,255,255,0.15); border-radius:24px; padding: 22px; width:100%; max-width:360px; text-align:center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:none; justify-content:center; align-items:center; z-index: 9999; padding: 14px; overflow-y: auto; }
+    .modal-box { background:#0f172a; border:1px solid rgba(255,255,255,0.18); border-radius:24px; padding: 22px; width:100%; max-width:360px; text-align:center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
     
     .payment-options-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-    .pay-btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 800; border: none; color: #fff; cursor: pointer; width: 100%; min-height: 64px; }
+    .pay-btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 800; border: none; cursor: pointer; width: 100%; min-height: 64px; -webkit-appearance: none; }
 </style>
 </head>
 <body>
@@ -134,7 +213,7 @@
     <div id="screen-login" class="app-screen active">
         <div class="login-container gemini-card">
             <div class="logo-placeholder"></div>
-            <h2 style="color:#fff; font-size: 20px; font-weight:800;">Qreator POS</h2>
+            <h2 style="font-size: 20px; font-weight:800;">Qreator POS</h2>
             <p style="color:var(--text-muted); font-size:13px;">Introduceți codul PIN</p>
             <div class="pin-dots">
                 <div class="pin-dot" id="l-dot0"></div>
@@ -163,7 +242,7 @@
     <div id="screen-events" class="app-screen">
         <div class="header-terminal">
             <div style="display:flex; align-items:center;">
-                <span id="txtNumeUserActiv" style="font-weight:800; font-size: 15px; color:#fff;">Operator</span>
+                <span id="txtNumeUserActiv" style="font-weight:800; font-size: 15px;">Operator</span>
             </div>
             <div class="logo-placeholder logo-interactive-trigger" onclick="solicitaParolaRest()"></div>
             <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none;" onclick="logout()"><i class="fa-solid fa-power-off"></i></button>
@@ -172,7 +251,6 @@
         <div class="events-layout">
             <div class="gemini-card">
                 <div class="search-wrapper">
-                    <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută rapid produs..." oninput="filtreazaProduse()">
                 </div>
                 <div class="categories-bar" id="categoriiBar"></div>
@@ -215,7 +293,7 @@
             <div style="display:flex; flex-direction:column; gap:10px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <label style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">Monitorizare per Operator</label>
-                    <button class="action-badge" style="background:#16a34a; color:#fff; font-size:12px; min-height:36px; padding:6px 12px;" onclick="exportExcelOperator()"><i class="fa-solid fa-file-csv"></i> Excel Operator</button>
+                    <button class="action-badge" style="background:#16a34a; font-size:12px; min-height:36px; padding:6px 12px;" onclick="exportExcelOperator()"><i class="fa-solid fa-file-csv"></i> Excel Operator</button>
                 </div>
                 <select id="ddSelectUserMaster" style="width:100%; font-weight:bold;" onchange="schimbaFiltruUserMaster()">
                 </select>
@@ -243,7 +321,7 @@
         <div class="gemini-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                 <h4 style="font-size:12px; text-transform:uppercase; color:var(--text-muted);"><i class="fa-solid fa-chart-line"></i> Articole Vândute</h4>
-                <button class="action-badge" style="background:#10b981; color:#000; font-size:11px; min-height:28px; padding:4px 10px;" onclick="exportExcelProduse()"><i class="fa-solid fa-download"></i> Raport Excel</button>
+                <button class="action-badge" style="background:#10b981; font-size:11px; min-height:28px; padding:4px 10px;" onclick="exportExcelProduse()"><i class="fa-solid fa-download"></i> Raport Excel</button>
             </div>
             <div style="max-height:130px; overflow-y:auto;">
                 <table class="master-table">
@@ -258,14 +336,12 @@
         <div class="modal-box">
             <h4>Validare Securitate</h4>
             <p style="font-size:13px; color:var(--text-muted); margin:4px 0 12px 0;">Introduceți codul special manager:</p>
-            
             <div class="pin-dots" style="margin: 10px 0;">
                 <div class="pin-dot" id="s-dot0"></div>
                 <div class="pin-dot" id="s-dot1"></div>
                 <div class="pin-dot" id="s-dot2"></div>
                 <div class="pin-dot" id="s-dot3"></div>
             </div>
-
             <div class="numpad" style="gap:8px;">
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(1)">1</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(2)">2</button>
@@ -273,8 +349,8 @@
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(4)">4</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(5)">5</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(6)">6</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(7)">7</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(8)\">8</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(77)">7</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(8)">8</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(9)">9</button>
                 <button class="num-btn" style="padding:12px 0; color:var(--danger-color);" onclick="clearSecretPin()">C</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(0)">0</button>
@@ -286,9 +362,9 @@
     <div class="modal-overlay" id="modalConfirmareZ">
         <div class="modal-box" style="border:2px solid var(--danger-color);">
             <h3 style="color:var(--danger-color);"><i class="fa-solid fa-triangle-exclamation"></i> ALERTĂ RAPORT Z</h3>
-            <p style="font-size:14px; margin:14px 0; line-height:1.4;">Sunteți sigur că doriți închiderea de zi (Z)? <br><b style="color:#fff;">Această acțiune va șterge tranzacțiile curente ale acestui operator!</b></p>
+            <p style="font-size:14px; margin:14px 0; line-height:1.4;">Sunteți sigur că doriți închiderea de zi (Z)? <br><b>Această acțiune va șterge tranzacțiile curente ale acestui operator!</b></p>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-block" style="background:var(--danger-color); color:#fff;" id="btnConfirmaZEfectiv">DA, RESETEAZĂ</button>
+                <button class="btn-block" style="background:var(--danger-color);" id="btnConfirmaZEfectiv">DA, RESETEAZĂ</button>
                 <button class="btn-block btn-secondary" onclick="document.getElementById('modalConfirmareZ').style.display='none'">ANULEAZĂ</button>
             </div>
         </div>
@@ -299,19 +375,19 @@
             <h4>Sertar Tehnic Rest</h4>
             <div style="background:rgba(255,255,255,0.04); border:1px solid var(--card-border); padding:14px; border-radius:14px; margin:14px 0; font-size:15px;">
                 <span>Bani de rest în sertar:</span>
-                <b id="txtFondRestCurent" style="color:var(--warning-color); font-family:monospace; margin-left:6px; font-size:16px;">0.00 lei</b>
+                <b id="txtFondRestCurent" style="color:var(--warning-color); font-family:monospace !important; margin-left:6px; font-size:16px;">0.00 lei</b>
             </div>
             <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
                 <input type="number" id="numSumaRest" placeholder="Sumă (lei)" style="text-align:center; font-size:18px !important;" pattern="[0-9]*" inputmode="decimal">
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <button class="btn-block" style="background:var(--success-color); color:#000;" onclick="ajusteazaRest('depunere')"><i class="fa-solid fa-plus"></i> Adaugă</button>
-                    <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="ajusteazaRest('retragere')"><i class="fa-solid fa-minus"></i> Retrage</button>
+                    <button class="btn-block" style="background:var(--success-color);" onclick="ajusteazaRest('depunere')"><i class="fa-solid fa-plus"></i> Adaugă</button>
+                    <button class="btn-block" style="background:var(--danger-color);" onclick="ajusteazaRest('retragere')"><i class="fa-solid fa-minus"></i> Retrage</button>
                 </div>
             </div>
             <hr style="border:0; border-top:1px solid var(--card-border); margin:16px 0;">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
                 <button class="btn-block btn-secondary" onclick="executaRaportOperator('X')">RAPORT X</button>
-                <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="deschideAlerteZOperator()">RAPORT Z</button>
+                <button class="btn-block" style="background:var(--danger-color);" onclick="deschideAlerteZOperator()">RAPORT Z</button>
             </div>
             <button class="btn-block btn-secondary" style="font-size:13px;" onclick="document.getElementById('modalGestiuneRest').style.display='none'">ÎNCHIDE</button>
         </div>
@@ -319,10 +395,10 @@
 
     <div class="modal-overlay" id="modalConfirmarePlata">
         <div class="modal-box" style="border:2px solid var(--primary-color);">
-            <h3 style="color:#fff;"><i class="fa-solid fa-circle-question" style="color:var(--primary-color);"></i> Confirmare Încasare</h3>
-            <p id="txtMesajConfirmareIncasare" style="font-size:15px; margin:16px 0; line-height:1.5; color:#fff;"></p>
+            <h3><i class="fa-solid fa-circle-question" style="color:var(--primary-color);"></i> Confirmare Încasare</h3>
+            <p id="txtMesajConfirmareIncasare" style="font-size:15px; margin:16px 0; line-height:1.5;"></p>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-block" style="background:var(--success-color); color:#000;" id="btnEfectueazaPlataValidata">CONFIRM PLATĂ</button>
+                <button class="btn-block" style="background:var(--success-color);" id="btnEfectueazaPlataValidata">CONFIRM PLATĂ</button>
                 <button class="btn-block btn-secondary" onclick="document.getElementById('modalConfirmarePlata').style.display='none'">ANULEAZĂ</button>
             </div>
         </div>
@@ -339,7 +415,7 @@
     <div class="modal-overlay" id="modalPlata">
         <div class="modal-box" style="max-width:380px; padding:24px;">
             <h3 style="font-size:18px; font-weight:800;">Selectare Modalitate Plată</h3>
-            <p id="txtSumaDePlata" style="margin:14px 0; font-size:26px; color:var(--primary-color); font-weight:900; font-family:monospace;"></p>
+            <p id="txtSumaDePlata" style="margin:14px 0; font-size:26px; color:var(--primary-color); font-weight:900; font-family:monospace !important;"></p>
             
             <div class="payment-options-grid">
                 <button class="pay-btn" style="background:#10b981;" onclick="solicitaConfirmarePlata('Cash')">
@@ -348,7 +424,7 @@
                 <button class="pay-btn" style="background:#3b82f6;" onclick="solicitaConfirmarePlata('Card')">
                     <i class="fa-solid fa-credit-card"></i> ÎNCASARE CARD
                 </button>
-                <button class="pay-btn" style="background:#eab308; color:#000;" onclick="solicitaConfirmarePlata('Token')">
+                <button class="pay-btn" style="background:#eab308;" onclick="solicitaConfirmarePlata('Token')">
                     <i class="fa-solid fa-coins"></i> PLATĂ CU TOKEN
                 </button>
             </div>
@@ -556,8 +632,8 @@ function deschidePlata() {
 }
 function inchideModalPlata() { document.getElementById("modalPlata").style.display = "none"; }
 
-/* SOLICITARE ȘI PROMPT CONFIRMARE PLATĂ (ANTI-GREȘEALĂ) */
 function solicitaConfirmarePlata(metoda) {
+    inchideModalPlata();
     let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
     document.getElementById("txtMesajConfirmareIncasare").innerHTML = `Sigur doriți să încasați suma de <b style="color:var(--warning-color); font-size:20px;">${total.toFixed(2)} lei</b> prin metoda <b style="color:var(--primary-color);">${metoda.toUpperCase()}</b>?`;
     document.getElementById("modalConfirmarePlata").style.display = "flex";
@@ -577,10 +653,9 @@ function finalizeazaVanzare(metoda) {
     });
     
     localStorage.setItem("q_t_data", JSON.stringify(tranzactii));
-    inchideModalPlata(); bonCurent = []; actualizeazaBonul();
+    bonCurent = []; actualizeazaBonul();
 }
 
-/* LOGO TACTIL ȘI NUMPAD SERTAR TEHNIC */
 function solicitaParolaRest() {
     secretPinIntroduis = "";
     updateSecretPinDots();
@@ -612,11 +687,10 @@ function deschidePanouRest() {
     document.getElementById("modalGestiuneRest").style.display = "flex";
 }
 
-/* COREVENȚIE REPARARE BUTOANE REST (DEPOZIT / RETRAGERE CORECTĂ) */
 function ajusteazaRest(directie) {
     let val = parseFloat(document.getElementById("numSumaRest").value);
     if(isNaN(val) || val <= 0) return;
-    if(!fonduriRest[userActiv.id]) fonduriRest[userActiv.id] = 0;
+    if(!fonduriRest[userActiv.id]) fonturiRest[userActiv.id] = 0;
     
     if(directie === 'depunere') { 
         fonduriRest[userActiv.id] += val; 
@@ -629,7 +703,6 @@ function ajusteazaRest(directie) {
     document.getElementById("numSumaRest").value = "";
 }
 
-/* ANTI-GREȘEALĂ POPUP CONTROL PENTRU Z */
 function deschideAlerteZOperator() {
     document.getElementById("modalConfirmareZ").style.display = "flex";
     document.getElementById("btnConfirmaZEfectiv").onclick = function() {
@@ -747,7 +820,6 @@ function randeazaProduseAgregateMaster() {
     });
 }
 
-/* EXPORTURI DIRECT IN EXCEL / EXCEL COMPATIBIL */
 function descarcaFisierCSV(continut, numeFisier) {
     let blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), continut], { type: "text/csv;charset=utf-8;" });
     let link = document.createElement("a");
