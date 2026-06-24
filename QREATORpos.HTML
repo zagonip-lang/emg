@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-<title>Qreator POS - No Horizontal Scroll</title>
+<title>Qreator POS - Core Only</title>
 
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Qreator Pro">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -21,128 +18,79 @@
         --primary-color: #5ea1ff;
         --success-color: #10b981;
         --danger-color: #ef4444;
-        --warning-color: #f59e0b;
         --text-main: #f3f4f6;
         --text-muted: #9ca3af;
         --glass-blur: blur(30px);
         --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
     }
 
-    /* FIX ABSOLUT PENTRU SCROLL ORIZONTAL */
-    * { 
-        box-sizing: border-box; 
-        margin: 0; 
-        padding: 0; 
-        -webkit-user-select: none; 
-        user-select: none; 
-    }
-
+    /* BLOCARE STRICTĂ SCROLL ORIZONTAL */
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-user-select: none; user-select: none; }
     html, body {
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-        background: radial-gradient(circle at 90% 10%, #1e1b4b 0%, transparent 40%),
-                    radial-gradient(circle at 10% 90%, #0f172a 0%, transparent 50%),
-                    #030712;
-        background-attachment: fixed; 
-        color: var(--text-main); 
-        min-height: 100vh; 
-        padding: 10px; 
-        -webkit-font-smoothing: antialiased;
-        touch-action: pan-x pan-y;
-        overflow-x: hidden; /* Blocare scroll stânga/dreapta pe toată pagina */
-        width: 100%;
+        background: radial-gradient(circle at 90% 10%, #1e1b4b 0%, transparent 40%), #030712;
+        color: var(--text-main); min-height: 100vh; padding: 10px; -webkit-font-smoothing: antialiased;
+        overflow-x: hidden; width: 100%;
     }
 
     .app-screen { display: none; width: 100%; overflow-x: hidden; }
     .app-screen.active { display: block; }
 
-    .pos-logo { height: 55px; width: auto; margin: 0 auto 10px auto; display: block; }
-    .navbar .pos-logo { height: 35px; margin: 0; }
+    .pos-logo { height: 50px; width: auto; margin: 0 auto 10px auto; display: block; }
 
     /* LOGIN */
-    .login-container { max-width: 360px; margin: 40px auto; text-align: center; display: flex; flex-direction: column; gap: 15px; }
+    .login-container { max-width: 340px; margin: 40px auto; text-align: center; display: flex; flex-direction: column; gap: 15px; }
     .pin-dots { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
-    .pin-dot { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; }
-    .pin-dot.active { background: var(--primary-color); box-shadow: 0 0 12px var(--primary-color); transform: scale(1.1); }
-    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .num-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 16px; padding: 18px 0; font-size: 24px; font-weight: 600; color: #fff; cursor: pointer; transition: background 0.1s; }
-    .num-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.15); }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
+    .pin-dot.active { background: var(--primary-color); box-shadow: 0 0 10px var(--primary-color); }
+    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .num-btn { background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 14px; padding: 16px 0; font-size: 22px; font-weight: 600; color: #fff; cursor: pointer; }
+    .num-btn:active { background: rgba(255,255,255,0.15); }
 
     /* NAVBAR */
-    .navbar {
-        display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
-        background: rgba(255, 255, 255, 0.01); border: 1px solid var(--card-border); border-radius: 20px; margin-bottom: 15px; backdrop-filter: var(--glass-blur);
-    }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand h1 { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
-    .nav-tabs { display: flex; gap: 8px; }
-    .nav-btn { background: transparent; border: 1px solid transparent; color: var(--text-muted); padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .header-terminal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 4px; }
+    .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; backdrop-filter: var(--glass-blur); margin-bottom: 12px; width: 100%; }
+    .action-badge { padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; }
 
-    .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 14px; backdrop-filter: var(--glass-blur); margin-bottom: 12px; width: 100%; box-sizing: border-box; }
-    
-    /* SALA VIRTUALĂ */
-    .table-actions-top { display: flex; gap: 8px; margin-bottom: 15px; }
-    .action-badge { padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-main); }
-    
-    .sala-virtuala-container { width: 100%; height: 420px; background: rgba(0, 0, 0, 0.25); border: 2px dashed var(--card-border); border-radius: 24px; position: relative; overflow: hidden; }
-    .table-box { width: 105px; height: 105px; background: rgba(16, 185, 129, 0.08); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 22px; position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; }
-    .table-box.occupied { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); }
-    .table-box.selected-now { border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); }
+    /* EVENTS LAYOUT VERTICAL MOBIL */
+    .events-layout { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
+    .search-wrapper { position: relative; margin-bottom: 10px; }
+    .search-wrapper i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    .search-input { width: 100%; padding: 12px 12px 12px 36px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; color: #fff; font-size: 16px; outline: none; -webkit-user-select: text; user-select: text; }
 
-    /* HOReCA / EVENTS ADAPTIVE FLOW */
-    .horeca-layout { display: none; grid-template-columns: 1fr; gap: 12px; opacity: 0; transition: opacity 0.3s ease; width: 100%; box-sizing: border-box; }
-    .horeca-layout.show-flow { display: grid; opacity: 1; }
-    
-    @media (min-width: 992px) { 
-        .horeca-layout.show-flow { grid-template-columns: 1.3fr 1fr; } 
-    }
-    
-    .search-wrapper { position: relative; margin-bottom: 12px; }
-    .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-    .search-input { width: 100%; padding: 14px 14px 14px 42px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 14px; color: #fff; font-size: 16px !important; outline: none; -webkit-user-select: text; user-select: text; }
-
-    /* Permite scroll DOAR în interiorul barei de categorii */
-    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; width: 100%; }
+    .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; width: 100%; -webkit-overflow-scrolling: touch; }
     .categories-bar::-webkit-scrollbar { display: none; }
-    .cat-btn { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; font-size: 13px; }
+    .cat-btn { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); color: var(--text-muted); padding: 8px 14px; border-radius: 10px; font-weight: 600; font-size: 13px; white-space: nowrap; }
     .cat-btn.active { background: var(--logo-gradient); color: #fff; border-color: transparent; }
     
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; max-height: 320px; overflow-y: auto; width: 100%; }
-    .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 14px; padding: 12px 6px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 85px; box-sizing: border-box; }
-    .product-card b { display: block; font-size: 12px; color: #fff; line-height: 1.3; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .product-card span { font-size: 12px; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(95px, 1fr)); gap: 8px; max-height: 280px; overflow-y: auto; }
+    .product-card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 4px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; min-height: 80px; }
+    .product-card b { font-size: 12px; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 4px; }
+    .product-card span { font-size: 11px; color: var(--primary-color); font-weight: 700; }
 
-    /* PANOU BON */
-    .bill-panel { display: flex; flex-direction: column; justify-content: space-between; min-height: auto; width: 100%; box-sizing: border-box; }
-    @media (min-width: 992px) { .bill-panel { min-height: 520px; } }
-    
-    .bill-items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; max-height: 200px; margin: 10px 0; }
-    .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 8px 12px; border-radius: 12px; border: 1px solid var(--card-border); }
-    
-    .btn-delete-item { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger-color); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    /* BON FISCAL */
+    .bill-items { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; margin: 8px 0; }
+    .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 8px 10px; border-radius: 10px; border: 1px solid var(--card-border); font-size: 13px; }
+    .btn-delete-item { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); color: var(--danger-color); width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    .btn-block { width: 100%; padding: 14px; border-radius: 14px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-block { width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .btn-primary { background: var(--logo-gradient); color: #fff; }
     .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); color: #fff; }
 
-    /* MODALE */
-    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.85); backdrop-filter:blur(15px); display:none; justify-content:center; align-items:center; z-index: 9999; padding: 10px; }
-    .modal-box { background:#0f172a; border:1px solid var(--card-border); border-radius:24px; padding:20px; width:100%; max-width:380px; text-align:center; box-sizing: border-box; }
-    .payment-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-    .pay-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; border-radius: 16px; font-size: 14px; font-weight: bold; border: none; cursor: pointer; color: #fff; }
-    
-    .mgr-pin-display { font-size: 28px; letter-spacing: 10px; margin: 12px 0; font-family: monospace; color: var(--warning-color); height: 35px; }
+    /* MASTER CORES */
+    .master-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+    .kpi-box { border-radius: 12px; padding: 14px; text-align: left; }
+    .kpi-box h4 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .kpi-box .kpi-val { font-size: 20px; font-weight: 800; font-family: monospace; }
+    .master-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+    .master-table th, .master-table td { padding: 6px; border-bottom: 1px solid var(--card-border); text-align: left; }
+    .master-input-cash { background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 8px; color: #fff; width: 90px; text-align: center; outline: none; -webkit-user-select: text; user-select: text; }
 
-    /* MASTER PANEL */
-    .master-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; width: 100%; }
-    @media(min-width: 768px) { .master-grid { grid-template-columns: 1fr 1fr 1fr; } }
-    
-    .kpi-box-master { border-radius: 16px; padding: 16px; text-align: left; }
-    .kpi-box-master h4 { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
-    .kpi-box-master .kpi-val { font-size: 22px; font-weight: 800; color: #fff; font-family: monospace; }
-    
-    .master-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
-    .master-table th, .master-table td { padding: 8px; border-bottom: 1px solid var(--card-border); }
-    .master-input-cash { background: var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; color:#fff; width:100px; font-size:14px; text-align:center; outline:none; -webkit-user-select: text; user-select: text; }
+    /* MODALE */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.9); backdrop-filter:blur(10px); display:none; justify-content:center; align-items:center; z-index: 9999; padding: 10px; }
+    .modal-box { background:#0f172a; border:1px solid var(--card-border); border-radius:20px; padding:18px; width:100%; max-width:340px; text-align:center; }
+    .payment-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .pay-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border-radius: 12px; font-size: 13px; font-weight: bold; border: none; color: #fff; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -158,15 +106,15 @@
     <div id="screen-login" class="app-screen active">
         <div class="login-container gemini-card">
             <div id="loginLogoInject"></div>
-            <h2 style="color:#fff; font-size: 20px;">Qreator POS</h2>
-            <p style="color:var(--text-muted); font-size:13px;">Introduceți codul PIN</p>
+            <h2 style="color:#fff; font-size: 18px;">Qreator POS</h2>
+            <p style="color:var(--text-muted); font-size:12px;">Introduceți codul PIN</p>
             <div class="pin-dots">
                 <div class="pin-dot" id="l-dot0"></div>
                 <div class="pin-dot" id="l-dot1"></div>
                 <div class="pin-dot" id="l-dot2"></div>
                 <div class="pin-dot" id="l-dot3"></div>
             </div>
-            <div id="loginAlert" style="color:var(--danger-color); font-size:13px; display:none; font-weight:bold;"><i class="fa-solid fa-triangle-exclamation"></i> PIN incorect!</div>
+            <div id="loginAlert" style="color:var(--danger-color); font-size:12px; display:none; font-weight:bold;"><i class="fa-solid fa-triangle-exclamation"></i> PIN incorect! (7777 sau 0000)</div>
             <div class="numpad">
                 <button class="num-btn" onclick="pressPin(1)">1</button>
                 <button class="num-btn" onclick="pressPin(2)">2</button>
@@ -184,209 +132,106 @@
         </div>
     </div>
 
-    <div id="screen-main" class="app-screen">
-        <div class="navbar" id="mainNavbar">
-            <div class="brand">
-                <div id="navLogoInject"></div>
-                <h1>Qreator POS</h1>
-            </div>
-            <div class="nav-tabs">
-                <button class="nav-btn active" id="btnTabMese" onclick="switchTab('mese')"><i class="fa-solid fa-map"></i> Hartă Sală</button>
-                <button class="nav-btn" style="color:var(--danger-color);" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-            </div>
+    <div id="screen-events" class="app-screen">
+        <div class="header-terminal">
+            <span style="font-weight:bold; font-size:15px;"><i class="fa-solid fa-bolt" style="color:var(--primary-color);"></i> Mod: EVENTS</span>
+            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none;" onclick="logout()"><i class="fa-solid fa-power-off"></i></button>
         </div>
 
-        <div id="ospatarHeader" style="display:none; justify-content:space-between; align-items:center; margin-bottom:12px; padding:0 4px;">
-            <span style="font-weight:bold; font-size:16px;"><i class="fa-solid fa-user-tie" style="color:var(--primary-color);"></i> Terminal: <span id="txtUserActual">Ospătar</span></span>
-            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none; padding: 6px 12px;" onclick="logout()"><i class="fa-solid fa-power-off"></i> Ieșire</button>
-        </div>
-
-        <div id="tab-mese" class="module-panel">
-            <div class="gemini-card" id="zonaHartaMeseCard">
-                <div class="table-actions-top">
-                    <button class="action-badge active">Mod normal</button>
+        <div class="events-layout">
+            <div class="gemini-card">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută produs..." oninput="filtreazaProduse()">
                 </div>
-                <div class="sala-virtuala-container" id="salaVirtuala"></div>
+                <div class="categories-bar" id="categoriiBar"></div>
+                <div class="products-grid" id="catalogProduse"></div>
             </div>
-
-            <div class="horeca-layout" id="zonaIncasareContextuala">
-                
-                <div class="gemini-card">
-                    <div class="search-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută produs rapid..." oninput="filtreazaProduseDupaText()">
-                    </div>
-                    <div class="categories-bar" id="categoriiBar"></div>
-                    <div class="products-grid" id="catalogProduse"></div>
+            
+            <div class="gemini-card">
+                <div style="font-weight:700; font-size:14px; border-bottom:1px solid var(--card-border); padding-bottom:6px; margin-bottom:6px;">Bon Vânzare Directă</div>
+                <div class="bill-items" id="elementeBon"></div>
+                <div style="background:rgba(255,255,255,0.02); border:1px solid var(--card-border); padding:10px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:between; font-size:15px; font-weight:800;">
+                    <span>Total de plată:</span>
+                    <span id="txtTotal" style="color:var(--primary-color); margin-left:auto;">0.00 lei</span>
                 </div>
-                
-                <div class="gemini-card bill-panel">
-                    <div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:8px; margin-bottom:10px;">
-                            <div class="current-table-title" id="titluComandaMasa" style="font-weight:700; font-size:15px; color:#fff;">Gestiune Bon</div>
-                            <button class="action-badge" id="btnInapoiLaSala" style="background:rgba(255,255,255,0.05); font-size:12px; padding:6px 10px;" onclick="inchideZonaDeIncasare()"><i class="fa-solid fa-arrow-left"></i> Înapoi</button>
-                        </div>
-                        <div class="bill-items" id="elementeBon"></div>
-                    </div>
-                    <div>
-                        <div style="background: rgba(245, 158, 11, 0.04); border: 1px dashed rgba(245, 158, 11, 0.25); padding: 8px; border-radius: 12px; margin-bottom: 10px;">
-                            <div style="font-size: 10px; text-transform: uppercase; font-weight: bold; color: var(--warning-color); margin-bottom: 4px;"><i class="fa-solid fa-shield-halved"></i> Discount Manager</div>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:4px;">
-                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('procent', 10)">-10%</button>
-                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('procent', 20)">-20%</button>
-                                <button class="action-badge" style="padding:6px; font-size:11px; text-align:center;" onclick="solicitaAprobareDiscount('valoare', 10)">-10L</button>
-                            </div>
-                            <div id="statusDiscountAplicat" style="font-size: 11px; color: var(--success-color); margin-top: 4px; display: none; font-weight: 600;"></div>
-                        </div>
-
-                        <div class="bill-totals" style="background:rgba(255,255,255,0.01); border:1px solid var(--card-border); padding:12px; border-radius:14px; margin-bottom:10px;">
-                            <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--text-muted); margin-bottom:2px;" id="randSubtotal"><span>Subtotal:</span><span id="txtSubtotal">0.00 lei</span></div>
-                            <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--warning-color); margin-bottom:2px; display:none;" id="randReducere"><span>Reducere:</span><span id="txtReducere">0.00 lei</span></div>
-                            <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:800;"><span>Total de plată:</span><span id="txtTotal" style="color:var(--primary-color);">0.00 lei</span></div>
-                        </div>
-                        <button class="btn-block btn-primary" onclick="deschideSelectiePlata()"><i class="fa-solid fa-cash-register"></i> Încasează Bon</button>
-                    </div>
-                </div>
+                <button class="btn-block btn-primary" onclick="deschidePlata()"><i class="fa-solid fa-cash-register"></i> Încasează rapid</button>
             </div>
         </div>
     </div>
 
     <div id="screen-master" class="app-screen">
-        <div class="navbar">
-            <div class="brand">
-                <i class="fa-solid fa-user-gear" style="font-size: 20px; color: var(--warning-color);"></i>
-                <h1>Qreator MASTER</h1>
-            </div>
-            <button class="nav-btn" style="color:var(--danger-color); padding:6px;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <div class="header-terminal">
+            <span style="font-weight:bold; font-size:15px; color:var(--danger-color);"><i class="fa-solid fa-user-gear"></i> GESTIUNE MASTER</span>
+            <button class="action-badge" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</button>
         </div>
 
         <div class="master-grid">
-            <div class="gemini-card kpi-box-master" style="background: linear-gradient(135deg, rgba(94, 23, 235, 0.12) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: rgba(94, 23, 235, 0.3);">
-                <h4>Încasări Totale Zi</h4>
-                <div class="kpi-val" id="txtKPIIncasariTotale">0.00 lei</div>
+            <div class="gemini-card kpi-box" style="background:rgba(94, 23, 235, 0.1); border-color: rgba(94, 23, 235, 0.3);">
+                <h4>Încasări Vânzări Azi</h4>
+                <div class="kpi-val" id="txtKPIIncasari">0.00 lei</div>
             </div>
-            <div class="gemini-card kpi-box-master">
-                <h4>Sold Sertar (Rest)</h4>
-                <div class="kpi-val" id="txtMasterSoldSertar" style="color:var(--success-color);">100.00 lei</div>
+            <div class="gemini-card kpi-box">
+                <h4>Sold Actual Sertar</h4>
+                <div class="kpi-val" id="txtMasterSold" style="color:var(--success-color);">100.00 lei</div>
             </div>
-            <div class="gemini-card" style="padding: 12px 16px; display:flex; flex-direction:column; justify-content:center;">
-                <h4 style="font-size:11px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Modifică Fond Rest</h4>
-                <div style="display:flex; gap:6px; align-items:center;">
-                    <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="0.00">
-                    <button class="action-badge" style="background:var(--success-color); color:#000; padding:10px;" onclick="modificaBaniRest('intrare')"><i class="fa-solid fa-plus"></i></button>
-                    <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:10px;" onclick="modificaBaniRest('iesire')"><i class="fa-solid fa-minus"></i></button>
-                </div>
+            <div class="gemini-card" style="display:flex; gap:6px; align-items:center; padding:10px;">
+                <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="Suma">
+                <button class="action-badge" style="background:var(--success-color); color:#000; padding:8px 12px;" onclick="modificaFond('intrare')"><i class="fa-solid fa-plus"></i></button>
+                <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:8px 12px;" onclick="modificaFond('iesire')"><i class="fa-solid fa-minus"></i></button>
             </div>
         </div>
 
-        <div class="master-grid" style="grid-template-columns: 1fr; margin-top:0;">
-            <div class="gemini-card" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px;">
-                <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border);" onclick="genereazaRaport('X')">RAPORT X</button>
-                <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="genereazaRaport('Z')">RAPORT Z</button>
-            </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+            <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border);" onclick="raport('X')">RAPORT X</button>
+            <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="raport('Z')">RAPORT Z</button>
         </div>
 
-        <div class="gemini-card" style="margin-top:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h3 style="color:#fff; font-size:14px;"><i class="fa-solid fa-list-check"></i> Jurnal Vânzări zilnic</h3>
-                <button class="action-badge" style="background:var(--primary-color); color:#000; padding:6px 12px; font-size:12px;" onclick="exportaJurnalCSV()">Export CSV</button>
-            </div>
+        <div class="gemini-card" style="margin-top:12px;">
+            <h4 style="font-size:13px; margin-bottom:8px;"><i class="fa-solid fa-list-check"></i> Jurnal Activitate Gestiune</h4>
             <div style="overflow-x:auto;">
                 <table class="master-table">
                     <thead>
-                        <tr>
-                            <th>Tip</th>
-                            <th>Detalii</th>
-                            <th>Sumă</th>
-                            <th>Mod</th>
-                        </tr>
+                        <tr><th>Tip</th><th>Sumă</th><th>Mod</th></tr>
                     </thead>
-                    <tbody id="listaJurnalMaster"></tbody>
+                    <tbody id="listaJurnal"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="modalVerificareManager">
+    <div class="modal-overlay" id="modalPlata">
         <div class="modal-box">
-            <i class="fa-solid fa-user-shield" style="font-size: 32px; color: var(--warning-color); margin-bottom: 8px;"></i>
-            <h4>Autorizare Manager</h4>
-            <div class="mgr-pin-display" id="txtMgrPinUrmarit"></div>
-            <div id="mgrPinAlert" style="color:var(--danger-color); font-size:12px; display:none; margin-bottom:10px; font-weight:bold;">Cod incorect!</div>
-            <div class="numpad" style="gap:8px;">
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(1)">1</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(2)">2</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(3)">3</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(4)">4</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(5)">5</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(6)">6</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(7)">7</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(8)">8</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(9)">9</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px; color:var(--danger-color);" onclick="clearMgrPin()">C</button>
-                <button class="num-btn" style="padding:10px 0; font-size:20px;" onclick="pressMgrPin(0)">0</button>
-                <button class="num-btn" style="padding:10px 0; font-size:16px; color:var(--text-muted);" onclick="inchideModal('modalVerificareManager')">X</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modalMetodaPlata">
-        <div class="modal-box">
-            <h4>Formă Închidere Bon</h4>
-            <p id="txtSumaDePlata" style="margin:10px 0; font-size:18px; color:var(--primary-color); font-weight: 800;"></p>
-            <button id="btnProformaClient" class="btn-block" style="background:var(--warning-color); color:#000; margin-bottom: 12px;" onclick="genereazaProforma()"><i class="fa-solid fa-file-invoice"></i> EMITE PROFORMĂ CLIENT</button>
+            <h4>Alege Metoda de Plată</h4>
+            <p id="txtSumaDePlata" style="margin:10px 0; font-size:18px; color:var(--primary-color); font-weight:800;"></p>
             <div class="payment-options-grid">
-                <button class="pay-btn" style="background:#10b981;" onclick="confirmaMetoda('Cash')"><i class="fa-solid fa-money-bill-wave"></i> CASH</button>
-                <button class="pay-btn" style="background:#3b82f6;" onclick="confirmaMetoda('Card')"><i class="fa-solid fa-credit-card"></i> CARD</button>
+                <button class="pay-btn" style="background:#10b981;" onclick="finalizeazaVanzare('Cash')"><i class="fa-solid fa-money-bill-wave"></i> CASH</button>
+                <button class="pay-btn" style="background:#3b82f6;" onclick="finalizeazaVanzare('Card')"><i class="fa-solid fa-credit-card"></i> CARD</button>
             </div>
-            <button class="btn-block btn-secondary" style="margin-top:12px;" onclick="inchideModal('modalMetodaPlata')">Anulează</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modalConfirmareFinala">
-        <div class="modal-box">
-            <h4>Tipărire Bon Fiscal</h4>
-            <p id="txtDetaliiConfirmare" style="margin:12px 0; font-size:14px;"></p>
-            <button class="btn-block btn-primary" onclick="executaIncasareFinala()">Trimite la Casa de Marcat</button>
-            <button class="btn-block btn-secondary" style="margin-top:8px;" onclick="inchideModal('modalConfirmareFinala')">Revizuire</button>
+            <button class="btn-block btn-secondary" style="margin-top:10px;" onclick="inchideModal()">Anulează</button>
         </div>
     </div>
 
 <script>
-let userRol = "ospatar"; 
 let pinIntroduis = "";
-let mgrPinIntroduis = "";
-let masaSelectataId = null;
+let userRol = "";
 let categorieCurenta = "Bar";
-let metodaSelectata = "";
-let textCautareFiltru = "";
-let discountDeAplicatContext = null;
+let textCautare = "";
+let bonCurent = [];
 
-let soldSertarRest = parseFloat(localStorage.getItem("q_sold_sertar")) || 100.00;
-let jurnalRegistru = JSON.parse(localStorage.getItem("q_jurnal_registru")) || [];
-
-let comandaDirectaEvents = { id: 999, nume: "Vânzare Directă", comanda: [], discount: { tip: 'none', valoare: 0 } };
-
-let mese = [
-    { id: 1, nume: "Masa 1", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 25, y: 30 },
-    { id: 2, nume: "Masa 2", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 155, y: 30 },
-    { id: 3, nume: "Masa 3", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 285, y: 30 },
-    { id: 4, nume: "Terasă 1", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 25, y: 170 },
-    { id: 5, nume: "Terasă 2", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 155, y: 170 }
-];
+let soldSertar = parseFloat(localStorage.getItem("q_core_sold")) || 100.00;
+let jurnalActivitati = JSON.parse(localStorage.getItem("q_core_jurnal")) || [];
 
 let produse = [
     { id: 1, nume: "Espresso Short", pret: 9, categorie: "Bar" },
     { id: 2, nume: "Frappe Clasic", pret: 16, categorie: "Bar" },
     { id: 3, nume: "Cappuccino", pret: 12, categorie: "Bar" },
-    { id: 4, nume: "Pizza Quatro", pret: 44, categorie: "Bucătărie" },
-    { id: 5, nume: "Salată Cezar", pret: 32, categorie: "Bucătărie" },
-    { id: 7, nume: "Bere Ursus Premium", pret: 11, categorie: "BERE" },
-    { id: 8, nume: "Bere Heineken", pret: 14, categorie: "BERE" },
-    { id: 10, nume: "Coca-Cola Zero", pret: 9, categorie: "SUC" },
-    { id: 12, nume: "Limonadă Clasic", pret: 15, categorie: "SUC" },
-    { id: 13, nume: "Papanși", pret: 24, categorie: "DULCE" },
-    { id: 14, nume: "Lava Cake", pret: 22, categorie: "DULCE" }
+    { id: 4, nume: "Coca-Cola Zero", pret: 9, categorie: "Sucuri" },
+    { id: 5, nume: "Limonadă Clasic", pret: 15, categorie: "Sucuri" },
+    { id: 6, nume: "Bere Ursus", pret: 11, categorie: "Bere" },
+    { id: 7, nume: "Bere Heineken", pret: 14, categorie: "Bere" },
+    { id: 8, nume: "Papanși", pret: 24, categorie: "Desert" },
+    { id: 9, nume: "Lava Cake", pret: 22, categorie: "Desert" }
 ];
 
 window.onload = function() {
@@ -395,7 +240,7 @@ window.onload = function() {
 
 function pressPin(n) {
     if(pinIntroduis.length >= 4) return; pinIntroduis += n; updatePinDots();
-    if(pinIntroduis.length === 4) setTimeout(valideazaAutentificare, 150);
+    if(pinIntroduis.length === 4) setTimeout(login, 120);
 }
 function clearPin() { pinIntroduis = ""; updatePinDots(); }
 function backPin() { pinIntroduis = pinIntroduis.slice(0, -1); updatePinDots(); }
@@ -404,318 +249,153 @@ function updatePinDots() {
     for(let i=0; i<4; i++) document.getElementById(`l-dot${i}`).classList.toggle("active", i < pinIntroduis.length);
 }
 
-function valideazaAutentificare() {
-    if(pinIntroduis === "5555") userRol = "manager";
-    else if(pinIntroduis === "1111") userRol = "ospatar";
-    else if(pinIntroduis === "7777") userRol = "events"; 
-    else if(pinIntroduis === "0000") userRol = "master"; 
-    else userRol = "admin";
-    pornesteAplicatie();
+function login() {
+    if(pinIntroduis === "7777") { userRol = "events"; randeazaEvents(); }
+    else if(pinIntroduis === "0000") { userRol = "master"; randeazaMaster(); }
+    else { document.getElementById("loginAlert").style.display = "block"; clearPin(); }
 }
 
-function pornesteAplicatie() {
-    document.getElementById("screen-login").classList.remove("active");
-    document.getElementById("screen-main").classList.remove("active");
+function logout() {
+    clearPin();
+    document.getElementById("screen-events").classList.remove("active");
     document.getElementById("screen-master").classList.remove("active");
-
-    if(userRol === "master") {
-        document.getElementById("screen-master").classList.add("active");
-        actualizeazaPanouMaster();
-        return;
-    }
-
-    document.getElementById("screen-main").classList.add("active");
-    document.getElementById("txtUserActual").innerText = userRol.toUpperCase();
-
-    if (userRol === "ospatar" || userRol === "events") {
-        document.getElementById("mainNavbar").style.display = "none";
-        document.getElementById("ospatarHeader").style.display = "flex";
-    } else {
-        document.getElementById("mainNavbar").style.display = "flex";
-        document.getElementById("ospatarHeader").style.display = "none";
-    }
-
-    if (userRol === "events") {
-        document.getElementById("zonaHartaMeseCard").style.display = "none";
-        document.getElementById("btnInapoiLaSala").style.display = "none"; 
-        comandaDirectaEvents.comanda = [];
-        comandaDirectaEvents.discount = { tip: 'none', valoare: 0 };
-        masaSelectataId = 999; 
-        deschideZonaDeIncasare();
-    } else {
-        document.getElementById("zonaHartaMeseCard").style.display = "block";
-        document.getElementById("btnInapoiLaSala").style.display = "block";
-        inchideZonaDeIncasare();
-    }
+    document.getElementById("screen-login").classList.add("active");
 }
 
-function logout() { clearPin(); document.getElementById("screen-main").classList.remove("active"); document.getElementById("screen-master").classList.remove("active"); document.getElementById("screen-login").classList.add("active"); }
-
-function switchTab(t) { if(userRol !== 'events' && userRol !== 'master') randeazaMeseVirtuale(); }
-
-function randeazaMeseVirtuale() {
-    if(userRol === 'events' || userRol === 'master') return;
-    const sala = document.getElementById("salaVirtuala"); sala.innerHTML = "";
-    mese.forEach(m => {
-        let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
-        let totalFinal = subtotal;
-        if(m.discount && m.discount.tip === 'procent') totalFinal = subtotal * (1 - m.discount.valoare / 100);
-        if(m.discount && m.discount.tip === 'valoare') totalFinal = Math.max(0, subtotal - m.discount.valoare);
-
-        const box = document.createElement("div");
-        box.className = `table-box ${m.status === 'ocupata' ? 'occupied' : ''} ${m.id === masaSelectataId ? 'selected-now' : ''}`;
-        box.style.left = m.x + "px"; box.style.top = m.y + "px";
-        box.innerHTML = `<div><b>${m.nume}</b></div><div style="font-family:monospace; font-size:11px; margin-top:4px; color:var(--primary-color);">${totalFinal > 0 ? totalFinal.toFixed(2) + ' lei' : ''}</div>`;
-        box.onclick = () => clickMasaInteractiv(m.id);
-        sala.appendChild(box);
-    });
-}
-
-function clickMasaInteractiv(id) {
-    masaSelectataId = id;
+/* FLUX EVENTS */
+function randeazaEvents() {
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-events").classList.add("active");
+    bonCurent = [];
+    textCautare = "";
     document.getElementById("searchProduseInput").value = "";
-    textCautareFiltru = "";
-    randeazaMeseVirtuale();
-    deschideZonaDeIncasare();
+    actualizeazaCategorii(); randeazaCatalog(); actualizeazaBonul();
 }
 
-function deschideZonaDeIncasare() {
-    document.getElementById("zonaIncasareContextuala").classList.add("show-flow");
-    categorieCurenta = "Bar";
-    randeazaCategorii(); randeazaProduse(); actualizeazaInterfataBon();
-}
-
-function inchideZonaDeIncasare() {
-    if(userRol === 'events') return;
-    masaSelectataId = null;
-    document.getElementById("zonaIncasareContextuala").classList.remove("show-flow");
-    randeazaMeseVirtuale();
-}
-
-function randeazaCategorii() {
+function actualizeazaCategorii() {
     const bar = document.getElementById("categoriiBar"); bar.innerHTML = "";
-    if(textCautareFiltru !== "") { bar.innerHTML = `<span style="font-size:12px; color:var(--text-muted); padding:8px;">Filtrare activă</span>`; return;}
-    ["Bar", "Bucătărie", "BERE", "SUC", "DULCE"].forEach(c => {
-        bar.innerHTML += `<button class="cat-btn ${c===categorieCurenta?'active':''}" onclick="categorieCurenta='${c}'; randeazaCategorii(); randeazaProduse();">${c}</button>`;
+    if(textCautare !== "") { bar.innerHTML = `<span style="font-size:11px; color:var(--text-muted);">Căutare activă</span>`; return; }
+    ["Bar", "Sucuri", "Bere", "Desert"].forEach(c => {
+        bar.innerHTML += `<button class="cat-btn ${c===categorieCurenta?'active':''}" onclick="categorieCurenta='${c}'; actualizeazaCategorii(); randeazaCatalog();">${c}</button>`;
     });
 }
 
-function randeazaProduse() {
+function randeazaCatalog() {
     const grid = document.getElementById("catalogProduse"); grid.innerHTML = "";
-    let lista = textCautareFiltru !== "" ? produse.filter(p => p.nume.toLowerCase().includes(textCautareFiltru.toLowerCase())) : produse.filter(p => p.categorie === categorieCurenta);
+    let lista = textCautare !== "" ? produse.filter(p => p.nume.toLowerCase().includes(textCautare.toLowerCase())) : produse.filter(p => p.categorie === categorieCurenta);
     lista.forEach(p => {
-        grid.innerHTML += `<div class="product-card" onclick="adugaPeBon(${p.id})"><b>${p.nume}</b><span style="color:var(--primary-color); font-weight:700;">${p.pret} lei</span></div>`;
+        grid.innerHTML += `<div class="product-card" onclick="adaugaProdus(${p.id})"><b>${p.nume}</b><span>${p.pret} lei</span></div>`;
     });
 }
 
-function filtreazaProduseDupaText() {
-    textCautareFiltru = document.getElementById("searchProduseInput").value.trim();
-    randeazaCategorii(); randeazaProduse();
+function filtreazaProduse() {
+    textCautare = document.getElementById("searchProduseInput").value.trim();
+    actualizeazaCategorii(); randeazaCatalog();
 }
 
-function adugaPeBon(id) {
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
-    if(userRol !== 'events') m.status = "ocupata";
+function adaugaProdus(id) {
     let p = produse.find(x => x.id === id);
-    let e = m.comanda.find(x => x.id === id);
-    if(e) e.cantitate++; else m.comanda.push({...p, cantitate:1});
-    actualizeazaInterfataBon();
+    let exist = bonCurent.find(x => x.id === id);
+    if(exist) exist.cantitate++; else bonCurent.push({...p, cantitate: 1});
+    actualizeazaBonul();
 }
 
-function stergeDePeBon(id) {
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
-    let idx = m.comanda.findIndex(x => x.id === id);
-    if(idx !== -1) { if(m.comanda[idx].cantitate > 1) m.comanda[idx].cantitate--; else m.comanda.splice(idx, 1); }
-    if(m.comanda.length === 0 && userRol !== 'events') { m.status = "libera"; m.discount = { tip: 'none', valoare: 0 }; }
-    actualizeazaInterfataBon();
-}
-
-function solicitaAprobareDiscount(tip, val) {
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
-    if(!m || m.comanda.length === 0) return;
-    discountDeAplicatContext = { tip: tip, valoare: val };
-    mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = "";
-    document.getElementById("mgrPinAlert").style.display = "none";
-    document.getElementById("modalVerificareManager").style.display = "flex";
-}
-
-function pressMgrPin(n) {
-    if(mgrPinIntroduis.length >= 4) return;
-    mgrPinIntroduis += n;
-    document.getElementById("txtMgrPinUrmarit").innerText = "*".repeat(mgrPinIntroduis.length);
-    if(mgrPinIntroduis.length === 4) {
-        if(mgrPinIntroduis === "5555") { 
-            inchideModal('modalVerificareManager');
-            let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
-            m.discount = { tip: discountDeAplicatContext.tip, valoare: discountDeAplicatContext.valoare };
-            actualizeazaInterfataBon();
-        } else {
-            document.getElementById("mgrPinAlert").style.display = "block";
-            mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = "";
-        }
+function eliminaProdus(id) {
+    let idx = bonCurent.findIndex(x => x.id === id);
+    if(idx !== -1) {
+        if(bonCurent[idx].cantitate > 1) bonCurent[idx].cantitate--;
+        else bonCurent.splice(idx, 1);
     }
+    actualizeazaBonul();
 }
-function clearMgrPin() { mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = ""; }
 
-function actualizeazaInterfataBon() {
-    const c = document.getElementById("elementeBon"); c.innerHTML = "";
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
-    if(!m) return;
-    document.getElementById("titluComandaMasa").innerText = (userRol === 'events') ? "Vânzare Directă Specială" : `Masa: ${m.nume}`;
-    
-    let subtotal = 0;
-    m.comanda.forEach(i => {
-        subtotal += i.pret * i.cantitate;
-        c.innerHTML += `<div class="bill-item"><div><b>${i.nume}</b><br><small>${i.cantitate} x ${i.pret} lei</small></div><div style="display:flex; align-items:center; gap:8px;"><span style="font-family:monospace; font-weight:bold;">${(i.pret*i.cantitate).toFixed(2)}</span><button class="btn-delete-item" onclick="stergeDePeBon(${i.id})"><i class="fa-solid fa-minus"></i></button></div></div>`;
+function actualizeazaBonul() {
+    const container = document.getElementById("elementeBon"); container.innerHTML = "";
+    let total = 0;
+    bonCurent.forEach(i => {
+        total += i.pret * i.cantitate;
+        container.innerHTML += `<div class="bill-item"><div><b>${i.nume}</b><br><small>${i.cantitate} x ${i.pret} lei</small></div><div style="display:flex; align-items:center; gap:8px;"><span>${(i.pret*i.cantitate)} lei</span><button class="btn-delete-item" onclick="eliminaProdus(${i.id})"><i class="fa-solid fa-minus"></i></button></div></div>`;
     });
-    
-    let reducere = 0;
-    if(m.discount && m.discount.tip === 'procent') reducere = subtotal * (m.discount.valoare / 100);
-    if(m.discount && m.discount.tip === 'valoare') reducere = m.discount.valoare;
-    
-    let totalFinal = Math.max(0, subtotal - reducere);
-    document.getElementById("txtSubtotal").innerText = subtotal.toFixed(2) + " lei";
-    
-    if(reducere > 0) {
-        document.getElementById("randReducere").style.display = "flex";
-        document.getElementById("txtReducere").innerText = "-" + reducere.toFixed(2) + " lei";
-        document.getElementById("statusDiscountAplicat").style.display = "block";
-        document.getElementById("statusDiscountAplicat").innerText = `✓ Discount: ${m.discount.tip === 'procent' ? m.discount.valoare+'%' : m.discount.valoare+' lei'}`;
-    } else {
-        document.getElementById("randReducere").style.display = "none";
-        document.getElementById("statusDiscountAplicat").style.display = "none";
-    }
-    document.getElementById("txtTotal").innerText = totalFinal.toFixed(2) + " lei";
+    document.getElementById("txtTotal").innerText = total.toFixed(2) + " lei";
 }
 
-function deschideSelectiePlata() {
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
-    if(!m || m.comanda.length === 0) return;
-    let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
-    let reducere = m.discount.tip === 'procent' ? subtotal * (m.discount.valoare / 100) : (m.discount.tip === 'valoare' ? m.discount.valoare : 0);
-    let totalFinal = Math.max(0, subtotal - reducere);
+function deschidePlata() {
+    if(bonCurent.length === 0) return;
+    let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
+    document.getElementById("txtSumaDePlata").innerText = total.toFixed(2) + " lei";
+    document.getElementById("modalPlata").style.display = "flex";
+}
+
+function finalizeazaVanzare(metoda) {
+    let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
+    jurnalActivitati.push({ tip: "Vânzare (Events)", suma: total, metoda: metoda });
+    if(metoda === "Cash") soldSertar += total;
     
-    document.getElementById("txtSumaDePlata").innerText = `${totalFinal.toFixed(2)} lei`;
-    document.getElementById("btnProformaClient").style.display = (userRol === 'events') ? "none" : "block";
-    document.getElementById("modalMetodaPlata").style.display = "flex";
-}
-
-function confirmaMetoda(m) {
-    metodaSelectata = m; inchideModal('modalMetodaPlata');
-    let numeDocument = (userRol === 'events') ? "Vânzare Directă" : mese.find(x => x.id === masaSelectataId).nume;
-    document.getElementById("txtDetaliiConfirmare").innerHTML = `Închidere fiscală <b>${numeDocument}</b> via <b>${m}</b>`;
-    document.getElementById("modalConfirmareFinala").style.display = "flex";
-}
-
-function executaIncasareFinala() {
-    inchideModal('modalConfirmareFinala');
-    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
+    localStorage.setItem("q_core_sold", soldSertar);
+    localStorage.setItem("q_core_jurnal", JSON.stringify(jurnalActivitati));
     
-    let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
-    let reducere = m.discount.tip === 'procent' ? subtotal * (m.discount.valoare / 100) : (m.discount.tip === 'valoare' ? m.discount.valoare : 0);
-    let totalFinal = Math.max(0, subtotal - reducere);
-
-    jurnalRegistru.push({
-        tip: "Vânzare",
-        sursa: (userRol === 'events') ? "Directă (Events)" : m.nume,
-        suma: totalFinal,
-        metoda: metodaSelectata
-    });
-    
-    if(metodaSelectata === "Cash") {
-        soldSertarRest += totalFinal;
-    }
-    salveazaDateMaster();
-
-    if(userRol === 'events') {
-        comandaDirectaEvents.comanda = [];
-        comandaDirectaEvents.discount = { tip: 'none', valoare: 0 };
-        actualizeazaInterfataBon();
-    } else {
-        m.comanda = []; m.status = "libera"; m.discount = { tip: 'none', valoare: 0 };
-        inchideZonaDeIncasare();
-    }
+    inchideModal();
+    bonCurent = [];
+    actualizeazaBonul();
+    alert("Bon fiscal trimis spre casa de marcat!");
 }
 
-function genereazaProforma() { 
-    if(userRol === 'events') return;
-    inchideModal('modalMetodaPlata'); 
-    alert("Proformă trimisă la imprimantă!"); 
-}
+function inchideModal() { document.getElementById("modalPlata").style.display = "none"; }
 
-function inchideModal(id) { document.getElementById(id).style.display = "none"; }
-
-/* CONTROL MASTER */
-function salveazaDateMaster() {
-    localStorage.setItem("q_sold_sertar", soldSertarRest);
-    localStorage.setItem("q_jurnal_registru", JSON.stringify(jurnalRegistru));
+/* FLUX MASTER */
+function randeazaMaster() {
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-master").classList.add("active");
+    actualizeazaPanouMaster();
 }
 
 function actualizeazaPanouMaster() {
-    let totalIncasariZi = jurnalRegistru.filter(j => j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
-    document.getElementById("txtKPIIncasariTotale").innerText = totalIncasariZi.toFixed(2) + " lei";
-    document.getElementById("txtMasterSoldSertar").innerText = soldSertarRest.toFixed(2) + " lei";
+    let vanzariAzi = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
+    document.getElementById("txtKPIIncasari").innerText = vanzariAzi.toFixed(2) + " lei";
+    document.getElementById("txtMasterSold").innerText = soldSertar.toFixed(2) + " lei";
 
-    const tbody = document.getElementById("listaJurnalMaster");
-    tbody.innerHTML = "";
-    
-    if(jurnalRegistru.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată.</td></tr>`;
+    const tbody = document.getElementById("listaJurnal"); tbody.innerHTML = "";
+    if(jurnalActivitati.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Fără activitate.</td></tr>`;
         return;
     }
-
-    [...jurnalRegistru].reverse().forEach(j => {
-        let colorSuma = j.tip === "Vânzare" || j.tip === "Alimentare Rest" ? "var(--success-color)" : "var(--danger-color)";
+    [...jurnalActivitati].reverse().forEach(j => {
+        let isPlus = j.tip.includes("Vânzare") || j.tip.includes("Alimentare");
         tbody.innerHTML += `<tr>
             <td><b>${j.tip}</b></td>
-            <td>${j.sursa}</td>
-            <td style="color:${colorSuma}; font-family:monospace; font-weight:bold;">${j.suma.toFixed(2)} lei</td>
-            <td><span class="action-badge" style="padding:2px 6px; font-size:11px;">${j.metoda}</span></td>
+            <td style="color:${isPlus?'var(--success-color)':'var(--danger-color)'}; font-family:monospace;">${j.suma.toFixed(2)} lei</td>
+            <td>${j.metoda}</td>
         </tr>`;
     });
 }
 
-function modificaBaniRest(directie) {
+function modificaFond(dir) {
     let input = document.getElementById("numSumaSertar");
-    let valoare = parseFloat(input.value);
-    if(isNaN(valoare) || valoare <= 0) { alert("Suma invalidă!"); return; }
+    let val = parseFloat(input.value);
+    if(isNaN(val) || val <= 0) return;
 
-    if(directie === "intrare") {
-        soldSertarRest += valoare;
-        jurnalRegistru.push({ tip: "Alimentare Rest", sursa: "Depunere Master", suma: valoare, metoda: "Cash" });
+    if(dir === "intrare") {
+        soldSertar += val;
+        jurnalActivitati.push({ tip: "Alimentare Sertar", suma: val, metoda: "Cash" });
     } else {
-        if(valoare > soldSertarRest) { alert("Fonduri insuficiente!"); return; }
-        soldSertarRest -= valoare;
-        jurnalRegistru.push({ tip: "Retragere Bani", sursa: "Scoatere Master", suma: valoare, metoda: "Cash" });
+        if(val > soldSertar) { alert("Fonduri insuficiente!"); return; }
+        soldSertar -= val;
+        jurnalActivitati.push({ tip: "Retragere Fond", suma: val, metoda: "Cash" });
     }
     input.value = "";
-    salveazaDateMaster();
+    localStorage.setItem("q_core_sold", soldSertar);
+    localStorage.setItem("q_core_jurnal", JSON.stringify(jurnalActivitati));
     actualizeazaPanouMaster();
 }
 
-function genereazaRaport(tip) {
-    let totalVanzari = jurnalRegistru.filter(j => j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
-    let cashTot = jurnalRegistru.filter(j => j.metoda === "Cash" && j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
-    let cardTot = jurnalRegistru.filter(j => j.metoda === "Card").reduce((s, j) => s + j.suma, 0);
-
-    alert(`=== RAPORT ${tip} ===\nÎncasări Zi: ${totalVanzari.toFixed(2)} lei\n- Cash: ${cashTot.toFixed(2)} lei\n- Card: ${cardTot.toFixed(2)} lei\nSertar: ${soldSertarRest.toFixed(2)} lei`);
-
+function raport(tip) {
+    let vanzari = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
+    alert(`=== RAPORT ${tip} ===\nTotal încasări: ${vanzari.toFixed(2)} lei\nSold Sertar: ${soldSertar.toFixed(2)} lei`);
     if(tip === 'Z') {
-        jurnalRegistru = [];
-        salveazaDateMaster();
+        jurnalActivitati = [];
+        localStorage.setItem("q_core_jurnal", JSON.stringify(jurnalActivitati));
         actualizeazaPanouMaster();
     }
-}
-
-function exportaJurnalCSV() {
-    if(jurnalRegistru.length === 0) { alert("Nu există date!"); return; }
-    let csvContent = "data:text/csv;charset=utf-8,Tip,Sursă,Sumă,Metodă\n";
-    jurnalRegistru.forEach(j => csvContent += `"${j.tip}","${j.sursa}",${j.suma},"${j.metoda}"\n`);
-    let encodedUri = encodeURI(csvContent);
-    let link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `Export_${new Date().toISOString().slice(0,10)}.csv`);
-    document.body.appendChild(link); link.click(); document.body.removeChild(link);
 }
 </script>
 </body>
