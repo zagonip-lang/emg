@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
+<title>Qreator POS - Festival Secure Edition</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    :root {
+        --bg-color: #030712;
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --card-border: rgba(255, 255, 255, 0.12);
+        --input-bg: rgba(255, 255, 255, 0.07);
+        --primary-color: #5ea1ff;
+        --success-color: #10b981;
+        --danger-color: #ef4444;
+        --warning-color: #eab308;
+        --tehnic-color: #a855f7;
+        --text-main: #ffffff;
+        --text-muted: #9ca3af;
+        --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
+        --category-gradient: linear-gradient(135deg, #5E17EB 0%, #9D4EDD 100%);
+    }
+
+    * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0; 
+        -webkit-user-select: none; 
+        user-select: none;
+        touch-action: manipulation;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        color: var(--text-main);
+    }
+
+    .fa, .fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        font-style: normal;
+        font-weight: 900;
+    }
+    
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: #030712;
+        background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 100%);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
+
+    body {
+        padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom)) 12px;
+    }
+
+    .app-screen { display: none; width: 100%; overflow-x: hidden; }
+    .app-screen.active { display: block; }
+
+    .pos-logo { height: 55px; width: auto; margin: 5px auto 15px auto; display: block; }
+
+    .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; margin-bottom: 14px; width: 100%; }
+    
+    .login-container { max-width: 360px; margin: 20px auto; text-align: center; display: flex; flex-direction: column; gap: 14px; }
+    .pin-dots { display: flex; justify-content: center; gap: 20px; margin: 15px 0; }
+    .pin-dot { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2); }
+    .pin-dot.active { background: var(--primary-color); box-shadow: 0 0 12px var(--primary-color); }
+    
+    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .num-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 0; font-size: 24px; font-weight: 700; cursor: pointer; -webkit-appearance: none; }
+    .num-btn:active { background: rgba(255,255,255,0.2); }
+
+    .header-terminal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding: 4px; }
+    .action-badge { padding: 12px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; -webkit-appearance: none; }
+    .action-badge:active { background: rgba(255,255,255,0.15); }
+
+    .logo-interactive-trigger { cursor: pointer; transform: scale(0.85); width: 55px; -webkit-tap-highlight-color: transparent; }
+    .logo-interactive-trigger:active { transform: scale(0.75); opacity: 0.8; }
+
+    input, select, input:focus, select:focus { 
+        font-size: 16px !important; 
+        background: var(--input-bg) !important; 
+        border: 1px solid var(--card-border) !important; 
+        border-radius: 14px !important; 
+        padding: 14px !important; 
+        outline: none !important; 
+        min-height: 50px !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .search-wrapper { position: relative; margin-bottom: 12px; }
+    .search-input { width: 100%; padding-left: 14px; -webkit-user-select: text; user-select: text; }
+
+    .categories-bar { 
+        display: flex; 
+        gap: 8px; 
+        overflow-x: auto; 
+        padding: 4px 2px 12px 2px; 
+        margin-bottom: 14px; 
+        width: 100%; 
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    .categories-bar::-webkit-scrollbar { display: none; }
+    
+    .cat-btn { 
+        background: rgba(255, 255, 255, 0.05); 
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        padding: 10px 22px; 
+        border-radius: 14px; 
+        font-weight: 700; 
+        font-size: 14px; 
+        letter-spacing: 0.3px;
+        color: rgba(255, 255, 255, 0.85) !important;
+        white-space: nowrap; 
+        cursor: pointer; 
+        min-height: 46px; 
+        -webkit-appearance: none;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .cat-btn:active { transform: scale(0.95); }
+    .cat-btn.active { 
+        background: var(--category-gradient); 
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(94, 23, 235, 0.4);
+    }
+    .cat-btn.active * { color: #ffffff !important; }
+    
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; max-height: 290px; overflow-y: auto; padding: 2px; }
+    .product-card { 
+        background: rgba(255, 255, 255, 0.05); 
+        border: 1px solid rgba(255, 255, 255, 0.16); 
+        border-radius: 16px; 
+        padding: 14px 8px; 
+        text-align: center; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        min-height: 100px; 
+        cursor: pointer; 
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        -webkit-tap-highlight-color: transparent;
+    }
+    .product-card:active { background: rgba(255,255,255,0.18); border-color: var(--primary-color); transform: scale(0.96); }
+    .product-card b { font-size: 14px; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.2; }
+    .product-card span { font-size: 13px; color: var(--primary-color); font-weight: 800; background: rgba(94, 161, 255, 0.12); padding: 2px 8px; border-radius: 8px; }
+
+    .bill-items { display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; margin: 10px 0; }
+    .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 14px; border: 1px solid var(--card-border); font-size: 14px; }
+    
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
+    .btn-qty { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: bold; -webkit-appearance: none; }
+    .btn-qty:active { background: rgba(255,255,255,0.25); }
+    .qty-num { min-width: 24px; text-align: center; font-size: 15px; font-weight: 800; }
+
+    .btn-block { width: 100%; padding: 18px; border-radius: 16px; font-size: 16px; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; -webkit-appearance: none; }
+    .btn-block:active { transform: scale(0.98); opacity: 0.9; }
+    .btn-primary { background: var(--logo-gradient); box-shadow: 0 4px 15px rgba(94, 23, 235, 0.3); }
+    .btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid var(--card-border); }
+
+    .grid-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 10px; }
+    .master-kpi-subbox { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 12px; border-radius: 14px; }
+    .master-kpi-subbox h5 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+    .master-kpi-subbox div { font-size: 16px; font-weight: 800; font-family: monospace !important; }
+    
+    .master-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    .master-table th, .master-table td { padding: 10px 6px; border-bottom: 1px solid var(--card-border); text-align: left; }
+
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.96); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); display:none; justify-content:center; align-items:center; z-index: 9999; padding: 14px; overflow-y: auto; }
+    .modal-box { background:#0f172a; border:1px solid rgba(255,255,255,0.18); border-radius:24px; padding: 22px; width:100%; max-width:360px; text-align:center; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+    
+    .payment-options-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+    .pay-btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 20px; border-radius: 16px; font-size: 18px; font-weight: 800; border: none; cursor: pointer; width: 100%; min-height: 64px; -webkit-appearance: none; }
+
+    .toggle-payment-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .toggle-payment-row:last-child { border-bottom: none; }
+    
+    .payment-checkbox { 
+        width: 24px !important; 
+        min-height: 24px !important; 
+        max-height: 24px !important;
+        cursor: pointer; 
+        accent-color: var(--success-color);
+        -webkit-appearance: checkbox !important;
+        appearance: checkbox !important;
+    }
+</style>
+</head>
+<body>
+
+    <div id="logo-svg-raw" style="display:none;">
+        <svg class="pos-logo" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M547.072 87.5C547.072 344.664 639.141 490.5 773.535 490.5C639.141 490.5 547.072 636.336 547.072 893.5C547.072 636.336 455.002 490.5 320.609 490.5C455.002 490.5 547.072 344.664 547.072 87.5Z" fill="#5E17EB"/>
+            <path d="M442.535 94.5C442.535 344.664 534.605 490.5 669 490.5C534.605 490.5 442.535 636.336 442.535 893.5C442.535 636.336 350.465 490.5 216.072 490.5C350.465 490.5 442.535 344.664 442.535 94.5Z" fill="#C356F2"/>
+            <path d="M338 101.5C338 344.664 430.069 490.5 564.463 490.5C430.069 490.5 338 636.336 338 893.5C338 636.336 245.931 490.5 111.537 490.5C245.931 490.5 338 344.664 338 101.5Z" fill="#FF5757"/>
+        </svg>
+    </div>
+
+    <div id="screen-login" class="app-screen active">
+        <div class="login-container gemini-card">
+            <div class="logo-placeholder"></div>
+            <h2 style="font-size: 20px; font-weight:800;">Qreator POS</h2>
+            <p style="color:var(--text-muted); font-size:13px;">Introduceți codul PIN</p>
+            <div class="pin-dots">
+                <div class="pin-dot" id="l-dot0"></div>
+                <div class="pin-dot" id="l-dot1"></div>
+                <div class="pin-dot" id="l-dot2"></div>
+                <div class="pin-dot" id="l-dot3"></div>
+            </div>
+            <div id="loginAlert" style="color:var(--danger-color); font-size:13px; display:none; font-weight:bold; margin-bottom:5px;"><i class="fa-solid fa-triangle-exclamation"></i> PIN Invalid!</div>
+            <div class="numpad">
+                <button class="num-btn" onclick="pressPin(1)">1</button>
+                <button class="num-btn" onclick="pressPin(2)">2</button>
+                <button class="num-btn" onclick="pressPin(3)">3</button>
+                <button class="num-btn" onclick="pressPin(4)">4</button>
+                <button class="num-btn" onclick="pressPin(5)">5</button>
+                <button class="num-btn" onclick="pressPin(6)">6</button>
+                <button class="num-btn" onclick="pressPin(7)">7</button>
+                <button class="num-btn" onclick="pressPin(8)">8</button>
+                <button class="num-btn" onclick="pressPin(9)">9</button>
+                <button class="num-btn" style="color:var(--danger-color);" onclick="clearPin()">C</button>
+                <button class="num-btn" onclick="pressPin(0)">0</button>
+                <button class="num-btn" style="color:var(--primary-color);" onclick="backPin()"><i class="fa-solid fa-delete-left"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-events" class="app-screen">
+        <div class="header-terminal">
+            <div style="display:flex; align-items:center;">
+                <span id="txtNumeUserActiv" style="font-weight:800; font-size: 15px;">Operator</span>
+            </div>
+            <div class="logo-placeholder logo-interactive-trigger" onclick="solicitaParolaRest()"></div>
+            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none;" onclick="logout()"><i class="fa-solid fa-power-off"></i></button>
+        </div>
+
+        <div class="events-layout">
+            <div class="gemini-card">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută rapid produs..." oninput="filtreazaProduse()">
+                </div>
+                <div class="categories-bar" id="categoriiBar"></div>
+                <div class="products-grid" id="catalogProduse"></div>
+            </div>
+            
+            <div class="gemini-card">
+                <div style="font-weight:800; font-size:14px; border-bottom:1px solid var(--card-border); padding-bottom:6px; margin-bottom:6px; text-transform:uppercase; color:var(--text-muted);">Articole Bon</div>
+                <div class="bill-items" id="elementeBon"></div>
+                <div style="background:rgba(255,255,255,0.03); border:1px solid var(--card-border); padding:14px; border-radius:14px; margin-bottom:12px; display:flex; font-size:16px; font-weight:900;">
+                    <span>Total General:</span>
+                    <span id="txtTotal" style="color:var(--primary-color); margin-left:auto;">0.00 lei</span>
+                </div>
+                <button class="btn-block btn-primary" onclick="deschidePlata()"><i class="fa-solid fa-cash-register"></i> ÎNCASEAZĂ RAPID</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-master" class="app-screen">
+        <div class="header-terminal">
+            <span style="font-weight:800; font-size:14px; color:var(--danger-color);"><i class="fa-solid fa-user-gear"></i> MASTER CONSOLE</span>
+            <div class="logo-placeholder" style="transform: scale(0.85); width:55px;"></div>
+            <button class="action-badge" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</button>
+        </div>
+
+        <div class="gemini-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div style="font-size:11px; text-transform:uppercase; color:var(--text-muted); font-weight:800; letter-spacing:0.5px;">Situație Financiară Globală</div>
+                <button class="action-badge" style="background:#22c55e; color:#000; font-size:12px; min-height:36px; padding:6px 12px;" onclick="exportExcelGlobal()"><i class="fa-solid fa-file-excel"></i> Export TOTAL Excel</button>
+            </div>
+            <div class="grid-kpis">
+                <div class="master-kpi-subbox" style="border-left: 4px solid var(--success-color);"><h5>CASH global</h5><div id="mGlobalCash">0.00 lei</div></div>
+                <div class="master-kpi-subbox" style="border-left: 4px solid var(--primary-color);"><h5>CARD global</h5><div id="mGlobalCard">0.00 lei</div></div>
+                <div class="master-kpi-subbox" style="border-left: 4px solid var(--warning-color);"><h5>TOKEN global</h5><div id="mGlobalToken">0.00 lei</div></div>
+                <div class="master-kpi-subbox" style="background:rgba(94,23,235,0.12);"><h5>TOTAL BRUT</h5><div id="mGlobalTotal">0.00 lei</div></div>
+            </div>
+        </div>
+
+        <div class="gemini-card">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">Monitorizare per Operator</label>
+                    <button class="action-badge" style="background:#16a34a; font-size:12px; min-height:36px; padding:6px 12px;" onclick="exportExcelOperator()"><i class="fa-solid fa-file-csv"></i> Excel Operator</button>
+                </div>
+                <select id="ddSelectUserMaster" style="width:100%; font-weight:bold;" onchange="schimbaFiltruUserMaster()">
+                </select>
+                
+                <div class="grid-kpis" style="margin-top:4px;">
+                    <div class="master-kpi-subbox"><h5>Cash Operator</h5><div id="muCash">0.00 lei</div></div>
+                    <div class="master-kpi-subbox"><h5>Card Operator</h5><div id="muCard">0.00 lei</div></div>
+                    <div class="master-kpi-subbox"><h5>Token Operator</h5><div id="muToken">0.00 lei</div></div>
+                    <div class="master-kpi-subbox"><h5>Total Operator</h5><div id="muTotal">0.00 lei</div></div>
+                </div>
+                
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:4px;">
+                    <button class="btn-block btn-secondary" style="min-height:48px; padding:10px; font-size:13px;" onclick="trimiteComandaRaport('X')"><i class="fa-solid fa-paper-plane"></i> Solicită X</button>
+                    <button class="btn-block" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:1px solid rgba(239,68,68,0.3); min-height:48px; padding:10px; font-size:13px;" onclick="trimiteComandaRaportCautaZ()"><i class="fa-solid fa-paper-plane"></i> Solicită Z (Reset)</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:14px;">
+            <button class="btn-block btn-secondary" style="font-size:13px; padding:12px 6px;" onclick="deschideCrudProduse()"><i class="fa-solid fa-boxes-stacked" style="color:var(--primary-color);"></i> Produse</button>
+            <button class="btn-block btn-secondary" style="font-size:13px; padding:12px 6px;" onclick="deschideCrudCategorii()"><i class="fa-solid fa-tags" style="color:var(--warning-color);"></i> Categorii</button>
+        </div>
+        
+        <button class="btn-block btn-secondary" style="margin-bottom:14px;" onclick="deschideCrudUseri()"><i class="fa-solid fa-users-gear" style="color:var(--success-color);"></i> Configurare Operatori PIN</button>
+
+        <div class="gemini-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <h4 style="font-size:12px; text-transform:uppercase; color:var(--text-muted);"><i class="fa-solid fa-chart-line"></i> Articole Vândute</h4>
+                <button class="action-badge" style="background:#10b981; font-size:11px; min-height:28px; padding:4px 10px;" onclick="exportExcelProduse()"><i class="fa-solid fa-download"></i> Raport Excel</button>
+            </div>
+            <div style="max-height:130px; overflow-y:auto;">
+                <table class="master-table">
+                    <thead><tr><th>Produs</th><th>Cantitate</th><th>Brut Total</th></tr></thead>
+                    <tbody id="mListaProduseAgregate"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-tehnic" class="app-screen">
+        <div class="header-terminal">
+            <span style="font-weight:800; font-size:14px; color:var(--tehnic-color);"><i class="fa-solid fa-screwdriver-wrench"></i> PANOU TEHNIC</span>
+            <div class="logo-placeholder" style="transform: scale(0.85); width:55px;"></div>
+            <button class="action-badge" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</button>
+        </div>
+
+        <div class="gemini-card">
+            <div style="font-size:11px; text-transform:uppercase; color:var(--text-muted); font-weight:800; letter-spacing:0.5px; margin-bottom: 8px;"><i class="fa-solid fa-key"></i> Securitate Tehnic Operator</div>
+            <div style="display:flex; gap:10px;">
+                <input type="password" id="txtNouaParolaSertar" placeholder="PIN Nou Sertar (4 cifre)" maxlength="4" style="flex:1; min-height:46px; padding:10px !important; font-size:14px !important;">
+                <button class="action-badge" style="background:var(--tehnic-color); color:#fff; min-height:46px; font-size:13px; border:none;" onclick="schimbaParolaSertarTehnic()">Salvează PIN</button>
+            </div>
+        </div>
+
+        <div class="gemini-card" style="background: rgba(168, 85, 247, 0.03); border: 1px dashed rgba(168, 85, 247, 0.3);">
+            <div style="font-size:11px; text-transform:uppercase; color:var(--tehnic-color); font-weight:800; letter-spacing:0.5px; margin-bottom: 10px;"><i class="fa-solid fa-database"></i> Backup & Configurație TERMINAL</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="btn-block btn-secondary" style="font-size:13px; min-height:46px; padding:10px;" onclick="exportaSizariSetariCompletes()"><i class="fa-solid fa-file-export"></i> Export Setări</button>
+                <button class="btn-block btn-secondary" style="font-size:13px; min-height:46px; padding:10px;" onclick="document.getElementById('inputFisierImport').click()"><i class="fa-solid fa-file-import"></i> Import Setări</button>
+            </div>
+            <input type="file" id="inputFisierImport" style="display:none;" accept=".json" onchange="importaSizariSetariCompletes(this)">
+        </div>
+
+        <div class="gemini-card" style="border: 1px dashed var(--warning-color); background: rgba(234, 179, 8, 0.04); margin-top:14px;">
+            <div style="font-size:12px; text-transform:uppercase; color:var(--warning-color); font-weight:800; letter-spacing:0.5px; margin-bottom: 8px;"><i class="fa-solid fa-eye-slash"></i> VIZIBILITATE METODE DE PLATA IN CASA</div>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+                <div class="toggle-payment-row">
+                    <span style="font-size:13px; font-weight:bold;"><i class="fa-solid fa-money-bill-wave" style="color:#10b981; width:18px;"></i> Activare încasare CASH</span>
+                    <input type="checkbox" id="chkActiveazaCash" class="payment-checkbox" onchange="salveazaConfigurarePlatiMaster()">
+                </div>
+                <div class="toggle-payment-row">
+                    <span style="font-size:13px; font-weight:bold;"><i class="fa-solid fa-credit-card" style="color:#3b82f6; width:18px;"></i> Activare încasare CARD</span>
+                    <input type="checkbox" id="chkActiveazaCard" class="payment-checkbox" onchange="salveazaConfigurarePlatiMaster()">
+                </div>
+                <div class="toggle-payment-row">
+                    <span style="font-size:13px; font-weight:bold;"><i class="fa-solid fa-coins" style="color:#eab308; width:18px;"></i> Activare încasare TOKEN</span>
+                    <input type="checkbox" id="chkActiveazaToken" class="payment-checkbox" onchange="salveazaConfigurarePlatiMaster()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalSecuritateRest">
+        <div class="modal-box">
+            <h4>Validare Securitate</h4>
+            <p style="font-size:13px; color:var(--text-muted); margin:4px 0 12px 0;">Introduceți codul special manager/tehnic:</p>
+            <div class="pin-dots" style="margin: 10px 0;">
+                <div class="pin-dot" id="s-dot0"></div>
+                <div class="pin-dot" id="s-dot1"></div>
+                <div class="pin-dot" id="s-dot2"></div>
+                <div class="pin-dot" id="s-dot3"></div>
+            </div>
+            <div class="numpad" style="gap:8px;">
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(1)">1</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(2)">2</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(3)">3</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(4)">4</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(5)">5</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(6)">6</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(7)">7</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(8)">8</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(9)">9</button>
+                <button class="num-btn" style="padding:12px 0; color:var(--danger-color);" onclick="clearSecretPin()">C</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(0)">0</button>
+                <button class="num-btn" style="padding:12px 0; color:var(--text-muted);" onclick="inchideModalSecuritate()">X</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalConfirmareZ">
+        <div class="modal-box" style="border:2px solid var(--danger-color);">
+            <h3 style="color:var(--danger-color);"><i class="fa-solid fa-triangle-exclamation"></i> ALERTĂ RAPORT Z</h3>
+            <p style="font-size:14px; margin:14px 0; line-height:1.4;">Sunteți sigur că doriți închiderea de zi (Z)? <br><b>Această acțiune va șterge tranzacțiile curente ale acestui operator!</b></p>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="btn-block" style="background:var(--danger-color);" id="btnConfirmaZEfectiv">DA, RESETEAZĂ</button>
+                <button class="btn-block btn-secondary" onclick="document.getElementById('modalConfirmareZ').style.display='none'">ANULEAZĂ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalGestiuneRest">
+        <div class="modal-box" style="max-width:370px;">
+            <h4>Sertar Tehnic Rest</h4>
+            <div style="background:rgba(255,255,255,0.04); border:1px solid var(--card-border); padding:14px; border-radius:14px; margin:14px 0; font-size:15px;">
+                <span>Bani de rest în sertar:</span>
+                <b id="txtFondRestCurent" style="color:var(--warning-color); font-family:monospace !important; margin-left:6px; font-size:16px;">0.00 lei</b>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+                <input type="number" id="numSumaRest" placeholder="Sumă (lei)" style="text-align:center; font-size:18px !important;" pattern="[0-9]*" inputmode="decimal">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <button class="btn-block" style="background:var(--success-color);" onclick="ajusteazaRest('depunere')"><i class="fa-solid fa-plus"></i> Adaugă</button>
+                    <button class="btn-block" style="background:var(--danger-color);" onclick="ajusteazaRest('retragere')"><i class="fa-solid fa-minus"></i> Retrage</button>
+                </div>
+            </div>
+            <hr style="border:0; border-top:1px solid var(--card-border); margin:16px 0;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
+                <button class="btn-block btn-secondary" onclick="executaRaportOperator('X')">RAPORT X</button>
+                <button class="btn-block" style="background:var(--danger-color);" onclick="deschideAlerteZOperator()">RAPORT Z</button>
+            </div>
+            <button class="btn-block btn-secondary" style="font-size:13px;" onclick="document.getElementById('modalGestiuneRest').style.display='none'">ÎNCHIDE</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalConfirmarePlata">
+        <div class="modal-box" style="border:2px solid var(--primary-color);">
+            <h3><i class="fa-solid fa-circle-question" style="color:var(--primary-color);"></i> Confirmare Încasare</h3>
+            <p id="txtMesajConfirmareIncasare" style="font-size:15px; margin:16px 0; line-height:1.5;"></p>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="btn-block" style="background:var(--success-color);" id="btnEfectueazaPlataValidata">CONFIRM PLATĂ</button>
+                <button class="btn-block btn-secondary" onclick="document.getElementById('modalConfirmarePlata').style.display='none'">ANULEAZĂ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalComandaMaster" data-backdrop="static">
+        <div class="modal-box" style="border:2px solid var(--warning-color); max-width:350px;">
+            <h4 style="color:var(--warning-color);"><i class="fa-solid fa-triangle-exclamation"></i> Cerere de la Manager</h4>
+            <p id="txtMesajComanda" style="font-size:14px; margin:16px 0; line-height:1.4;"></p>
+            <button class="btn-block btn-primary" id="btnExecutaComandaForțata">EXECUTE ȘI CONFIRMĂ</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalPlata">
+        <div class="modal-box" style="max-width:380px; padding:24px;">
+            <h3 style="font-size:18px; font-weight:800;">Selectare Modalitate Plată</h3>
+            <p id="txtSumaDePlata" style="margin:14px 0; font-size:26px; color:var(--primary-color); font-weight:900; font-family:monospace !important;"></p>
+            
+            <div class="payment-options-grid">
+                <button id="btnPlataCash" class="pay-btn" style="background:#10b981;" onclick="solicitaConfirmarePlata('Cash')">
+                    <i class="fa-solid fa-money-bill-wave"></i> ÎNCASARE CASH
+                </button>
+                <button id="btnPlataCard" class="pay-btn" style="background:#3b82f6;" onclick="solicitaConfirmarePlata('Card')">
+                    <i class="fa-solid fa-credit-card"></i> ÎNCASARE CARD
+                </button>
+                <button id="btnPlataToken" class="pay-btn" style="background:#eab308;" onclick="solicitaConfirmarePlata('Token')">
+                    <i class="fa-solid fa-coins"></i> PLATĂ CU TOKEN
+                </button>
+            </div>
+            <button class="btn-block btn-secondary" style="margin-top:16px;" onclick="inchideModalPlata()">ANULEAZĂ</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalCrudProduse">
+        <div class="modal-box" style="max-width:370px;">
+            <h4>Nomenclator Produse</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; margin:14px 0; text-align:left;">
+                <input type="text" id="crudNumeProd" placeholder="Nume Articol Nou">
+                <input type="number" id="crudPretProd" placeholder="Preț Retail (lei)">
+                <select id="crudCatProd"></select>
+                <button class="btn-block btn-primary" onclick="masterAdaugaProdus()">Salvează în Catalog</button>
+            </div>
+            <div style="max-height:160px; overflow-y:auto; border:1px solid var(--card-border); border-radius:14px; margin-bottom:12px;">
+                <table class="master-table">
+                    <tbody id="crudListaProduseCorp"></tbody>
+                </table>
+            </div>
+            <button class="btn-block btn-secondary" onclick="document.getElementById('modalCrudProduse').style.display='none'">Închide</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalCrudCategorii">
+        <div class="modal-box" style="max-width:370px;">
+            <h4>Management Categorii</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; margin:14px 0; text-align:left;">
+                <input type="text" id="crudNumeCategorie" placeholder="Nume Categorie Nouă">
+                <button class="btn-block btn-primary" onclick="masterAdaugaCategorie()">Adaugă Categorie</button>
+            </div>
+            <div style="max-height:160px; overflow-y:auto; border:1px solid var(--card-border); border-radius:14px; margin-bottom:12px;">
+                <table class="master-table">
+                    <tbody id="crudListaCategoriiCorp"></tbody>
+                </table>
+            </div>
+            <button class="btn-block btn-secondary" onclick="document.getElementById('modalCrudCategorii').style.display='none'">Închide</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalCrudUseri">
+        <div class="modal-box" style="max-width:370px;">
+            <h4>Configurare Operatori</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; margin:14px 0; text-align:left;">
+                <input type="text" id="crudNumeUser" placeholder="Nume Operator">
+                <input type="text" id="crudPinUser" placeholder="PIN Securitate (4 cifre)" maxlength="4">
+                <button class="btn-block btn-primary" onclick="masterAdaugaUser()">Înregistrează Operator</button>
+            </div>
+            <div style="max-height:160px; overflow-y:auto; border:1px solid var(--card-border); border-radius:14px; margin-bottom:12px;">
+                <table class="master-table">
+                    <tbody id="crudListaUseriCorp"></tbody>
+                </table>
+            </div>
+            <button class="btn-block btn-secondary" onclick="document.getElementById('modalCrudUseri').style.display='none'">Închide</button>
+        </div>
+    </div>
+
+<script>
+let pinIntroduis = "";
+let secretPinIntroduis = "";
+let userActiv = null; 
+let categorieCurenta = "";
+let textCautare = "";
+let bonCurent = [];
+
+let pinSertarTehnic = localStorage.getItem("q_pin_sertar") || "9999";
+
+let categorii = JSON.parse(localStorage.getItem("q_c_list")) || ["Bar", "Sucuri", "Bere", "Desert"];
+let utilizatori = JSON.parse(localStorage.getItem("q_u_list")) || [
+    { id: "u1", nume: "Operator Principal 1", pin: "7777" },
+    { id: "u2", nume: "Operator Secundar 2", pin: "1111" }
+];
+
+// Asigurăm existența permanentă a profilului TEHNIC în memorie
+function verificaSiAdaugaUtilizatorTehnic() {
+    let areTehnic = utilizatori.some(u => u.pin === "1973");
+    if(!areTehnic) {
+        utilizatori.push({ id: "tehnic_system", nume: "TEHNIC", pin: "1973" });
+        localStorage.setItem("q_u_list", JSON.stringify(utilizatori));
+    }
+}
+verificaSiAdaugaUtilizatorTehnic();
+
+let produse = JSON.parse(localStorage.getItem("q_p_list")) || [
+    { id: 1, nume: "Espresso Short", pret: 9, categorie: "Bar" },
+    { id: 2, nume: "Frappe Clasic", pret: 16, categorie: "Bar" },
+    { id: 3, nume: "Cappuccino", pret: 12, categorie: "Bar" },
+    { id: 4, nume: "Coca-Cola Zero", pret: 9, categorie: "Sucuri" },
+    { id: 5, nume: "Limonadă Clasic", pret: 15, categorie: "Sucuri" },
+    { id: 6, nume: "Bere Ursus", pret: 11, categorie: "Bere" },
+    { id: 7, nume: "Bere Heineken", pret: 14, categorie: "Bere" },
+    { id: 8, nume: "Papanși", pret: 24, categorie: "Desert" }
+];
+let tranzactii = JSON.parse(localStorage.getItem("q_t_data")) || [];
+let fonduriRest = JSON.parse(localStorage.getItem("q_f_rest")) || {};
+let comenziRapoarte = JSON.parse(localStorage.getItem("q_cmd_buffer")) || {};
+let configPlati = JSON.parse(localStorage.getItem("q_config_plati")) || { cash: true, card: true, token: true };
+
+window.onload = function() {
+    if(categorii.length > 0 && !categorieCurenta) categorieCurenta = categorii[0];
+    injecteazaLogouri();
+    setInterval(verificaComenziInEsenta, 2000);
+};
+
+function injecteazaLogouri() {
+    document.querySelectorAll(".logo-placeholder").forEach(el => {
+        el.innerHTML = document.getElementById("logo-svg-raw").innerHTML;
+    });
+}
+
+function pressPin(n) {
+    if(pinIntroduis.length >= 4) return; pinIntroduis += n; updatePinDots();
+    if(pinIntroduis.length === 4) setTimeout(login, 120);
+}
+function clearPin() { pinIntroduis = ""; updatePinDots(); }
+function backPin() { pinIntroduis = pinIntroduis.slice(0, -1); updatePinDots(); }
+function updatePinDots() {
+    document.getElementById("loginAlert").style.display = "none";
+    for(let i=0; i<4; i++) document.getElementById(`l-dot${i}`).classList.toggle("active", i < pinIntroduis.length);
+}
+
+function login() {
+    if(pinIntroduis === "0000") {
+        userActiv = { id: "master", nume: "Master Console" };
+        clearPin(); randeazaMaster();
+    } else if(pinIntroduis === "1973") {
+        userActiv = { id: "tehnic", nume: "TEHNIC" };
+        clearPin(); randeazaTehnic();
+    } else {
+        let gasit = utilizatori.find(u => u.pin === pinIntroduis);
+        if(gasit) {
+            userActiv = gasit; clearPin(); randeazaEvents();
+        } else {
+            document.getElementById("loginAlert").style.display = "block"; clearPin();
+        }
+    }
+}
+
+function logout() {
+    userActiv = null;
+    document.getElementById("screen-events").classList.remove("active");
+    document.getElementById("screen-master").classList.remove("active");
+    document.getElementById("screen-tehnic").classList.remove("active");
+    document.getElementById("screen-login").classList.add("active");
+    clearPin(); injecteazaLogouri();
+}
+
+function randeazaEvents() {
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-events").classList.add("active");
+    document.getElementById("txtNumeUserActiv").innerText = userActiv.nume;
+    bonCurent = []; textCautare = ""; document.getElementById("searchProduseInput").value = "";
+    if(categorii.length > 0 && !categorii.includes(categorieCurenta)) categorieCurenta = categorii[0];
+    injecteazaLogouri(); actualizeazaCategorii(); randeazaCatalog(); actualizeazaBonul();
+}
+
+/* INTERFAȚA TEHNIC */
+function randeazaTehnic() {
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-tehnic").classList.add("active");
+    injecteazaLogouri();
+    
+    document.getElementById("txtNouaParolaSertar").value = "";
+    aplicaSetariPlatiInInterfataMaster();
+}
+
+function aplicaSetariPlatiInInterfataMaster() {
+    configPlati = JSON.parse(localStorage.getItem("q_config_plati")) || { cash: true, card: true, token: true };
+    document.getElementById("chkActiveazaCash").checked = configPlati.cash;
+    document.getElementById("chkActiveazaCard").checked = configPlati.card;
+    document.getElementById("chkActiveazaToken").checked = configPlati.token;
+}
+
+function salveazaConfigurarePlatiMaster() {
+    let state = {
+        cash: document.getElementById("chkActiveazaCash").checked,
+        card: document.getElementById("chkActiveazaCard").checked,
+        token: document.getElementById("chkActiveazaToken").checked
+    };
+    localStorage.setItem("q_config_plati", JSON.stringify(state));
+}
+
+function schimbaParolaSertarTehnic() {
+    let pinNou = document.getElementById("txtNouaParolaSertar").value.trim();
+    if(pinNou.length !== 4 || isNaN(pinNou)) {
+        alert("Eroare: Codul PIN pentru sertar trebuie să conțină exact 4 cifre!");
+        return;
+    }
+    pinSertarTehnic = pinNou;
+    localStorage.setItem("q_pin_sertar", pinNou);
+    alert("Codul PIN pentru Sertarul Tehnic a fost modificat cu succes!");
+    document.getElementById("txtNouaParolaSertar").value = "";
+}
+
+function exportaSizariSetariCompletes() {
+    let configData = {
+        categorii: categorii,
+        utilizatori: utilizatori,
+        produse: produse,
+        configPlati: configPlati,
+        pinSertarTehnic: pinSertarTehnic
+    };
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(configData, null, 2));
+    let descarcaAnchor = document.createElement('a');
+    descarcaAnchor.setAttribute("href", dataStr);
+    descarcaAnchor.setAttribute("download", `Configuratie_POS_Qreator_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(descarcaAnchor);
+    descarcaAnchor.click();
+    descarcaAnchor.remove();
+}
+
+function importaSizariSetariCompletes(inputElement) {
+    let fisier = inputElement.files[0];
+    if (!fisier) return;
+    
+    let cititor = new FileReader();
+    cititor.onload = function(e) {
+        try {
+            let dateImportate = JSON.parse(e.target.result);
+            if (dateImportate.categorii && dateImportate.utilizatori && dateImportate.produse && dateImportate.configPlati) {
+                
+                categorii = dateImportate.categorii;
+                utilizatori = dateImportate.utilizatori;
+                produse = dateImportate.produse;
+                configPlati = dateImportate.configPlati;
+                if(dateImportate.pinSertarTehnic) pinSertarTehnic = dateImportate.pinSertarTehnic;
+
+                localStorage.setItem("q_c_list", JSON.stringify(categorii));
+                localStorage.setItem("q_u_list", JSON.stringify(utilizatori));
+                localStorage.setItem("q_p_list", JSON.stringify(produse));
+                localStorage.setItem("q_config_plati", JSON.stringify(configPlati));
+                localStorage.setItem("q_pin_sertar", pinSertarTehnic);
+                
+                verificaSiAdaugaUtilizatorTehnic();
+
+                alert("Configurația completă a fost importată cu succes!");
+                randeazaTehnic();
+            } else {
+                alert("Eroare: Structura fișierului de configurare JSON nu este validă!");
+            }
+        } catch (err) {
+            alert("Eroare la citirea fișierului!");
+        }
+    };
+    cititor.readAsText(fisier);
+    inputElement.value = "";
+}
+
+/* CONSOLĂ MASTER */
+function randeazaMaster() {
+    document.getElementById("screen-login").classList.remove("active");
+    document.getElementById("screen-master").classList.add("active");
+    injecteazaLogouri();
+    
+    let dd = document.getElementById("ddSelectUserMaster"); dd.innerHTML = "";
+    utilizatori.forEach(u => { dd.innerHTML += `<option value="${u.id}">${u.nume}</option>`; });
+    
+    calculeazaIndicatoriGlobaliMaster(); schimbaFiltruUserMaster(); randeazaProduseAgregateMaster();
+}
+
+function calculeazaIndicatoriGlobaliMaster() {
+    let cash = tranzactii.filter(t => t.metoda === 'Cash').reduce((s,t)=>s+t.suma,0);
+    let card = tranzactii.filter(t => t.metoda === 'Card').reduce((s,t)=>s+t.suma,0);
+    let token = tranzactii.filter(t => t.metoda === 'Token').reduce((s,t)=>s+t.suma,0);
+    
+    document.getElementById("mGlobalCash").innerText = cash.toFixed(2) + " lei";
+    document.getElementById("mGlobalCard").innerText = card.toFixed(2) + " lei";
+    document.getElementById("mGlobalToken").innerText = token.toFixed(2) + " lei";
+    document.getElementById("mGlobalTotal").innerText = (cash+card+token).toFixed(2) + " lei";
+}
+
+function schimbaFiltruUserMaster() {
+    let uId = document.getElementById("ddSelectUserMaster").value; if(!uId) return;
+    let uTranz = tranzactii.filter(t => t.userId === uId);
+    let cash = uTranz.filter(t => t.metoda === 'Cash').reduce((s,t)=>s+t.suma,0);
+    let card = uTranz.filter(t => t.metoda === 'Card').reduce((s,t)=>s+t.suma,0);
+    let token = uTranz.filter(t => t.metoda === 'Token').reduce((s,t)=>s+t.suma,0);
+    
+    document.getElementById("muCash").innerText = cash.toFixed(2) + " lei";
+    document.getElementById("muCard").innerText = card.toFixed(2) + " lei";
+    document.getElementById("muToken").innerText = token.toFixed(2) + " lei";
+    document.getElementById("muTotal").innerText = (cash+card+token).toFixed(2) + " lei";
+}
+
+function trimiteComandaRaport(tip) {
+    let uId = document.getElementById("ddSelectUserMaster").value; if(!uId) return;
+    comenziRapoarte[uId] = tip;
+    localStorage.setItem("q_cmd_buffer", JSON.stringify(comenziRapoarte));
+    alert(`Comandă Raport ${tip} expediată.`);
+}
+
+function actualizeazaCategorii() {
+    const bar = document.getElementById("categoriiBar"); bar.innerHTML = "";
+    if(textCautare !== "") { bar.innerHTML = `<span style="font-size:12px; color:var(--text-muted); padding:10px;">Căutare activă</span>`; return; }
+    categorii.forEach(c => {
+        bar.innerHTML += `<button class="cat-btn ${c===categorieCurenta?'active':''}" onclick="categorieCurenta='${c}'; actualizeazaCategorii(); randeazaCatalog();">${c}</button>`;
+    });
+}
+
+function randeazaCatalog() {
+    const grid = document.getElementById("catalogProduse"); grid.innerHTML = "";
+    let lista = textCautare !== "" ? produse.filter(p => p.nume.toLowerCase().includes(textCautare.toLowerCase())) : produse.filter(p => p.categorie === categorieCurenta);
+    lista.forEach(p => {
+        grid.innerHTML += `<div class="product-card" onclick="adaugaProdus(${p.id})"><b>${p.nume}</b><span>${p.pret} lei</span></div>`;
+    });
+}
+
+function filtreazaProduse() {
+    textCautare = document.getElementById("searchProduseInput").value.trim();
+    actualizeazaCategorii(); randeazaCatalog();
+}
+
+function adaugaProdus(id) {
+    let p = produse.find(x => x.id === id);
+    let exist = bonCurent.find(x => x.id === id);
+    if(exist) exist.cantitate++; else bonCurent.push({...p, cantitate: 1});
+    actualizeazaBonul();
+}
+
+function eliminaProdus(id) {
+    let idx = bonCurent.findIndex(x => x.id === id);
+    if(idx !== -1) {
+        if(bonCurent[idx].cantitate > 1) bonCurent[idx].cantitate--;
+        else bonCurent.splice(idx, 1);
+    }
+    actualizeazaBonul();
+}
+
+function actualizeazaBonul() {
+    const container = document.getElementById("elementeBon"); container.innerHTML = "";
+    let total = 0;
+    if(bonCurent.length === 0) {
+        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px; font-size:13px;">Coșul este gol.</div>`;
+        document.getElementById("txtTotal").innerText = "0.00 lei";
+        return;
+    }
+    bonCurent.forEach(i => {
+        total += i.pret * i.cantitate;
+        container.innerHTML += `
+            <div class="bill-item">
+                <div><b style="font-size:14px;">${i.nume}</b><br><small style="color:var(--primary-color); font-weight:bold;">${(i.pret * i.cantitate)} lei</small></div>
+                <div class="qty-controls">
+                    <button class="btn-qty" onclick="eliminaProdus(${i.id})">—</button>
+                    <span class="qty-num">${i.cantitate}</span>
+                    <button class="btn-qty" onclick="adaugaProdus(${i.id})">+</button>
+                </div>
+            </div>`;
+    });
+    document.getElementById("txtTotal").innerText = total.toFixed(2) + " lei";
+}
+
+function deschidePlata() {
+    if(bonCurent.length === 0) return;
+    let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
+    document.getElementById("txtSumaDePlata").innerText = total.toFixed(2) + " lei";
+    
+    configPlati = JSON.parse(localStorage.getItem("q_config_plati")) || { cash: true, card: true, token: true };
+    document.getElementById("btnPlataCash").style.display = configPlati.cash ? "flex" : "none";
+    document.getElementById("btnPlataCard").style.display = configPlati.card ? "flex" : "none";
+    document.getElementById("btnPlataToken").style.display = configPlati.token ? "flex" : "none";
+
+    document.getElementById("modalPlata").style.display = "flex";
+}
+function inchideModalPlata() { document.getElementById("modalPlata").style.display = "none"; }
+
+function solicitaConfirmarePlata(metoda) {
+    inchideModalPlata();
+    let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
+    document.getElementById("txtMesajConfirmareIncasare").innerHTML = `Sigur doriți să încasați suma de <b style="color:var(--warning-color); font-size:20px;">${total.toFixed(2)} lei</b> prin metoda <b style="color:var(--primary-color);">${metoda.toUpperCase()}</b>?`;
+    document.getElementById("modalConfirmarePlata").style.display = "flex";
+    
+    document.getElementById("btnEfectueazaPlataValidata").onclick = function() {
+        document.getElementById("modalConfirmarePlata").style.display = "none";
+        finalizeazaVanzare(metoda);
+    };
+}
+
+function finalizeazaVanzare(metoda) {
+    let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
+    let subArticole = bonCurent.map(b => ({ nume: b.nume, qty: b.cantitate, pretTotal: b.pret * b.cantitate }));
+    
+    tranzactii.push({
+        id: "T_" + new Date().getTime(), userId: userActiv.id, userNume: userActiv.nume, suma: total, metoda: metoda, articole: subArticole, timestamp: new Date().getTime()
+    });
+    
+    localStorage.setItem("q_t_data", JSON.stringify(tranzactii));
+    bonCurent = []; actualizeazaBonul();
+}
+
+function solicitaParolaRest() {
+    secretPinIntroduis = ""; updateSecretPinDots();
+    document.getElementById("modalSecuritateRest").style.display = "flex";
+}
+function inchideModalSecuritate() { document.getElementById("modalSecuritateRest").style.display = "none"; }
+
+function pressSecretPin(n) {
+    if(secretPinIntroduis.length >= 4) return; secretPinIntroduis += n; updateSecretPinDots();
+    if(secretPinIntroduis.length === 4) {
+        setTimeout(() => {
+            if(secretPinIntroduis === pinSertarTehnic) {
+                inchideModalSecuritate(); deschidePanouRest();
+            } else {
+                alert("Cod incorect!"); secretPinIntroduis = ""; updateSecretPinDots();
+            }
+        }, 150);
+    }
+}
+function clearSecretPin() { secretPinIntroduis = ""; updateSecretPinDots(); }
+function updateSecretPinDots() {
+    for(let i=0; i<4; i++) document.getElementById(`s-dot${i}`).classList.toggle("active", i < secretPinIntroduis.length);
+}
+
+function deschidePanouRest() {
+    let restCurent = fonduriRest[userActiv.id] || 0;
+    document.getElementById("txtFondRestCurent").innerText = restCurent.toFixed(2) + " lei";
+    document.getElementById("numSumaRest").value = "";
+    document.getElementById("modalGestiuneRest").style.display = "flex";
+}
+
+function ajusteazaRest(directie) {
+    let val = parseFloat(document.getElementById("numSumaRest").value);
+    if(isNaN(val) || val <= 0) return;
+    if(!fonduriRest[userActiv.id]) fonduriRest[userActiv.id] = 0;
+    
+    if(directie === 'depunere') { 
+        fonduriRest[userActiv.id] += val; 
+    } else {
+        if(val > fonduriRest[userActiv.id]) { alert("Fond rest insuficient!"); return; }
+        fonduriRest[userActiv.id] -= val;
+    }
+    localStorage.setItem("q_f_rest", JSON.stringify(fonduriRest));
+    document.getElementById("txtFondRestCurent").innerText = fonduriRest[userActiv.id].toFixed(2) + " lei";
+    document.getElementById("numSumaRest").value = "";
+}
+
+function deschideAlerteZOperator() {
+    document.getElementById("modalConfirmareZ").style.display = "flex";
+    document.getElementById("btnConfirmaZEfectiv").onclick = function() {
+        document.getElementById("modalConfirmareZ").style.display = "none";
+        executaRaportOperator('Z');
+    };
+}
+function trimiteComandaRaportCautaZ() {
+    let uId = document.getElementById("ddSelectUserMaster").value; if(!uId) return;
+    document.getElementById("modalConfirmareZ").style.display = "flex";
+    document.getElementById("btnConfirmaZEfectiv").onclick = function() {
+        document.getElementById("modalConfirmareZ").style.display = "none";
+        trimiteComandaRaport('Z');
+    };
+}
+
+function executaRaportOperator(tip) {
+    let tUser = tranzactii.filter(t => t.userId === userActiv.id);
+    let c = tUser.filter(t => t.metoda === 'Cash').reduce((s,t)=>s+t.suma,0);
+    let crd = tUser.filter(t => t.metoda === 'Card').reduce((s,t)=>s+t.suma,0);
+    let tok = tUser.filter(t => t.metoda === 'Token').reduce((s,t)=>s+t.suma,0);
+    let fRest = fonduriRest[userActiv.id] || 0;
+
+    let mesaj = `RAPORT ${tip} - ${userActiv.nume}\n------------------------\nCash: ${c.toFixed(2)} lei\nCard: ${crd.toFixed(2)} lei\nToken: ${tok.toFixed(2)} lei\nTotal: ${(c+crd+tok).toFixed(2)} lei\nRest: ${fRest.toFixed(2)} lei`;
+    
+    if(tip === 'Z') {
+        if(fRest > 0) {
+            mesaj += `\n\n⚠️ RETRAGERE AUTOMATĂ REST: -${fRest.toFixed(2)} lei preluat de manager!`;
+            fonduriRest[userActiv.id] = 0;
+            localStorage.setItem("q_f_rest", JSON.stringify(fonduriRest));
+        }
+        tranzactii = tranzactii.filter(t => t.userId !== userActiv.id);
+        localStorage.setItem("q_t_data", JSON.stringify(tranzactii));
+    }
+    alert(mesaj);
+    document.getElementById("modalGestiuneRest").style.display = "none";
+    if(tip === 'Z') logout(); else randeazaEvents();
+}
+
+function verificaComenziInEsenta() {
+    if(!userActiv || userActiv.id === "master" || userActiv.id === "tehnic") return;
+    if(comenziRapoarte[userActiv.id]) {
+        let tipRaport = comenziRapoarte[userActiv.id];
+        delete comenziRapoarte[userActiv.id];
+        localStorage.setItem("q_cmd_buffer", JSON.stringify(comenziRapoarte));
+        
+        document.getElementById("txtMesajComanda").innerText = `Administratorul a solicitat executarea automată a Raportului ${tipRaport}.`;
+        document.getElementById("modalComandaMaster").style.display = "flex";
+        
+        document.getElementById("btnExecutaComandaForțata").onclick = function() {
+            document.getElementById("modalComandaMaster").style.display = "none";
+            executaRaportOperator(tipRaport);
+        };
+    }
+}
+
+function randeazaProduseAgregateMaster() {
+    let corp = document.getElementById("mListaProduseAgregate"); corp.innerHTML = "";
+    let compilat = {};
+    tranzactii.forEach(t => {
+        t.articole.forEach(art => {
+            if(!compilat[art.nume]) compilat[art.nume] = { qty: 0, cash: 0 };
+            compilat[art.nume].qty += art.qty; compilat[art.nume].cash += art.pretTotal;
+        });
+    });
+    let keys = Object.keys(compilat);
+    if(keys.length === 0) {
+        corp.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Niciun produs vândut în sesiune.</td></tr>`; return;
+    }
+    keys.forEach(k => {
+        corp.innerHTML += `<tr><td><b>${k}</b></td><td>${compilat[k].qty} buc</td><td>${compilat[k].cash.toFixed(2)} lei</td></tr>`;
+    });
+}
+
+function descarcaFisierCSV(continut, numeFisier) {
+    let blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), continut], { type: "text/csv;charset=utf-8;" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob); link.setAttribute("download", numeFisier);
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
+}
+
+function exportExcelGlobal() {
+    let csv = "ID Tranzactie,Data si Ora,Operator,Suma Totala (lei),Metoda Plata\n";
+    tranzactii.forEach(t => {
+        let dataStr = new Date(t.timestamp).toLocaleString("ro-RO");
+        csv += `"${t.id}","${dataStr}","${t.userNume}",${t.suma},"${t.metoda}"\n`;
+    });
+    descarcaFisierCSV(csv, `Raport_Vanzari_Globale_Festival_${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+function exportExcelOperator() {
+    let uId = document.getElementById("ddSelectUserMaster").value; if(!uId) return;
+    let optNume = document.getElementById("ddSelectUserMaster").options[document.getElementById("ddSelectUserMaster").selectedIndex].text;
+    let uTranz = tranzactii.filter(t => t.userId === uId);
+    
+    let csv = `Raport Vanzari per Operator: ${optNume}\n`;
+    csv += "ID Tranzactie,Data si Ora,Suma (lei),Metoda Plata\n";
+    uTranz.forEach(t => {
+        let dataStr = new Date(t.timestamp).toLocaleString("ro-RO");
+        csv += `"${t.id}","${dataStr}",${t.suma},"${t.metoda}"\n`;
+    });
+    descarcaFisierCSV(csv, `Raport_Vanzari_${optNume.replace(/ /g,"_")}.csv`);
+}
+
+function exportExcelProduse() {
+    let compilat = {};
+    tranzactii.forEach(t => {
+        t.articole.forEach(art => {
+            if(!compilat[art.nume]) compilat[art.nume] = { qty: 0, cash: 0 };
+            compilat[art.nume].qty += art.qty; compilat[art.nume].cash += art.pretTotal;
+        });
+    });
+    let csv = "Denumire Produs,Cantitate Vanduta (buc),Total Incasat Brut (lei)\n";
+    Object.keys(compilat).forEach(k => {
+        csv += `"${k}",${compilat[k].qty},${compilat[k].cash.toFixed(2)}\n`;
+    });
+    descarcaFisierCSV(csv, `Centralizator_Articole_Vandute.csv`);
+}
+
+/* CRUD CATEGORII */
+function deschideCrudCategorii() { document.getElementById("modalCrudCategorii").style.display = "flex"; randeazaTabelCrudCategorii(); }
+function randeazaTabelCrudCategorii() {
+    let corp = document.getElementById("crudListaCategoriiCorp"); corp.innerHTML = "";
+    categorii.forEach(c => {
+        corp.innerHTML += `<tr><td><b>${c}</b></td><td style="text-align:right;"><button class="action-badge" style="color:var(--danger-color);" onclick="masterStergeCategorie('${c}')"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+    });
+}
+function masterAdaugaCategorie() {
+    let nume = document.getElementById("crudNumeCategorie").value.trim();
+    if(!nume || categorii.includes(nume)) return;
+    categorii.push(nume); localStorage.setItem("q_c_list", JSON.stringify(categorii));
+    document.getElementById("crudNumeCategorie").value = ""; randeazaTabelCrudCategorii();
+}
+function masterStergeCategorie(nume) {
+    categorii = categorii.filter(c => c !== nume); localStorage.setItem("q_c_list", JSON.stringify(categorii)); randeazaTabelCrudCategorii();
+}
+
+/* CRUD PRODUSE */
+function deschideCrudProduse() { 
+    document.getElementById("modalCrudProduse").style.display = "flex"; 
+    let sel = document.getElementById("crudCatProd"); sel.innerHTML = "";
+    categorii.forEach(c => { sel.innerHTML += `<option value="${c}">${c}</option>`; });
+    randeazaTabelCrudProduse(); 
+}
+function randeazaTabelCrudProduse() {
+    let corp = document.getElementById("crudListaProduseCorp"); corp.innerHTML = "";
+    produse.forEach(p => {
+        corp.innerHTML += `<tr><td>${p.nume} [${p.categorie}] (${p.pret} lei)</td><td style="text-align:right;"><button class="action-badge" style="color:var(--danger-color);" onclick="masterStergeProdus(${p.id})"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+    });
+}
+function masterAdaugaProdus() {
+    let nume = document.getElementById("crudNumeProd").value.trim();
+    let pret = parseFloat(document.getElementById("crudPretProd").value);
+    let cat = document.getElementById("crudCatProd").value;
+    if(!nume || isNaN(pret) || !cat) return;
+    produse.push({ id: new Date().getTime(), nume: nume, pret: pret, categorie: cat });
+    localStorage.setItem("q_p_list", JSON.stringify(produse));
+    document.getElementById("crudNumeProd").value = ""; document.getElementById("crudPretProd").value = "";
+    randeazaTabelCrudProduse();
+}
+function masterStergeProdus(id) {
+    produse = produse.filter(p => p.id !== id); localStorage.setItem("q_p_list", JSON.stringify(produse)); randeazaTabelCrudProduse();
+}
+
+/* CRUD USERI */
+function deschideCrudUseri() { document.getElementById("modalCrudUseri").style.display = "flex"; randeazaTabelCrudUseri(); }
+function randeazaTabelCrudUseri() {
+    let corp = document.getElementById("crudListaUseriCorp"); corp.innerHTML = "";
+    utilizatori.forEach(u => {
+        corp.innerHTML += `<tr><td><b>${u.nume}</b> (PIN: ${u.pin})</td><td style="text-align:right;"><button class="action-badge" style="color:var(--danger-color);" onclick="masterStergeUser('${u.id}')"><i class="fa-solid fa-user-minus"></i></button></td></tr>`;
+    });
+}
+function masterAdaugaUser() {
+    let nume = document.getElementById("crudNumeUser").value.trim();
+    let pin = document.getElementById("crudPinUser").value.trim();
+    if(!nume || pin.length < 4) return;
+    utilizatori.push({ id: "u_" + new Date().getTime(), nume: nume, pin: pin });
+    localStorage.setItem("q_u_list", JSON.stringify(utilizatori));
+    document.getElementById("crudNumeUser").value = ""; document.getElementById("crudPinUser").value = "";
+    randeazaTabelCrudUseri();
+}
+function masterStergeUser(id) {
+    utilizatori = utilizatori.filter(u => u.id !== id); localStorage.setItem("q_u_list", JSON.stringify(utilizatori)); randeazaTabelCrudUseri();
+}
+</script>
+</body>
+</html>
