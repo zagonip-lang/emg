@@ -56,7 +56,13 @@
     .events-layout { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
     .search-wrapper { position: relative; margin-bottom: 10px; }
     .search-wrapper i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-    .search-input { width: 100%; padding: 12px 12px 12px 36px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; color: #fff; font-size: 16px; outline: none; -webkit-user-select: text; user-select: text; }
+    
+    /* FIX ABSOLUT ZOOM CORECT: minim 16px pe input-uri */
+    input, input:focus, input[type="text"], input[type="number"] {
+        font-size: 16px !important;
+    }
+
+    .search-input { width: 100%; padding: 12px 12px 12px 36px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; color: #fff; outline: none; -webkit-user-select: text; user-select: text; }
 
     .categories-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; width: 100%; -webkit-overflow-scrolling: touch; }
     .categories-bar::-webkit-scrollbar { display: none; }
