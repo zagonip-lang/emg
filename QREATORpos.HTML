@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-<title>Qreator POS - Master Mode & iOS Zoom Fix</title>
+<title>Qreator POS - Master Control Plus</title>
 
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -37,7 +37,7 @@
                     radial-gradient(circle at 10% 90%, #0f172a 0%, transparent 50%),
                     #030712;
         background-attachment: fixed; color: var(--text-main); min-height: 100vh; padding: 15px; -webkit-font-smoothing: antialiased;
-        touch-action: pan-x pan-y; /* Permite scroll natural, blochează zoom-ul din double-tap/pinch */
+        touch-action: pan-x pan-y;
     }
 
     .app-screen { display: none; width: 100%; }
@@ -88,7 +88,7 @@
     .horeca-layout.show-flow { display: grid; opacity: 1; }
     @media (min-width: 950px) { .horeca-layout.show-flow { grid-template-columns: 1.2fr 1fr; } }
     
-    /* BARA DE CĂUTARE FIX PENTRU iOS (FONT MINIM 16px OBLIGATORIU) */
+    /* BARA DE CĂUTARE FIX PENTRU iOS */
     .search-wrapper { position: relative; margin-bottom: 15px; }
     .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
     .search-input { width: 100%; padding: 14px 14px 14px 42px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 14px; color: #fff; font-size: 16px !important; outline: none; -webkit-user-select: text; user-select: text; }
@@ -125,11 +125,16 @@
 
     /* PANOU MASTER SPECIFIC */
     .master-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px; }
-    @media(min-width: 600px) { .master-grid { grid-template-columns: 1fr 1fr; } }
+    @media(min-width: 768px) { .master-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    
+    .kpi-box-master { border-radius: 20px; padding: 20px; text-align: left; position: relative; overflow: hidden; }
+    .kpi-box-master h4 { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; letter-spacing: 0.5px; }
+    .kpi-box-master .kpi-val { font-size: 26px; font-weight: 800; color: #fff; font-family: monospace; }
+    
     .master-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
     .master-table th, .master-table td { padding: 10px; border-bottom: 1px solid var(--card-border); }
     .master-table th { color: var(--text-muted); font-weight: 600; }
-    .master-input-cash { background: var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; color:#fff; width:120px; font-size:14px; text-align:center; outline:none; -webkit-user-select: text; user-select: text; }
+    .master-input-cash { background: var(--input-bg); border:1px solid var(--card-border); border-radius:10px; padding:10px; color:#fff; width:110px; font-size:14px; text-align:center; outline:none; -webkit-user-select: text; user-select: text; }
 </style>
 </head>
 <body>
@@ -241,55 +246,58 @@
         <div class="navbar">
             <div class="brand">
                 <i class="fa-solid fa-user-gear" style="font-size: 24px; color: var(--warning-color);"></i>
-                <h1>Qreator POS — Panou Control MASTER</h1>
+                <h1>Qreator POS — MASTER Core</h1>
             </div>
             <button class="nav-btn" style="color:var(--danger-color);" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</button>
         </div>
 
         <div class="master-grid">
-            <div class="gemini-card">
-                <h3 style="margin-bottom: 12px; color: #fff;"><i class="fa-solid fa-vault"></i> Cash Control & Sertar</h3>
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:15px;">
-                    <span>Sold Curent Rest (Sertar):</span>
-                    <b id="txtMasterSoldSertar" style="color:var(--success-color);">100.00 lei</b>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:15px;">
-                    <span>Total Vânzări Zi:</span>
-                    <b id="txtMasterTotalVanzariZi" style="color:var(--primary-color);">0.00 lei</b>
-                </div>
-                
-                <div style="display:flex; gap:10px; align-items:center; background:rgba(255,255,255,0.02); padding:12px; border-radius:14px; border:1px solid var(--card-border);">
-                    <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="0.00" step="any">
-                    <button class="action-badge" style="background:var(--success-color); color:#000; flex:1;" onclick="modificaBaniRest('intrare')"><i class="fa-solid fa-plus"></i> Pune Rest</button>
-                    <button class="action-badge" style="background:var(--danger-color); color:#fff; flex:1;" onclick="modificaBaniRest('iesire')"><i class="fa-solid fa-minus"></i> Scoate Rest</button>
-                </div>
+            
+            <div class="gemini-card kpi-box-master" style="background: linear-gradient(135deg, rgba(94, 23, 235, 0.15) 0%, rgba(15, 23, 42, 0.4) 100%); border-color: rgba(94, 23, 235, 0.4);">
+                <h4><i class="fa-solid fa-chart-line" style="color:#C356F2;"></i> Încasări Totale Zi</h4>
+                <div class="kpi-val" id="txtKPIIncasariTotale">0.00 lei</div>
+                <small style="color:var(--text-muted); font-size:11px; display:block; margin-top:5px;">Toate vânzările procesate (Cash + Card)</small>
             </div>
 
-            <div class="gemini-card" style="display:flex; flex-direction:column; justify-content:center; gap:12px;">
-                <h3 style="color: #fff; margin-bottom:4px;"><i class="fa-solid fa-print"></i> Operațiuni Fiscale</h3>
-                <button class="btn-block" style="background:rgba(255,255,255,0.06); color:#fff; border:1px solid var(--card-border);" onclick="genereazaRaport('X')"><i class="fa-solid fa-file-lines"></i> SCOATE RAPORT X (Informare)</button>
-                <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="genereazaRaport('Z')"><i class="fa-solid fa-receipt"></i> SCOATE RAPORT Z (Închidere Zilnică)</button>
+            <div class="gemini-card kpi-box-master">
+                <h4><i class="fa-solid fa-vault" style="color:var(--success-color);"></i> Sold Sertar (Rest)</h4>
+                <div class="kpi-val" id="txtMasterSoldSertar" style="color:var(--success-color);">100.00 lei</div>
+                <small style="color:var(--text-muted); font-size:11px; display:block; margin-top:5px;">Numerar fizic estimat în sertar</small>
+            </div>
+
+            <div class="gemini-card" style="padding: 15px 20px; display:flex; flex-direction:column; justify-content:center;">
+                <h4 style="font-size:11px; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:8px;"><i class="fa-solid fa-arrow-right-arrow-left"></i> Modifică Rest Sertar</h4>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="0.00">
+                    <button class="action-badge" style="background:var(--success-color); color:#000; padding:10px;" onclick="modificaBaniRest('intrare')"><i class="fa-solid fa-plus"></i></button>
+                    <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:10px;" onclick="modificaBaniRest('iesire')"><i class="fa-solid fa-minus"></i></button>
+                </div>
             </div>
         </div>
 
-        <div class="gemini-card" style="margin-top:20px;">
-            <div style="display:flex; justify-content:between; align-items:center;">
-                <h3 style="color:#fff;"><i class="fa-solid fa-list-check"></i> Jurnal Vânzări & Mișcări</h3>
-                <button class="action-badge" style="background:var(--primary-color); color:#000;" onclick="exportaJurnalCSV()"><i class="fa-solid fa-file-excel"></i> Exportă Jurnal (CSV)</button>
+        <div class="master-grid" style="grid-template-columns: 1fr; margin-top:0;">
+            <div class="gemini-card" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:15px 22px;">
+                <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border); margin:0;" onclick="genereazaRaport('X')"><i class="fa-solid fa-file-lines"></i> RAPORT X</button>
+                <button class="btn-block" style="background:var(--danger-color); color:#fff; margin:0;" onclick="genereazaRaport('Z')"><i class="fa-solid fa-receipt"></i> RAPORT Z (Închidere)</button>
+            </div>
+        </div>
+
+        <div class="gemini-card" style="margin-top:15px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:10px; margin-bottom:10px;">
+                <h3 style="color:#fff; font-size:16px;"><i class="fa-solid fa-list-check"></i> Jurnal Activitate Zi</h3>
+                <button class="action-badge" style="background:var(--primary-color); color:#000;" onclick="exportaJurnalCSV()"><i class="fa-solid fa-file-excel"></i> Export CSV</button>
             </div>
             <div style="overflow-x:auto;">
                 <table class="master-table">
                     <thead>
                         <tr>
-                            <th>Tip Operațiune</th>
-                            <th>Detalii / Sursă</th>
+                            <th>Operațiune</th>
+                            <th>Detalii/Sursă</th>
                             <th>Sumă</th>
                             <th>Metodă</th>
                         </tr>
                     </thead>
-                    <tbody id="listaJurnalMaster">
-                        <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată.</td></tr>
-                    </tbody>
+                    <tbody id="listaJurnalMaster"></tbody>
                 </table>
             </div>
         </div>
@@ -350,7 +358,6 @@ let metodaSelectata = "";
 let textCautareFiltru = "";
 let discountDeAplicatContext = null;
 
-// GESTIUNE MEMORIE (Persistență simplă pentru Jurnal și Sertar)
 let soldSertarRest = parseFloat(localStorage.getItem("q_sold_sertar")) || 100.00;
 let jurnalRegistru = JSON.parse(localStorage.getItem("q_jurnal_registru")) || [];
 
@@ -397,7 +404,7 @@ function valideazaAutentificare() {
     if(pinIntroduis === "5555") userRol = "manager";
     else if(pinIntroduis === "1111") userRol = "ospatar";
     else if(pinIntroduis === "7777") userRol = "events"; 
-    else if(pinIntroduis === "0000") userRol = "master"; // USERUL NOU MASTER SOLICITAT
+    else if(pinIntroduis === "0000") userRol = "master"; 
     else userRol = "admin";
     pornesteAplicatie();
 }
@@ -408,13 +415,11 @@ function pornesteAplicatie() {
     document.getElementById("screen-master").classList.remove("active");
 
     if(userRol === "master") {
-        // Redirecționare directă pe ecranul Master, fără elemente de vânzare
         document.getElementById("screen-master").classList.add("active");
         actualizeazaPanouMaster();
         return;
     }
 
-    // Flux normal Vânzări (Ospătar, Events, Manager, Admin)
     document.getElementById("screen-main").classList.add("active");
     document.getElementById("txtUserActual").innerText = userRol.toUpperCase();
 
@@ -606,7 +611,6 @@ function executaIncasareFinala() {
     let reducere = m.discount.tip === 'procent' ? subtotal * (m.discount.valoare / 100) : (m.discount.tip === 'valoare' ? m.discount.valoare : 0);
     let totalFinal = Math.max(0, subtotal - reducere);
 
-    // Salvare în registru istoric local
     jurnalRegistru.push({
         tip: "Vânzare",
         sursa: (userRol === 'events') ? "Directă (Events)" : m.nume,
@@ -637,23 +641,25 @@ function genereazaProforma() {
 
 function inchideModal(id) { document.getElementById(id).style.display = "none"; }
 
-/* LOGICĂ ȘI FUNCȚII EXCLUSIV MASTER */
+/* CONTROL ȘI COLECTARE DATE MASTER */
 function salveazaDateMaster() {
     localStorage.setItem("q_sold_sertar", soldSertarRest);
     localStorage.setItem("q_jurnal_registru", JSON.stringify(jurnalRegistru));
 }
 
 function actualizeazaPanouMaster() {
-    document.getElementById("txtMasterSoldSertar").innerText = soldSertarRest.toFixed(2) + " lei";
+    // Calcul încasări brute brute (doar tipul Vânzare)
+    let totalIncasariZi = jurnalRegistru.filter(j => j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
     
-    let totalVanzari = jurnalRegistru.filter(j => j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
-    document.getElementById("txtMasterTotalVanzariZi").innerText = totalVanzari.toFixed(2) + " lei";
+    // Alocare în DOM a noii căsuțe cerute și a celei de sertar
+    document.getElementById("txtKPIIncasariTotale").innerText = totalIncasariZi.toFixed(2) + " lei";
+    document.getElementById("txtMasterSoldSertar").innerText = soldSertarRest.toFixed(2) + " lei";
 
     const tbody = document.getElementById("listaJurnalMaster");
     tbody.innerHTML = "";
     
     if(jurnalRegistru.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nicio operațiune înregistrată în această zi fizică.</td></tr>`;
         return;
     }
 
@@ -692,16 +698,14 @@ function genereazaRaport(tip) {
     let cashTot = jurnalRegistru.filter(j => j.metoda === "Cash" && j.tip === "Vânzare").reduce((s, j) => s + j.suma, 0);
     let cardTot = jurnalRegistru.filter(j => j.metoda === "Card").reduce((s, j) => s + j.suma, 0);
 
-    let textRaport = `=== RAPORT FISCAL ${tip} ===\nTotal Vânzări: ${totalVanzari.toFixed(2)} lei\n  - Din care Cash: ${cashTot.toFixed(2)} lei\n  - Din care Card: ${cardTot.toFixed(2)} lei\nSold Sertar Rest: ${soldSertarRest.toFixed(2)} lei\n====================`;
-    
+    let textRaport = `=== RAPORT FISCAL ${tip} ===\nÎncasări Totale Zi: ${totalVanzari.toFixed(2)} lei\n  - Din care Cash: ${cashTot.toFixed(2)} lei\n  - Din care Card: ${cardTot.toFixed(2)} lei\nSold Sertar Rest: ${soldSertarRest.toFixed(2)} lei\n====================`;
     alert(textRaport);
 
     if(tip === 'Z') {
-        // Închiderea de zi curăță înregistrările curente și resetează cifrele
         jurnalRegistru = [];
         salveazaDateMaster();
         actualizeazaPanouMaster();
-        alert("Raportul Z a fost finalizat. Ziua fiscală a fost închisă și resetată.");
+        alert("Ziua fiscală a fost resetată.");
     }
 }
 
@@ -715,7 +719,7 @@ function exportaJurnalCSV() {
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `POS_Export_Master_${new Date().toISOString().slice(0,10)}.csv`);
+    link.setAttribute("download", `Export_Master_${new Date().toISOString().slice(0,10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
