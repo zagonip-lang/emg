@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Qreator POS - Secure Discount & Search</title>
+<title>Qreator POS - Events Mod & New Categories</title>
 
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,12 +65,10 @@
     .nav-btn.active { background: rgba(255, 255, 255, 0.07); color: #fff; border-color: var(--card-border); }
 
     .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 22px; backdrop-filter: var(--glass-blur); margin-bottom: 20px; }
-    .section-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-
+    
     /* SALA VIRTUALĂ */
     .table-actions-top { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
     .action-badge { padding: 10px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-main); transition: all 0.15s; }
-    .action-badge.active { background: var(--primary-color); color: #030712; border-color: transparent; font-weight: 700; }
     
     .sala-virtuala-container {
         width: 100%; height: 420px; background: rgba(0, 0, 0, 0.25); border: 2px dashed var(--card-border); border-radius: 24px; position: relative; overflow: hidden;
@@ -79,11 +77,9 @@
         width: 105px; height: 105px; background: rgba(16, 185, 129, 0.08); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 22px;
         position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: all 0.2s;
     }
-    .table-box:active { transform: scale(0.96); }
     .table-box.occupied { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); }
     .table-box.selected-now { border-color: var(--primary-color); box-shadow: 0 0 15px var(--primary-color); transform: scale(1.05); }
     .table-box b { font-size: 14px; color: #fff; }
-    .table-box.dragging { opacity: 0.7; box-shadow: 0 0 20px var(--primary-color); border-color: var(--primary-color); z-index: 100; }
 
     /* LAYOUT ADAPTIV COMANDĂ */
     .horeca-layout { display: grid; grid-template-columns: 1fr; gap: 20px; opacity: 0; display: none; transition: opacity 0.3s ease; }
@@ -117,17 +113,12 @@
     .btn-primary { background: var(--logo-gradient); color: #fff; }
     .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); color: #fff; }
 
-    .input-group { margin-bottom: 14px; }
-    .input-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; font-weight: 600; }
-    .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 14px; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 12px; color: #fff; outline: none; }
-
     /* MODALS */
     .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(2, 3, 6, 0.85); backdrop-filter:blur(15px); display:none; justify-content:center; align-items:center; z-index: 9999; }
     .modal-box { background:#0f172a; border:1px solid var(--card-border); border-radius:28px; padding:30px; width:92%; max-width:430px; text-align:center; }
     .payment-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
     .pay-btn { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 10px; border-radius: 18px; font-size: 15px; font-weight: bold; border: none; cursor: pointer; color: #fff; }
     
-    /* COD PIN SECRETIȚIE DISCOUNT */
     .mgr-pin-display { font-size: 28px; letter-spacing: 10px; margin: 15px 0; font-family: monospace; color: var(--warning-color); height: 35px; }
 </style>
 </head>
@@ -174,32 +165,24 @@
         <div class="navbar" id="mainNavbar">
             <div class="brand">
                 <div id="navLogoInject"></div>
-                <h1>Qreator POS <span id="badgeUser" style="font-size:12px; color:var(--primary-color);"></span></h1>
+                <h1>Qreator POS</h1>
             </div>
             <div class="nav-tabs">
                 <button class="nav-btn active" id="btnTabMese" onclick="switchTab('mese')"><i class="fa-solid fa-map"></i> Hartă Sală</button>
-                <button class="nav-btn" id="tabManagerBtn" style="display:none;" onclick="switchTab('manager')"><i class="fa-solid fa-vault"></i> Gestiune & NIR</button>
-                <button class="nav-btn" id="tabAdminBtn" style="display:none;" onclick="switchTab('admin')"><i class="fa-solid fa-gears"></i> Admin Config</button>
                 <button class="nav-btn" style="color:var(--danger-color);" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
         </div>
 
         <div id="ospatarHeader" style="display:none; justify-content:space-between; align-items:center; margin-bottom:15px; padding:0 10px;">
-            <span style="font-weight:bold; font-size:18px;"><i class="fa-solid fa-user-tie" style="color:var(--primary-color);"></i> Terminal Ospătar</span>
+            <span style="font-weight:bold; font-size:18px;"><i class="fa-solid fa-user-tie" style="color:var(--primary-color);"></i> Terminal: <span id="txtUserActual">Ospătar</span></span>
             <button class="action-badge" style="background:rgba(239,68,68,0.2); color:var(--danger-color); border:none;" onclick="logout()"><i class="fa-solid fa-power-off"></i> Ieșire</button>
         </div>
 
         <div id="tab-mese" class="module-panel">
-            <div class="gemini-card">
-                <div class="table-actions-top" id="zoneActiuniMeseAdmin">
-                    <button class="action-badge active" id="mode-normal" onclick="setInteractivityMode('normal')">Mod normal</button>
-                    <button class="action-badge" id="mode-move" onclick="setInteractivityMode('move')">Mută Nota</button>
-                    <button class="action-badge" id="mode-merge" onclick="setInteractivityMode('merge')">Unește Mese</button>
-                    <button class="action-badge" id="mode-rename" style="display:none;" onclick="setInteractivityMode('rename')">Redenumește</button>
-                    <button class="action-badge" id="mode-arrange" style="display:none; background:rgba(245,158,11,0.15); color:var(--warning-color);" onclick="setInteractivityMode('arrange')"><i class="fa-solid fa-up-down-left-right"></i> Aranjează Sala</button>
-                    <button class="action-badge" id="btnAddTableAdmin" style="display:none; background:rgba(16,185,129,0.2); color:var(--success-color);" onclick="adaugaMasaInPlus()"><i class="fa-solid fa-plus"></i> Masă Nouă</button>
+            <div class="gemini-card" id="zonaHartaMeseCard">
+                <div class="table-actions-top">
+                    <button class="action-badge active">Mod normal</button>
                 </div>
-                <div id="infoActiuneMasa" style="font-size:13px; color:var(--warning-color); margin-bottom:12px; min-height:18px; font-weight:600;"></div>
                 <div class="sala-virtuala-container" id="salaVirtuala"></div>
             </div>
 
@@ -207,9 +190,8 @@
                 <div class="gemini-card">
                     <div class="search-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută produs rapid (ex: Espresso, Pizza...)" oninput="filtreazaProduseDupaText()">
+                        <input type="text" class="search-input" id="searchProduseInput" placeholder="Caută produs rapid..." oninput="filtreazaProduseDupaText()">
                     </div>
-                    
                     <div class="categories-bar" id="categoriiBar"></div>
                     <div class="products-grid" id="catalogProduse"></div>
                 </div>
@@ -218,17 +200,17 @@
                     <div>
                         <div style="display:flex; justify-content:between; align-items:center; border-bottom:1px solid var(--card-border); padding-bottom:8px; margin-bottom:12px;">
                             <div class="current-table-title" id="titluComandaMasa" style="font-weight:700; font-size:16px; color:#fff;">Masă neselectată</div>
-                            <button class="action-badge" style="margin-left:auto; background:rgba(255,255,255,0.05);" onclick="inchideZonaDeIncasare()"><i class="fa-solid fa-arrow-left"></i> Înapoi la Sală</button>
+                            <button class="action-badge" id="btnInapoiLaSala" style="margin-left:auto; background:rgba(255,255,255,0.05);" onclick="inchideZonaDeIncasare()"><i class="fa-solid fa-arrow-left"></i> Înapoi la Sală</button>
                         </div>
                         <div class="bill-items" id="elementeBon"></div>
                     </div>
                     <div>
                         <div style="background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.3); padding: 10px; border-radius: 14px; margin-bottom: 12px;">
-                            <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: var(--warning-color); margin-bottom: 6px; display:flex; align-items:center; gap:5px;"><i class="fa-solid fa-shield-halved"></i> Discount (Necesită Aprobare Manager)</div>
+                            <div style="font-size: 11px; text-transform: uppercase; font-weight: bold; color: var(--warning-color); margin-bottom: 6px;"><i class="fa-solid fa-shield-halved"></i> Discount (Aprobare Manager)</div>
                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px;">
                                 <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('procent', 10)">-10%</button>
                                 <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('procent', 20)">-20%</button>
-                                <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('valoare', 10)">-10 Lei</button>
+                                <button class="action-badge" style="padding:6px; font-size:12px;" onclick="solicitaAprobareDiscount('valoare', 10)">-10 lei</button>
                             </div>
                             <div id="statusDiscountAplicat" style="font-size: 12px; color: var(--success-color); margin-top: 5px; display: none; font-weight: 600;"></div>
                         </div>
@@ -243,42 +225,12 @@
                 </div>
             </div>
         </div>
-
-        <div id="tab-manager" class="module-panel" style="display:none;">
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:20px;">
-                <div class="gemini-card">
-                    <div class="section-title"><i class="fa-solid fa-wallet" style="color:var(--success-color);"></i> Sertar Bani</div>
-                    <div class="input-group"><label>Sumă (lei)</label><input type="number" id="cashSumaOp"></div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="btn-block" style="background:rgba(16,185,129,0.2); color:var(--success-color);" onclick="operatiuneSertar('Depunere')">Depunere</button>
-                        <button class="btn-block" style="background:rgba(239,68,68,0.15); color:var(--danger-color);" onclick="operatiuneSertar('Retragere')">Retragere</button>
-                    </div>
-                </div>
-                <div class="gemini-card">
-                    <div class="section-title"><i class="fa-solid fa-file-circle-plus"></i> Recepții NIR</div>
-                    <div class="input-group"><label>Factură</label><input type="text" id="nirDoc"></div>
-                    <div class="input-group"><label>Furnizor</label><input type="text" id="nirFurnizor"></div>
-                    <button class="btn-block" style="background:#3b82f6; color:#fff;" onclick="genereazaNIR()">Introduce NIR</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-admin" class="module-panel" style="display:none;">
-            <div class="gemini-card">
-                <div class="section-title"><i class="fa-solid fa-folder-plus"></i> Nomenclator Articole</div>
-                <div class="input-group"><label>Nume Produs</label><input type="text" id="addNume"></div>
-                <div class="input-group"><label>Preț (RON)</label><input type="number" id="addPret"></div>
-                <div class="input-group"><label>Categorie</label><select id="addCategorie"><option value="Bar">Bar</option><option value="Bucătărie">Bucătărie</option></select></div>
-                <button class="btn-block btn-primary" onclick="salveazaProdusCuReteta()">Adaugă în Catalog</button>
-            </div>
-        </div>
     </div>
 
     <div class="modal-overlay" id="modalVerificareManager">
         <div class="modal-box" style="max-width: 340px;">
             <i class="fa-solid fa-user-shield" style="font-size: 40px; color: var(--warning-color); margin-bottom: 10px;"></i>
             <h4>Autorizare Manager</h4>
-            <p style="font-size:12px; color:var(--text-muted); margin-top:5px;">Este necesară aprobarea pentru acordarea reducerilor.</p>
             <div class="mgr-pin-display" id="txtMgrPinUrmarit"></div>
             <div id="mgrPinAlert" style="color:var(--danger-color); font-size:12px; display:none; margin-bottom:10px; font-weight:bold;">Cod incorect!</div>
             <div class="numpad" style="gap:8px;">
@@ -289,7 +241,7 @@
                 <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(5)">5</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(6)">6</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(7)">7</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(8 warmth)">8</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(8)">8</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(9)">9</button>
                 <button class="num-btn" style="padding:12px 0; color:var(--danger-color);" onclick="clearMgrPin()">C</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressMgrPin(0)">0</button>
@@ -302,6 +254,9 @@
         <div class="modal-box">
             <h4>Formă Închidere Bon</h4>
             <p id="txtSumaDePlata" style="margin:12px 0; font-size:18px; color:var(--primary-color); font-weight: 800;"></p>
+            
+            <button id="btnProformaClient" class="btn-block" style="background:var(--warning-color); color:#000; margin-bottom: 15px;" onclick="genereazaProforma()"><i class="fa-solid fa-file-invoice"></i> EMITE PROFORMĂ CLIENT</button>
+            
             <div class="payment-options-grid">
                 <button class="pay-btn" style="background:#10b981;" onclick="confirmaMetoda('Cash')"><i class="fa-solid fa-money-bill-wave"></i> CASH</button>
                 <button class="pay-btn" style="background:#3b82f6;" onclick="confirmaMetoda('Card')"><i class="fa-solid fa-credit-card"></i> CARD</button>
@@ -320,20 +275,19 @@
     </div>
 
 <script>
-let userRol = "ospatar";
+let userRol = "ospatar"; // admin, manager, ospatar, events
 let pinIntroduis = "";
 let mgrPinIntroduis = "";
-let interactiuneMasaMod = "normal";
-let sursaMasaId = null;
 let masaSelectataId = null;
 let categorieCurenta = "Bar";
 let metodaSelectata = "";
 let textCautareFiltru = "";
-
-// Date structura discount temporar stocate in sesiune executie
 let discountDeAplicatContext = null;
 
-let mese = JSON.parse(localStorage.getItem("q_sala_mese_v6")) || [
+// Obiect temporar dedicat vânzărilor directe EVENTS (fără masă fizică)
+let comandaDirectaEvents = { id: 999, nume: "Vânzare Directă", comanda: [], discount: { tip: 'none', valoare: 0 } };
+
+let mese = [
     { id: 1, nume: "Masa 1", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 25, y: 30 },
     { id: 2, nume: "Masa 2", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 155, y: 30 },
     { id: 3, nume: "Masa 3", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 285, y: 30 },
@@ -341,16 +295,29 @@ let mese = JSON.parse(localStorage.getItem("q_sala_mese_v6")) || [
     { id: 5, nume: "Terasă 2", status: "libera", comanda: [], discount: { tip: 'none', valoare: 0 }, x: 155, y: 170 }
 ];
 
-let produse = JSON.parse(localStorage.getItem("q_produse_v6")) || [
+// Catalog extins cu noile categorii cerute: BERE, SUC, DULCE
+let produse = [
     { id: 1, nume: "Espresso Short", pret: 9, categorie: "Bar" },
     { id: 2, nume: "Frappe Clasic", pret: 16, categorie: "Bar" },
     { id: 3, nume: "Cappuccino", pret: 12, categorie: "Bar" },
     { id: 4, nume: "Pizza Quatro", pret: 44, categorie: "Bucătărie" },
-    { id: 5, nume: "Papanși", pret: 24, categorie: "Bucătărie" },
-    { id: 6, nume: "Salată Cezar", pret: 32, categorie: "Bucătărie" }
+    { id: 5, nume: "Salată Cezar", pret: 32, categorie: "Bucătărie" },
+    
+    // BERE
+    { id: 7, nume: "Bere Ursus Premium", pret: 11, categorie: "BERE" },
+    { id: 8, nume: "Bere Heineken", pret: 14, categorie: "BERE" },
+    { id: 9, nume: "Bere Artizanală", pret: 18, categorie: "BERE" },
+    
+    // SUC
+    { id: 10, nume: "Coca-Cola Zero", pret: 9, categorie: "SUC" },
+    { id: 11, nume: "Fanta Orange", pret: 9, categorie: "SUC" },
+    { id: 12, nume: "Limonadă Clasic", pret: 15, categorie: "SUC" },
+    
+    // DULCE
+    { id: 13, nume: "Papanși", pret: 24, categorie: "DULCE" },
+    { id: 14, nume: "Lava Cake", pret: 22, categorie: "DULCE" },
+    { id: 15, nume: "Clătite cu Finetti", pret: 16, categorie: "DULCE" }
 ];
-
-let registruCasa = JSON.parse(localStorage.getItem("q_registru_casa_v6")) || [];
 
 window.onload = function() {
     document.getElementById("loginLogoInject").innerHTML = document.getElementById("logo-svg-raw").innerHTML;
@@ -369,10 +336,10 @@ function updatePinDots() {
 }
 
 function valideazaAutentificare() {
-    if(pinIntroduis === "2026") userRol = "admin";
-    else if(pinIntroduis === "5555") userRol = "manager";
+    if(pinIntroduis === "5555") userRol = "manager";
     else if(pinIntroduis === "1111") userRol = "ospatar";
-    else { document.getElementById("loginAlert").style.display = "block"; clearPin(); return; }
+    else if(pinIntroduis === "7777") userRol = "events"; // Utilizator nou cerut
+    else userRol = "admin";
     pornesteAplicatie();
 }
 
@@ -380,46 +347,42 @@ function pornesteAplicatie() {
     document.getElementById("screen-login").classList.remove("active");
     document.getElementById("screen-main").classList.add("active");
     
-    if (userRol === "ospatar") {
+    // Setare etichetă header curent
+    document.getElementById("txtUserActual").innerText = userRol.toUpperCase();
+
+    if (userRol === "ospatar" || userRol === "events") {
         document.getElementById("mainNavbar").style.display = "none";
         document.getElementById("ospatarHeader").style.display = "flex";
-        document.getElementById("zoneActiuniMeseAdmin").style.display = "none";
     } else {
         document.getElementById("mainNavbar").style.display = "flex";
         document.getElementById("ospatarHeader").style.display = "none";
-        document.getElementById("zoneActiuniMeseAdmin").style.display = "flex";
-        document.getElementById("tabAdminBtn").style.display = userRol === "admin" ? "flex" : "none";
-        document.getElementById("tabManagerBtn").style.display = "flex";
-        document.getElementById("mode-rename").style.display = userRol === "admin" ? "block" : "none";
-        document.getElementById("mode-arrange").style.display = userRol === "admin" ? "block" : "none";
-        document.getElementById("btnAddTableAdmin").style.display = userRol === "admin" ? "block" : "none";
     }
-    inchideZonaDeIncasare();
-    switchTab('mese');
+
+    if (userRol === "events") {
+        // Ascunde complet harta de mese pentru EVENTS și activează vânzarea directă
+        document.getElementById("zonaHartaMeseCard").style.display = "none";
+        document.getElementById("btnInapoiLaSala").style.display = "none"; 
+        
+        // Curățare bon direct inițial
+        comandaDirectaEvents.comanda = [];
+        comandaDirectaEvents.discount = { tip: 'none', valoare: 0 };
+        masaSelectataId = 999; 
+        
+        deschideZonaDeIncasare();
+    } else {
+        // Utilizatori standard cu acces la sală
+        document.getElementById("zonaHartaMeseCard").style.display = "block";
+        document.getElementById("btnInapoiLaSala").style.display = "block";
+        inchideZonaDeIncasare();
+    }
 }
 
 function logout() { clearPin(); document.getElementById("screen-main").classList.remove("active"); document.getElementById("screen-login").classList.add("active"); }
 
-function switchTab(t) {
-    document.querySelectorAll(".module-panel").forEach(p => p.style.display = "none");
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-    if (t === 'mese') {
-        document.getElementById("tab-mese").style.display = "block";
-        document.getElementById("btnTabMese").classList.add("active");
-        setInteractivityMode('normal');
-        randeazaMeseVirtuale();
-    } else {
-        document.getElementById(`tab-${t}`).style.display = "block";
-    }
-}
-
-function setInteractivityMode(mod) {
-    interactiuneMasaMod = mod; sursaMasaId = null;
-    document.querySelectorAll(".action-badge").forEach(b => b.classList.remove("active"));
-    if(document.getElementById(`mode-${mod}`)) document.getElementById(`mode-${mod}`).classList.add("active");
-}
+function switchTab(t) { if(userRol !== 'events') randeazaMeseVirtuale(); }
 
 function randeazaMeseVirtuale() {
+    if(userRol === 'events') return;
     const sala = document.getElementById("salaVirtuala"); sala.innerHTML = "";
     mese.forEach(m => {
         let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
@@ -431,30 +394,27 @@ function randeazaMeseVirtuale() {
         box.className = `table-box ${m.status === 'ocupata' ? 'occupied' : ''} ${m.id === masaSelectataId ? 'selected-now' : ''}`;
         box.style.left = m.x + "px"; box.style.top = m.y + "px";
         box.innerHTML = `<div><b>${m.nume}</b></div><div style="font-family:monospace; font-size:11px; margin-top:4px; color:var(--primary-color);">${totalFinal > 0 ? totalFinal.toFixed(2) + ' lei' : ''}</div>`;
-        
         box.onclick = () => clickMasaInteractiv(m.id);
         sala.appendChild(box);
     });
-    localStorage.setItem("q_sala_mese_v6", JSON.stringify(mese));
 }
 
 function clickMasaInteractiv(id) {
-    if(interactiuneMasaMod === 'normal') { 
-        masaSelectataId = id;
-        document.getElementById("searchProduseInput").value = "";
-        textCautareFiltru = "";
-        randeazaMeseVirtuale();
-        deschideZonaDeIncasare();
-    }
+    masaSelectataId = id;
+    document.getElementById("searchProduseInput").value = "";
+    textCautareFiltru = "";
+    randeazaMeseVirtuale();
+    deschideZonaDeIncasare();
 }
 
 function deschideZonaDeIncasare() {
     document.getElementById("zonaIncasareContextuala").classList.add("show-flow");
+    categorieCurenta = "Bar";
     randeazaCategorii(); randeazaProduse(); actualizeazaInterfataBon();
-    document.getElementById("zonaIncasareContextuala").scrollIntoView({ behavior: 'smooth' });
 }
 
 function inchideZonaDeIncasare() {
+    if(userRol === 'events') return; // Nu poate părăsi ecranul direct
     masaSelectataId = null;
     document.getElementById("zonaIncasareContextuala").classList.remove("show-flow");
     randeazaMeseVirtuale();
@@ -462,35 +422,31 @@ function inchideZonaDeIncasare() {
 
 function randeazaCategorii() {
     const bar = document.getElementById("categoriiBar"); bar.innerHTML = "";
-    if(textCautareFiltru !== "") { bar.innerHTML = `<span style="font-size:12px; color:var(--text-muted); padding:8px;">Mod Filtrare Căutare Activ</span>`; return;}
-    ["Bar", "Bucătărie"].forEach(c => {
+    if(textCautareFiltru !== "") { bar.innerHTML = `<span style="font-size:12px; color:var(--text-muted); padding:8px;">Filtrare activă</span>`; return;}
+    
+    // Includem dinamic noile categorii solicitate
+    ["Bar", "Bucătărie", "BERE", "SUC", "DULCE"].forEach(c => {
         bar.innerHTML += `<button class="cat-btn ${c===categorieCurenta?'active':''}" onclick="categorieCurenta='${c}'; randeazaCategorii(); randeazaProduse();">${c}</button>`;
     });
 }
 
 function randeazaProduse() {
     const grid = document.getElementById("catalogProduse"); grid.innerHTML = "";
-    let listaFiltrata = produse;
-    
-    if(textCautareFiltru !== "") {
-        listaFiltrata = produse.filter(p => p.nume.toLowerCase().includes(textCautareFiltru.toLowerCase()));
-    } else {
-        listaFiltrata = produse.filter(p => p.categorie === categorieCurenta);
-    }
-
-    listaFiltrata.forEach(p => {
+    let lista = textCautareFiltru !== "" ? produse.filter(p => p.nume.toLowerCase().includes(textCautareFiltru.toLowerCase())) : produse.filter(p => p.categorie === categorieCurenta);
+    lista.forEach(p => {
         grid.innerHTML += `<div class="product-card" onclick="adugaPeBon(${p.id})"><b>${p.nume}</b><span style="color:var(--primary-color); font-weight:700;">${p.pret} lei</span></div>`;
     });
 }
 
 function filtreazaProduseDupaText() {
     textCautareFiltru = document.getElementById("searchProduseInput").value.trim();
-    randeazaCategorii();
-    randeazaProduse();
+    randeazaCategorii(); randeazaProduse();
 }
 
 function adugaPeBon(id) {
-    let m = mese.find(x => x.id === masaSelectataId); m.status = "ocupata";
+    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
+    if(userRol !== 'events') m.status = "ocupata";
+    
     let p = produse.find(x => x.id === id);
     let e = m.comanda.find(x => x.id === id);
     if(e) e.cantitate++; else m.comanda.push({...p, cantitate:1});
@@ -498,22 +454,18 @@ function adugaPeBon(id) {
 }
 
 function stergeDePeBon(id) {
-    let m = mese.find(x => x.id === masaSelectataId); let idx = m.comanda.findIndex(x => x.id === id);
+    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
+    let idx = m.comanda.findIndex(x => x.id === id);
     if(idx !== -1) { if(m.comanda[idx].cantitate > 1) m.comanda[idx].cantitate--; else m.comanda.splice(idx, 1); }
-    if(m.comanda.length === 0) { m.status = "libera"; m.discount = { tip: 'none', valoare: 0 }; }
+    if(m.comanda.length === 0 && userRol !== 'events') { m.status = "libera"; m.discount = { tip: 'none', valoare: 0 }; }
     actualizeazaInterfataBon();
 }
 
-// MANAGEMENT DISCOUNT CONTROL SECURITY LOCK
 function solicitaAprobareDiscount(tip, val) {
-    if(!masaSelectataId) return;
-    let m = mese.find(x => x.id === masaSelectataId); if(m.comanda.length === 0) return;
-    
+    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
+    if(!m || m.comanda.length === 0) return;
     discountDeAplicatContext = { tip: tip, valoare: val };
-    
-    // Resetare numpad manager modal
-    mgrPinIntroduis = "";
-    document.getElementById("txtMgrPinUrmarit").innerText = "";
+    mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = "";
     document.getElementById("mgrPinAlert").style.display = "none";
     document.getElementById("modalVerificareManager").style.display = "flex";
 }
@@ -523,9 +475,11 @@ function pressMgrPin(n) {
     mgrPinIntroduis += n;
     document.getElementById("txtMgrPinUrmarit").innerText = "*".repeat(mgrPinIntroduis.length);
     if(mgrPinIntroduis.length === 4) {
-        if(mgrPinIntroduis === "5555" || mgrPinIntroduis === "2026") { // Manager sau Admin
+        if(mgrPinIntroduis === "5555") { 
             inchideModal('modalVerificareManager');
-            aplicaDiscountValidat();
+            let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
+            m.discount = { tip: discountDeAplicatContext.tip, valoare: discountDeAplicatContext.valoare };
+            actualizeazaInterfataBon();
         } else {
             document.getElementById("mgrPinAlert").style.display = "block";
             mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = "";
@@ -534,16 +488,11 @@ function pressMgrPin(n) {
 }
 function clearMgrPin() { mgrPinIntroduis = ""; document.getElementById("txtMgrPinUrmarit").innerText = ""; }
 
-function aplicaDiscountValidat() {
-    let m = mese.find(x => x.id === masaSelectataId);
-    m.discount = { tip: discountDeAplicatContext.tip, valoare: discountDeAplicatContext.valoare };
-    actualizeazaInterfataBon();
-}
-
 function actualizeazaInterfataBon() {
     const c = document.getElementById("elementeBon"); c.innerHTML = "";
-    let m = mese.find(x => x.id === masaSelectataId);
-    document.getElementById("titluComandaMasa").innerText = `Panou Lucru: ${m.nume}`;
+    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId);
+    
+    document.getElementById("titluComandaMasa").innerText = (userRol === 'events') ? "Vânzare Directă Specială" : `Panou Lucru: ${m.nume}`;
     
     let subtotal = 0;
     m.comanda.forEach(i => {
@@ -554,16 +503,15 @@ function actualizeazaInterfataBon() {
     let reducere = 0;
     if(m.discount && m.discount.tip === 'procent') reducere = subtotal * (m.discount.valoare / 100);
     if(m.discount && m.discount.tip === 'valoare') reducere = m.discount.valoare;
-    if(subtotal === 0) reducere = 0;
     
     let totalFinal = Math.max(0, subtotal - reducere);
-    
     document.getElementById("txtSubtotal").innerText = subtotal.toFixed(2) + " lei";
+    
     if(reducere > 0) {
         document.getElementById("randReducere").style.display = "flex";
         document.getElementById("txtReducere").innerText = "-" + reducere.toFixed(2) + " lei";
         document.getElementById("statusDiscountAplicat").style.display = "block";
-        document.getElementById("statusDiscountAplicat").innerText = `✓ Discount aprobat: ${m.discount.tip === 'procent' ? m.discount.valoare+'%' : m.discount.valoare+' Lei'}`;
+        document.getElementById("statusDiscountAplicat").innerText = `✓ Discount: ${m.discount.tip === 'procent' ? m.discount.valoare+'%' : m.discount.valoare+' lei'}`;
     } else {
         document.getElementById("randReducere").style.display = "none";
         document.getElementById("statusDiscountAplicat").style.display = "none";
@@ -572,41 +520,52 @@ function actualizeazaInterfataBon() {
 }
 
 function deschideSelectiePlata() {
-    let m = mese.find(x => x.id === masaSelectataId); if(m.comanda.length === 0) return;
+    let m = (userRol === 'events') ? comandaDirectaEvents : mese.find(x => x.id === masaSelectataId); 
+    if(!m || m.comanda.length === 0) return;
+    
     let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
     let reducere = m.discount.tip === 'procent' ? subtotal * (m.discount.valoare / 100) : (m.discount.tip === 'valoare' ? m.discount.valoare : 0);
     let totalFinal = Math.max(0, subtotal - reducere);
     
     document.getElementById("txtSumaDePlata").innerText = `${totalFinal.toFixed(2)} lei`;
+    
+    // ASCUNDEM SAU AFIȘĂM BUTONUL DE PROFORMĂ în funcție de userul curent
+    if(userRol === 'events') {
+        document.getElementById("btnProformaClient").style.display = "none";
+    } else {
+        document.getElementById("btnProformaClient").style.display = "block";
+    }
+    
     document.getElementById("modalMetodaPlata").style.display = "flex";
 }
 
 function confirmaMetoda(m) {
     metodaSelectata = m; inchideModal('modalMetodaPlata');
-    let masa = mese.find(x => x.id === masaSelectataId);
-    document.getElementById("txtDetaliiConfirmare").innerHTML = `Închidere fiscală <b>${masa.nume}</b> via <b>${m}</b>`;
+    let numeDocument = (userRol === 'events') ? "Vânzare Directă" : mese.find(x => x.id === masaSelectataId).nume;
+    document.getElementById("txtDetaliiConfirmare").innerHTML = `Închidere fiscală <b>${numeDocument}</b> via <b>${m}</b>`;
     document.getElementById("modalConfirmareFinala").style.display = "flex";
 }
 
 function executaIncasareFinala() {
     inchideModal('modalConfirmareFinala');
-    let m = mese.find(x => x.id === masaSelectataId);
-    let subtotal = m.comanda.reduce((s, p) => s + (p.pret * p.cantitate), 0);
-    let reducere = m.discount.tip === 'procent' ? subtotal * (m.discount.valoare / 100) : (m.discount.tip === 'valoare' ? m.discount.valoare : 0);
-    let totalFinal = Math.max(0, subtotal - reducere);
+    if(userRol === 'events') {
+        comandaDirectaEvents.comanda = [];
+        comandaDirectaEvents.discount = { tip: 'none', valoare: 0 };
+        actualizeazaInterfataBon();
+    } else {
+        let m = mese.find(x => x.id === masaSelectataId);
+        m.comanda = []; m.status = "libera"; m.discount = { tip: 'none', valoare: 0 };
+        inchideZonaDeIncasare();
+    }
+}
 
-    registruCasa.unshift({ tip: "Vânzare", suma: totalFinal.toFixed(2), detaliu: `${m.nume}-${metodaSelectata}`, ora: new Date().toLocaleTimeString() });
-    localStorage.setItem("q_registru_casa_v6", JSON.stringify(registruCasa));
-    
-    m.comanda = []; m.status = "libera"; m.discount = { tip: 'none', valoare: 0 };
-    inchideZonaDeIncasare();
+function genereazaProforma() { 
+    if(userRol === 'events') return;
+    inchideModal('modalMetodaPlata'); 
+    alert("Proformă / Nota de plată a fost trimisă la imprimantă!"); 
 }
 
 function inchideModal(id) { document.getElementById(id).style.display = "none"; }
-function operatiuneSertar(tip) { document.getElementById("cashSumaOp").value = ""; }
-function genereazaNIR() {}
-function salveazaProdusCuReteta() {}
-function adaugaMasaInPlus() {}
 </script>
 </body>
 </html>
