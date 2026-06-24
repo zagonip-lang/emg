@@ -24,7 +24,6 @@
         --logo-gradient: linear-gradient(135deg, #5E17EB 0%, #C356F2 50%, #FF5757 100%);
     }
 
-    /* BLOCARE STRICTĂ SCROLL ORIZONTAL & OPTIMIZARE TOUCH */
     * { 
         box-sizing: border-box; 
         margin: 0; 
@@ -59,12 +58,11 @@
     .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 12px; backdrop-filter: var(--glass-blur); margin-bottom: 12px; width: 100%; }
     .action-badge { padding: 8px 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; }
 
-    /* EVENTS LAYOUT VERTICAL MOBIL */
+    /* LAYOUT EVENTS */
     .events-layout { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; }
     .search-wrapper { position: relative; margin-bottom: 10px; }
     .search-wrapper i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
     
-    /* FIX DIRECT ANTI-ZOOM PENTRU TOATE INPUT-URILE */
     input, input:focus, input[type="text"], input[type="number"] {
         font-size: 16px !important;
     }
@@ -80,7 +78,7 @@
     .product-card b { font-size: 12px; color: #fff; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 4px; }
     .product-card span { font-size: 11px; color: var(--primary-color); font-weight: 700; }
 
-    /* BON FISCAL & CONTROL CANTITATE */
+    /* BON CURENT */
     .bill-items { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; margin: 8px 0; }
     .bill-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 8px 10px; border-radius: 10px; border: 1px solid var(--card-border); font-size: 13px; }
     
@@ -93,13 +91,15 @@
     .btn-primary { background: var(--logo-gradient); color: #fff; }
     .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--card-border); color: #fff; }
 
-    /* MASTER CORES */
+    /* INTERFATA GESTIUNE MASTER */
     .master-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-    .kpi-box { border-radius: 12px; padding: 14px; text-align: left; }
-    .kpi-box h4 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-    .kpi-box .kpi-val { font-size: 20px; font-weight: 800; font-family: monospace; }
-    .master-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-    .master-table th, .master-table td { padding: 6px; border-bottom: 1px solid var(--card-border); text-align: left; }
+    .kpi-row-triple { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .kpi-box { border-radius: 12px; padding: 12px 8px; text-align: left; }
+    .kpi-box h4 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.3px; }
+    .kpi-box .kpi-val { font-size: 15px; font-weight: 800; font-family: monospace; }
+    
+    .master-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12px; }
+    .master-table th, .master-table td { padding: 8px 4px; border-bottom: 1px solid var(--card-border); text-align: left; }
     .master-input-cash { background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 8px; color: #fff; width: 90px; text-align: center; outline: none; -webkit-user-select: text; user-select: text; }
 
     /* MODALE */
@@ -183,29 +183,54 @@
         </div>
 
         <div class="master-grid">
-            <div class="gemini-card kpi-box" style="background:rgba(94, 23, 235, 0.1); border-color: rgba(94, 23, 235, 0.3);">
-                <h4>Încasări Vânzări Azi</h4>
-                <div class="kpi-val" id="txtKPIIncasari">0.00 lei</div>
+            <div class="kpi-row-triple">
+                <div class="gemini-card kpi-box" style="background:rgba(94, 23, 235, 0.08); border-color: rgba(94, 23, 235, 0.2);">
+                    <h4>Total Vânzări</h4>
+                    <div class="kpi-val" id="txtKPIIncasari">0.00 lei</div>
+                </div>
+                <div class="gemini-card kpi-box" style="background:rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.2);">
+                    <h4>Total CASH</h4>
+                    <div class="kpi-val" id="txtKPICash" style="color:var(--success-color);">0.00 lei</div>
+                </div>
+                <div class="gemini-card kpi-box" style="background:rgba(94, 161, 255, 0.08); border-color: rgba(94, 161, 255, 0.2);">
+                    <h4>Total CARD</h4>
+                    <div class="kpi-val" id="txtKPICard" style="color:var(--primary-color);">0.00 lei</div>
+                </div>
             </div>
-            <div class="gemini-card kpi-box">
-                <h4>Sold Actual Sertar</h4>
-                <div class="kpi-val" id="txtMasterSold" style="color:var(--success-color);">100.00 lei</div>
+
+            <div class="gemini-card kpi-box" style="margin-top:-6px;">
+                <h4>Sold Tehnic În Sertar Sertar (Rest Cash disponibil)</h4>
+                <div class="kpi-val" id="txtMasterSold" style="color:#fff; font-size:18px;">100.00 lei</div>
             </div>
-            <div class="gemini-card" style="display:flex; gap:6px; align-items:center; padding:10px;">
+
+            <div class="gemini-card" style="display:flex; gap:6px; align-items:center; padding:10px; margin-top:-6px;">
                 <input type="number" class="master-input-cash" id="numSumaSertar" placeholder="Suma">
-                <button class="action-badge" style="background:var(--success-color); color:#000; padding:8px 12px;" onclick="modificaFond('intrare')"><i class="fa-solid fa-plus"></i></button>
-                <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:8px 12px;" onclick="modificaFond('iesire')"><i class="fa-solid fa-minus"></i></button>
+                <button class="action-badge" style="background:var(--success-color); color:#000; padding:8px 12px;" onclick="modificaFond('intrare')"><i class="fa-solid fa-plus"></i> Depune</button>
+                <button class="action-badge" style="background:var(--danger-color); color:#fff; padding:8px 12px;" onclick="modificaFond('iesire')"><i class="fa-solid fa-minus"></i> Retrage</button>
             </div>
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
-            <button class="btn-block" style="background:rgba(255,255,255,0.04); color:#fff; border:1px solid var(--card-border);" onclick="raport('X')">RAPORT X</button>
-            <button class="btn-block" style="background:var(--danger-color); color:#fff;" onclick="raport('Z')">RAPORT Z</button>
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-top:6px;">
+            <button class="btn-block btn-secondary" style="padding:10px; font-size:12px;" onclick="raport('X')">RAPORT X</button>
+            <button class="btn-block" style="background:var(--danger-color); color:#fff; padding:10px; font-size:12px;" onclick="raport('Z')">RAPORT Z</button>
+            <button class="btn-block" style="background:#4b5563; color:#fff; padding:10px; font-size:12px;" onclick="exportDateCSV()"><i class="fa-solid fa-file-csv"></i> EXPORT CSV</button>
         </div>
 
         <div class="gemini-card" style="margin-top:12px;">
-            <h4 style="font-size:13px; margin-bottom:8px;"><i class="fa-solid fa-list-check"></i> Jurnal Activitate Gestiune</h4>
-            <div style="overflow-x:auto;">
+            <h4 style="font-size:13px; margin-bottom:4px;"><i class="fa-solid fa-chart-pie" style="color:var(--primary-color);"></i> Cantități Produse Vândute</h4>
+            <div style="max-height:130px; overflow-y:auto;">
+                <table class="master-table">
+                    <thead>
+                        <tr><th>Produs</th><th>Bucăți</th><th>Total Venit</th></tr>
+                    </thead>
+                    <tbody id="listaProduseVandute"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="gemini-card" style="margin-top:12px;">
+            <h4 style="font-size:13px; margin-bottom:4px;"><i class="fa-solid fa-list-check"></i> Jurnal Activitate Gestiune</h4>
+            <div style="max-height:130px; overflow-y:auto;">
                 <table class="master-table">
                     <thead>
                         <tr><th>Tip</th><th>Sumă</th><th>Mod</th></tr>
@@ -237,6 +262,7 @@ let bonCurent = [];
 
 let soldSertar = parseFloat(localStorage.getItem("q_core_sold")) || 100.00;
 let jurnalActivitati = JSON.parse(localStorage.getItem("q_core_jurnal")) || [];
+let vanzariProduse = JSON.parse(localStorage.getItem("q_core_produse_vandute")) || {};
 
 let produse = [
     { id: 1, nume: "Espresso Short", pret: 9, categorie: "Bar" },
@@ -278,13 +304,11 @@ function logout() {
     document.getElementById("screen-login").classList.add("active");
 }
 
-/* FLUX EVENTS */
+/* EVENTS */
 function randeazaEvents() {
     document.getElementById("screen-login").classList.remove("active");
     document.getElementById("screen-events").classList.add("active");
-    bonCurent = [];
-    textCautare = "";
-    document.getElementById("searchProduseInput").value = "";
+    bonCurent = []; textCautare = ""; document.getElementById("searchProduseInput").value = "";
     actualizeazaCategorii(); randeazaCatalog(); actualizeazaBonul();
 }
 
@@ -328,13 +352,11 @@ function eliminaProdus(id) {
 function actualizeazaBonul() {
     const container = document.getElementById("elementeBon"); container.innerHTML = "";
     let total = 0;
-    
     if(bonCurent.length === 0) {
         container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:10px; font-size:12px;">Coș gol</div>`;
         document.getElementById("txtTotal").innerText = "0.00 lei";
         return;
     }
-
     bonCurent.forEach(i => {
         total += i.pret * i.cantitate;
         container.innerHTML += `
@@ -359,21 +381,30 @@ function deschidePlata() {
 
 function finalizeazaVanzare(metoda) {
     let total = bonCurent.reduce((s,i) => s + (i.pret*i.cantitate), 0);
-    jurnalActivitati.push({ tip: "Vânzare (Events)", suma: total, metoda: metoda });
+    jurnalActivitati.push({ tip: `Vânzare (Events)`, suma: total, metoda: metoda });
+    
+    // Contorizare produse vândute separat
+    bonCurent.forEach(i => {
+        if(!vanzariProduse[i.nume]) {
+            vanzariProduse[i.nume] = { cantitate: 0, totalIncasat: 0 };
+        }
+        vanzariProduse[i.nume].cantitate += i.cantitate;
+        vanzariProduse[i.nume].totalIncasat += (i.pret * i.cantitate);
+    });
+
     if(metoda === "Cash") soldSertar += total;
     
     localStorage.setItem("q_core_sold", soldSertar);
     localStorage.setItem("q_core_jurnal", JSON.stringify(jurnalActivitati));
+    localStorage.setItem("q_core_produse_vandute", JSON.stringify(vanzariProduse));
     
-    inchideModal();
-    bonCurent = [];
-    actualizeazaBonul();
-    alert("Bon fiscal trimis spre casa de marcat!");
+    inchideModal(); bonCurent = []; actualizeazaBonul();
+    alert("Vânzare realizată cu succes!");
 }
 
 function inchideModal() { document.getElementById("modalPlata").style.display = "none"; }
 
-/* FLUX MASTER */
+/* MASTER */
 function randeazaMaster() {
     document.getElementById("screen-login").classList.remove("active");
     document.getElementById("screen-master").classList.add("active");
@@ -381,10 +412,27 @@ function randeazaMaster() {
 }
 
 function actualizeazaPanouMaster() {
-    let vanzariAzi = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
-    document.getElementById("txtKPIIncasari").innerText = vanzariAzi.toFixed(2) + " lei";
+    let totalVanzari = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
+    let totalCash = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Cash").reduce((s,j) => s + j.suma, 0);
+    let totalCard = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Card").reduce((s,j) => s + j.suma, 0);
+
+    document.getElementById("txtKPIIncasari").innerText = totalVanzari.toFixed(2) + " lei";
+    document.getElementById("txtKPICash").innerText = totalCash.toFixed(2) + " lei";
+    document.getElementById("txtKPICard").innerText = totalCard.toFixed(2) + " lei";
     document.getElementById("txtMasterSold").innerText = soldSertar.toFixed(2) + " lei";
 
+    // Afisare Produse Vandute
+    const tProd = document.getElementById("listaProduseVandute"); tProd.innerHTML = "";
+    let cheiProduse = Object.keys(vanzariProduse);
+    if(cheiProduse.length === 0) {
+        tProd.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Fără produse vândute.</td></tr>`;
+    } else {
+        cheiProduse.forEach(nume => {
+            tProd.innerHTML += `<tr><td><b>${nume}</b></td><td>${vanzariProduse[nume].cantitate} buc</td><td style="font-family:monospace;">${vanzariProduse[nume].totalIncasat.toFixed(2)} lei</td></tr>`;
+        });
+    }
+
+    // Afisare Jurnal Activitati
     const tbody = document.getElementById("listaJurnal"); tbody.innerHTML = "";
     if(jurnalActivitati.length === 0) {
         tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Fără activitate.</td></tr>`;
@@ -409,7 +457,7 @@ function modificaFond(dir) {
         soldSertar += val;
         jurnalActivitati.push({ tip: "Alimentare Sertar", suma: val, metoda: "Cash" });
     } else {
-        if(val > soldSertar) { alert("Fonduri insuficiente!"); return; }
+        if(val > soldSertar) { alert("Fonduri insuficiente în sertar!"); return; }
         soldSertar -= val;
         jurnalActivitati.push({ tip: "Retragere Fond", suma: val, metoda: "Cash" });
     }
@@ -420,13 +468,63 @@ function modificaFond(dir) {
 }
 
 function raport(tip) {
-    let vanzari = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
-    alert(`=== RAPORT ${tip} ===\nTotal încasări: ${vanzari.toFixed(2)} lei\nSold Sertar: ${soldSertar.toFixed(2)} lei`);
+    let totalVanzari = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
+    let totalCash = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Cash").reduce((s,j) => s + j.suma, 0);
+    let totalCard = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Card").reduce((s,j) => s + j.suma, 0);
+
+    let stringProduse = "";
+    Object.keys(vanzariProduse).forEach(n => {
+        stringProduse += `\n- ${n}: ${vanzariProduse[n].cantitate} buc (${vanzariProduse[n].totalIncasat.toFixed(2)} lei)`;
+    });
+
+    alert(`=== RAPORT ${tip} ===\nTotal Vânzări Brute: ${totalVanzari.toFixed(2)} lei\nDin care CASH: ${totalCash.toFixed(2)} lei\nDin care CARD: ${totalCard.toFixed(2)} lei\nSold Tehnic Sertar: ${soldSertar.toFixed(2)} lei\n\n--- CANTITĂȚI PRODUSE: ---${stringProduse || '\nNiciun produs vândut'}`);
+    
     if(tip === 'Z') {
         jurnalActivitati = [];
+        vanzariProduse = {};
         localStorage.setItem("q_core_jurnal", JSON.stringify(jurnalActivitati));
+        localStorage.setItem("q_core_produse_vandute", JSON.stringify(vanzariProduse));
         actualizeazaPanouMaster();
     }
+}
+
+function exportDateCSV() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    
+    // Sectiunea 1: Rezumat financiar
+    let totalVanzari = jurnalActivitati.filter(j => j.tip.includes("Vânzare")).reduce((s,j) => s + j.suma, 0);
+    let totalCash = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Cash").reduce((s,j) => s + j.suma, 0);
+    let totalCard = jurnalActivitati.filter(j => j.tip.includes("Vânzare") && j.metoda === "Card").reduce((s,j) => s + j.suma, 0);
+    
+    csvContent += "REZUMAT FINANCIAR CURENT\n";
+    csvContent += `Indicator,Valoare\n`;
+    csvContent += `Total Incasari Brute,${totalVanzari.toFixed(2)} lei\n`;
+    csvContent += `Total Incasari CASH,${totalCash.toFixed(2)} lei\n`;
+    csvContent += `Total Incasari CARD,${totalCard.toFixed(2)} lei\n`;
+    csvContent += `Sold Tehnic In Sertar,${soldSertar.toFixed(2)} lei\n\n`;
+
+    // Sectiunea 2: Produse vandute
+    csvContent += "RAPORT PRODUSE VANDUTE\n";
+    csvContent += "Nume Produs,Cantitate Vanduta,Venit Total\n";
+    Object.keys(vanzariProduse).forEach(nume => {
+        csvContent += `"${nume}",${vanzariProduse[nume].cantitate},${vanzariProduse[nume].totalIncasat.toFixed(2)}\n`;
+    });
+    csvContent += "\n";
+
+    // Sectiunea 3: Jurnal brut operatiuni
+    csvContent += "ISTORIC PARCURS JURNAL\n";
+    csvContent += "Tip Operatiune,Suma,Metoda\n";
+    jurnalActivitati.forEach(j => {
+        csvContent += `"${j.tip}",${j.suma.toFixed(2)},"${j.metoda}"\n`;
+    });
+
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `Raport_Qreator_POS_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 </script>
 </body>
