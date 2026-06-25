@@ -293,7 +293,7 @@
                 <span id="txtNumeUserActiv" style="font-weight:800; font-size: 15px;">Operator</span>
             </div>
             <div class="logo-placeholder logo-interactive-trigger" onclick="solicitaParolaRest()"></div>
-            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none;" onclick="logout()"><span class="icon-emoji">📴</span></button>
+            <button class="action-badge" style="background:rgba(239,68,68,0.15); color:var(--danger-color); border:none;" onclick="logout()"><span class="icon-emoji">❌</span></button>
         </div>
 
         <div class="events-layout">
@@ -978,13 +978,11 @@ function updateSecretPinDots() {
     for(let i=0; i<4; i++) document.getElementById(`s-dot${i}`).classList.toggle("active", i < secretPinIntroduis.length);
 }
 
-// MODIFICAT: CALCULEAZĂ AUTOMAT TRANZACȚIILE OPERATORULUI CURENT ȘI LE AFIȘEAZĂ ÎN POP-UP
 function deschidePanouRest() {
     let restCurent = fonduriRest[userActiv.id] || 0;
     document.getElementById("txtFondRestCurent").innerText = restCurent.toFixed(2) + " lei";
     document.getElementById("numSumaRest").value = "";
     
-    // Calcul cifră de afaceri curentă încasată de operator
     let uTranz = tranzactii.filter(t => t.userId === userActiv.id);
     let cash = uTranz.filter(t => t.metoda === 'Cash').reduce((s,t)=>s+t.suma,0);
     let card = uTranz.filter(t => t.metoda === 'Card').reduce((s,t)=>s+t.suma,0);
@@ -1015,7 +1013,6 @@ function ajusteazaRest(directie) {
     document.getElementById("numSumaRest").value = "";
 }
 
-// NOU: FUNCȚIE DE EXPORT EXCLUSIV JSON PENTRU OPERATOR (NUME FORMAT: ID_DATA_ORA) COMPATIBILĂ CU MASTER CENTRALIZER
 function exportaJsonOperatorPentruCentralizer() {
     let uTranz = tranzactii.filter(t => t.userId === userActiv.id);
     if (uTranz.length === 0) {
@@ -1032,7 +1029,6 @@ function exportaJsonOperatorPentruCentralizer() {
     let descarcaAnchor = document.createElement('a');
     descarcaAnchor.setAttribute("href", dataStr);
     
-    // Generare format dată și oră pentru denumire fișier (Ex: POS-01_2026-06-25_14-30)
     let acum = new Date();
     let luna = String(acum.getMonth() + 1).padStart(2, '0');
     let zi = String(acum.getDate()).padStart(2, '0');
