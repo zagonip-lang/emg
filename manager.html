@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qreator POS - Master Centralizer 2026</title>
+
+<style>
+    :root {
+        --bg-color: #020617;
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --primary: #3b82f6;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --text: #f8fafc;
+        --text-muted: #64748b;
+        --accent: #8b5cf6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; color: var(--text); }
+    body { background: var(--bg-color); background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #020617 100%); padding: 30px; min-height: 100vh; }
+    
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; }
+    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .upload-zone { background: rgba(59, 130, 246, 0.05); border: 2px dashed var(--primary); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 30px; cursor: pointer; transition: all 0.2s ease; }
+    .upload-zone:hover { background: rgba(59, 130, 246, 0.1); border-color: #60a5fa; }
+    
+    .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--primary); }
+    .stat-card.cash::before { background: var(--success); }
+    .stat-card.card::before { background: var(--primary); }
+    .stat-card.token::before { background: var(--warning); }
+    .stat-card.total::before { background: var(--accent); }
+    .stat-card h3 { font-size: 12px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 6px; }
+    .stat-card .value { font-size: 24px; font-weight: 800; font-family: monospace; }
+
+    .layout-tables { display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .dashboard-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 22px; }
+    .box-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .box-title { font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+    th { color: var(--text-muted); font-weight: 600; padding: 12px 8px; border-bottom: 1px solid var(--card-border); font-size: 12px; text-transform: uppercase; }
+    td { padding: 14px 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    tr:hover td { background: rgba(255,255,255,0.01); }
+
+    .btn-export { background: var(--success); color: #000; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+    .btn-export:hover { opacity: 0.9; }
+    
+    .badge-terminal { background: rgba(139, 92, 246, 0.15); color: #c084fc; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; font-family: monospace; }
+    .badge-file { background: rgba(255,255,255,0.07); padding: 4px 8px; border-radius: 6px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; margin: 4px; border: 1px solid var(--card-border); }
+    
+    /* Stiluri suplimentare pentru ajustarea fină a emoji-urilor native */
+    .icon-emoji { font-style: normal; filter: grayscale(0.2) contrast(1.1); font-size: 1.1em; }
+    .upload-icon { font-size: 48px; display: block; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h1>Qreator POS — Master Centralizer</h1>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Sincronizare și Audit Financiar Offline pentru Festivaluri</p>
+        </div>
+        <div id="files-loaded-container"></div>
+    </header>
+
+    <div class="upload-zone" onclick="document.getElementById('file-picker').click()">
+        <span class="upload-icon">📥</span>
+        <h2>Încarcă fișierele JSON de pe telefoane</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 6px;">Poți selecta mai multe fișiere simultan (DATE_POS-01.json, DATE_POS-02.json etc.)</p>
+        <input type="file" id="file-picker" multiple accept=".json" style="display: none;" onchange="proceseazaFisiere(this)">
+    </div>
+
+    <div class="grid-stats">
+        <div class="stat-card cash"><h3>💵 Total CASH (Brut)</h3><div class="value" id="kpi-cash">0.00 lei</div></div>
+        <div class="stat-card card"><h3>💳 Total CARD (Brut)</h3><div class="value" id="kpi-card">0.00 lei</div></div>
+        <div class="stat-card token"><h3>🪙 Total TOKEN</h3><div class="value" id="kpi-token">0.00 lei</div></div>
+        <div class="stat-card total"><h3>✨ TOTAL FESTIVAL</h3><div class="value" id="kpi-total" style="color: #a78bfa;">0.00 lei</div></div>
+    </div>
+
+    <div class="layout-tables">
+        <div class="dashboard-box">
+            <div class="box-header">
+                <div class="box-title"><span class="icon-emoji">📱</span> Performanță per Terminal (Punct de Vânzare)</div>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>ID Terminal</th><th>Tranzacții</th><th>Cash</th><th>Card</th><th>Token</th><th>Total Încasat</th></tr>
+                </thead>
+                <tbody id="tbody-terminale">
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Încărcați fișiere pentru a genera raportul per terminal.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dashboard-box">
+            <div class="box-header">
+                <div class="box-title"><span class="icon-emoji">📊</span> Top Articole Vândute (Global)</div>
+                <button class="btn-export" onclick="exportaTopProduseCSV()"><span class="icon-emoji">💾</span> Export CSV</button>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Denumire Produs</th><th style="text-align: center;">Cantitate</th><th style="text-align: right;">Total Brut (lei)</th></tr>
+                </thead>
+                <tbody id="tbody-produse">
+                    <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Încărcați fișiere pentru a genera stocul vândut.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="dashboard-box">
+        <div class="box-header">
+            <div class="box-title"><span class="icon-emoji">📋</span> Jurnal General de Audit (Toate Tranzacțiile Unificate cronologic)</div>
+            <button class="btn-export" style="background: var(--primary);" onclick="exportaToateTranzactiileCSV()"><span class="icon-emoji">📊</span> Export Jurnal Complet (CSV)</button>
+        </div>
+        <div style="max-height: 400px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr><th>ID Tranzacție</th><th>Terminal</th><th>Dată / Oră</th><th>Operator</th><th>Metodă</th><th style="text-align: right;">Valoare Bon</th></tr>
+                </thead>
+                <tbody id="tbody-jurnal">
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Nicio tranzacție unificată momentan.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+let bazaDateUnificata = {
+    tranzactii: {}, 
+    terminale: {},
+    produse: {}
+};
+
+function proceseazaFisiere(input) {
+    let fisiere = input.files;
+    if (fisiere.length === 0) return;
+
+    let containerFisiere = document.getElementById("files-loaded-container");
+    containerFisiere.innerHTML = "";
+
+    let citite = 0;
+
+    for (let i = 0; i < fisiere.length; i++) {
+        let f = fisiere[i];
+        
+        // Înlocuit iconița de fișier cu emoji 📄 care merge offline
+        containerFisiere.innerHTML += `<span class="badge-file"><span class="icon-emoji">📄</span> ${f.name}</span>`;
+        
+        let cititor = new FileReader();
+        cititor.onload = function(e) {
+            try {
+                let json = JSON.parse(e.target.result);
+                
+                let tId = json.terminalId || "UNKNOWN-POS";
+                let listaTranzactiiCurente = json.tranzactii || [];
+
+                listaTranzactiiCurente.forEach(t => {
+                    bazaDateUnificata.tranzactii[t.id] = {
+                        id: t.id,
+                        terminalId: t.terminalId || tId,
+                        userNume: t.userNume || "Operator",
+                        suma: parseFloat(t.suma) || 0,
+                        metoda: t.metoda,
+                        timestamp: t.timestamp,
+                        articole: t.articole || []
+                    };
+                });
+
+            } catch (err) {
+                console.error("Eroare la procesarea fișierului: " + f.name, err);
+            }
+
+            citite++;
+            if (citite === fisiere.length) {
+                recalculeazaSiRandeazaDashboard();
+            }
+        };
+        cititor.readAsText(f);
+    }
+}
+
+function recalculeazaSiRandeazaDashboard() {
+    bazaDateUnificata.terminale = {};
+    bazaDateUnificata.produse = {};
+
+    let totalCash = 0, totalCard = 0, totalToken = 0;
+    let listaToateTranzactiile = Object.values(bazaDateUnificata.tranzactii);
+    listaToateTranzactiile.sort((a, b) => b.timestamp - a.timestamp);
+
+    listaToateTranzactiile.forEach(t => {
+        if (t.metoda === 'Cash') totalCash += t.suma;
+        if (t.metoda === 'Card') totalCard += t.suma;
+        if (t.metoda === 'Token') totalToken += t.suma;
+
+        if (!bazaDateUnificata.terminale[t.terminalId]) {
+            bazaDateUnificata.terminale[t.terminalId] = { cash: 0, card: 0, token: 0, count: 0, total: 0 };
+        }
+        let term = bazaDateUnificata.terminale[t.terminalId];
+        term.count++;
+        term.total += t.suma;
+        if (t.metoda === 'Cash') term.cash += t.suma;
+        if (t.metoda === 'Card') term.card += t.suma;
+        if (t.metoda === 'Token') term.token += t.suma;
+
+        t.articole.forEach(art => {
+            let numeProdus = art.nume || art.denumire;
+            let cantitate = parseInt(art.qty || art.cantitate) || 0;
+            let brut = parseFloat(art.pretTotal || (art.pret * cantitate)) || 0;
+
+            if (!bazaDateUnificata.produse[numeProdus]) {
+                bazaDateUnificata.produse[numeProdus] = { qty: 0, totalBrut: 0 };
+            }
+            bazaDateUnificata.produse[numeProdus].qty += cantitate;
+            bazaDateUnificata.produse[numeProdus].totalBrut += brut;
+        });
+    });
+
+    document.getElementById("kpi-cash").innerText = totalCash.toFixed(2) + " lei";
+    document.getElementById("kpi-card").innerText = totalCard.toFixed(2) + " lei";
+    document.getElementById("kpi-token").innerText = totalToken.toFixed(2) + " lei";
+    document.getElementById("kpi-total").innerText = (totalCash + totalCard + totalToken).toFixed(2) + " lei";
+
+    let tbodyTerminale = document.getElementById("tbody-terminale");
+    tbodyTerminale.innerHTML = "";
+    Object.keys(bazaDateUnificata.terminale).forEach(idTerm => {
+        let d = bazaDateUnificata.terminale[idTerm];
+        tbodyTerminale.innerHTML += `
+            <tr>
+                <td><span class="badge-terminal">📟 ${idTerm}</span></td>
+                <td><b>${d.count}</b> vânzări</td>
+                <td>${d.cash.toFixed(2)} lei</td>
+                <td>${d.card.toFixed(2)} lei</td>
+                <td>${d.token.toFixed(2)} lei</td>
+                <td style="color: #3b82f6; font-weight: 800;">${d.total.toFixed(2)} lei</td>
+            </tr>`;
+    });
+
+    let tbodyProduse = document.getElementById("tbody-produse");
+    tbodyProduse.innerHTML = "";
+    let sortimentProduse = Object.keys(bazaDateUnificata.produse).sort((a,b) => bazaDateUnificata.produse[b].qty - bazaDateUnificata.produse[a].qty);
+    
+    if(sortimentProduse.length === 0) {
+        tbodyProduse.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Niciun articol procesat.</td></tr>`;
+    }
+    sortimentProduse.forEach(pName => {
+        let pData = bazaDateUnificata.produse[pName];
+        tbodyProduse.innerHTML += `
+            <tr>
+                <td><b>📦 ${pName}</b></td>
+                <td style="text-align: center; font-weight:700;">${pData.qty} buc</td>
+                <td style="text-align: right; color: #10b981; font-weight: 700;">${pData.totalBrut.toFixed(2)} lei</td>
+            </tr>`;
+    });
+
+    let tbodyJurnal = document.getElementById("tbody-jurnal");
+    tbodyJurnal.innerHTML = "";
+    listaToateTranzactiile.forEach(t => {
+        let dataFormatata = new Date(t.timestamp).toLocaleString("ro-RO");
+        let metodaIcon = t.metoda === 'Cash' ? '💵' : (t.metoda === 'Card' ? '💳' : '🪙');
+        tbodyJurnal.innerHTML += `
+            <tr>
+                <td style="font-size:11px; font-family: monospace; color: var(--text-muted);">${t.id}</td>
+                <td><span class="badge-terminal">📟 ${t.terminalId}</span></td>
+                <td>${dataFormatata}</td>
+                <td>👤 ${t.userNume}</td>
+                <td><b>${metodaIcon} ${t.metoda.toUpperCase()}</b></td>
+                <td style="text-align: right; font-weight:700;">${t.suma.toFixed(2)} lei</td>
+            </tr>`;
+    });
+}
+
+function descarcaCSV(continut, numeFisier) {
+    let blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), continut], { type: "text/csv;charset=utf-8;" });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", numeFisier);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function exportaToateTranzactiileCSV() {
+    let tranzArray = Object.values(bazaDateUnificata.tranzactii);
+    if(tranzArray.length === 0) { alert("Nu există date de exportat!"); return; }
+    
+    let csv = "ID TRANZACTIE,TERMINAL,DATA ORA,OPERATOR,METODA PLATA,SUMA TOTALA (LEI)\n";
+    tranzArray.forEach(t => {
+        let dataStr = new Date(t.timestamp).toLocaleString("ro-RO");
+        csv += `"${t.id}","${t.terminalId}","${dataStr}","${t.userNume}","${t.metoda}",${t.suma}\n`;
+    });
+    descarcaCSV(csv, `AUDIT_FESTIVAL_TRANZACTII_TOTAL_${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+function exportaTopProduseCSV() {
+    let prods = Object.keys(bazaDateUnificata.produse);
+    if(prods.length === 0) { alert("Nu există date de exportat!"); return; }
+
+    let csv = "DENUMIRE PRODUS,CANTITATE VANDUTA (BUC),INCASARE BRUTA (LEI)\n";
+    prods.forEach(pName => {
+        csv += `"${pName}",${bazaDateUnificata.produse[pName].qty},${bazaDateUnificata.produse[pName].totalBrut.toFixed(2)}\n`;
+    });
+    descarcaCSV(csv, `RAPORT_PRODUSE_VANDUTE_FESTIVAL.csv`);
+}
+</script>
+</body>
+</html>
