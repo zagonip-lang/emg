@@ -64,6 +64,7 @@
     .app-screen#screen-events.active { display: flex; }
 
     .pos-logo { height: 45px; width: auto; margin: 5px auto 10px auto; display: block; }
+    .logo-placeholder { display: block; margin: 0 auto; width: 60px; height: 60px; }
 
     .gemini-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 14px; margin-bottom: 12px; width: 100%; }
     
@@ -238,8 +239,13 @@
         appearance: checkbox !important;
     }
 
-    /* Stil pentru adaptarea estetică a emoji-urilor pe fundal închis */
     .icon-emoji { font-style: normal; filter: grayscale(0.1) contrast(1.1); font-size: 1.1em; line-height: 1; }
+    
+    /* Grid de KPI-uri dedicat pop-up-ului de rest */
+    .popup-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; text-align: left; }
+    .popup-kpi-subbox { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 8px 10px; border-radius: 10px; }
+    .popup-kpi-subbox h6 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
+    .popup-kpi-subbox div { font-size: 13px; font-weight: 800; font-family: monospace !important; }
 </style>
 </head>
 <body>
@@ -308,7 +314,7 @@
                         <span>Total General:</span>
                         <span id="txtTotal" style="color:var(--primary-color); margin-left:auto;">0.00 lei</span>
                     </div>
-                    <button class="btn-block btn-primary" onclick="deschidePlata()"><span class="icon-emoji">🎰</span> PLATĂ</button>
+                    <button class="btn-block btn-primary" onclick="deschidePlata()">PLATĂ</button>
                 </div>
             </div>
         </div>
@@ -443,7 +449,7 @@
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(1)">1</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(2)">2</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(3)">3</button>
-                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(4)$">4</button>
+                <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(4)">4</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(5)">5</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(6)">6</button>
                 <button class="num-btn" style="padding:12px 0;" onclick="pressSecretPin(7)">7</button>
@@ -470,23 +476,36 @@
     <div class="modal-overlay" id="modalGestiuneRest">
         <div class="modal-box" style="max-width:370px;">
             <h4>Sertar Tehnic Rest</h4>
-            <div style="background:rgba(255,255,255,0.04); border:1px solid var(--card-border); padding:14px; border-radius:14px; margin:14px 0; font-size:15px;">
+            
+            <div style="background:rgba(255,255,255,0.04); border:1px solid var(--card-border); padding:10px; border-radius:14px; margin:10px 0 5px 0; font-size:13px;">
                 <span>Bani de rest în sertar:</span>
-                <b id="txtFondRestCurent" style="color:var(--warning-color); font-family:monospace !important; margin-left:6px; font-size:16px;">0.00 lei</b>
+                <b id="txtFondRestCurent" style="color:var(--warning-color); font-family:monospace !important; margin-left:6px; font-size:14px;">0.00 lei</b>
             </div>
-            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
-                <input type="number" id="numSumaRest" placeholder="Sumă (lei)" style="text-align:center; font-size:18px !important;" pattern="[0-9]*" inputmode="decimal">
+
+            <div style="font-size:10px; text-transform:uppercase; color:var(--text-muted); font-weight:800; text-align:left; margin-top:10px; letter-spacing:0.5px;">Sume încasate în sesiune:</div>
+            <div class="popup-kpis">
+                <div class="popup-kpi-subbox"><h6>💵 Cash</h6><div id="popCash">0.00 lei</div></div>
+                <div class="popup-kpi-subbox"><h6>💳 Card</h6><div id="popCard">0.00 lei</div></div>
+                <div class="popup-kpi-subbox"><h6>🪙 Token</h6><div id="popToken">0.00 lei</div></div>
+                <div class="popup-kpi-subbox" style="border-color:var(--primary-color);"><h6>✨ Total</h6><div id="popTotal" style="color:var(--primary-color);">0.00 lei</div></div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px;">
+                <input type="number" id="numSumaRest" placeholder="Sumă (lei)" style="text-align:center; font-size:16px !important; min-height:40px !important; padding:8px !" pattern="[0-9]*" inputmode="decimal">
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <button class="btn-block" style="background:var(--success-color);" onclick="ajusteazaRest('depunere')"><span class="icon-emoji">➕</span> Adaugă</button>
-                    <button class="btn-block" style="background:var(--danger-color);" onclick="ajusteazaRest('retragere')"><span class="icon-emoji">➖</span> Retrage</button>
+                    <button class="btn-block" style="background:var(--success-color); min-height:40px; padding:10px;" onclick="ajusteazaRest('depunere')"><span class="icon-emoji">➕</span> Adaugă</button>
+                    <button class="btn-block" style="background:var(--danger-color); min-height:40px; padding:10px;" onclick="ajusteazaRest('retragere')"><span class="icon-emoji">➖</span> Retrage</button>
                 </div>
             </div>
-            <hr style="border:0; border-top:1px solid var(--card-border); margin:16px 0;">
+
+            <button class="btn-block" style="background:var(--tehnic-color); font-size:13px; min-height:44px; padding:10px; margin-bottom:12px;" onclick="exportaJsonOperatorPentruCentralizer()"><span class="icon-emoji">📤</span> EXPORTĂ JSON CENTRALIZER</button>
+
+            <hr style="border:0; border-top:1px solid var(--card-border); margin:12px 0;">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
-                <button class="btn-block btn-secondary" onclick="executaRaportOperator('X')">RAPORT X</button>
-                <button class="btn-block" style="background:var(--danger-color);" onclick="deschideAlerteZOperator()">RAPORT Z</button>
+                <button class="btn-block btn-secondary" style="min-height:44px; font-size:13px;" onclick="executaRaportOperator('X')">RAPORT X</button>
+                <button class="btn-block" style="background:var(--danger-color); min-height:44px; font-size:13px;" onclick="deschideAlerteZOperator()">RAPORT Z</button>
             </div>
-            <button class="btn-block btn-secondary" style="font-size:13px;" onclick="document.getElementById('modalGestiuneRest').style.display='none'">ÎNCHIDE</button>
+            <button class="btn-block btn-secondary" style="font-size:13px; min-height:40px;" onclick="document.getElementById('modalGestiuneRest').style.display='none'">ÎNCHIDE</button>
         </div>
     </div>
 
@@ -959,10 +978,24 @@ function updateSecretPinDots() {
     for(let i=0; i<4; i++) document.getElementById(`s-dot${i}`).classList.toggle("active", i < secretPinIntroduis.length);
 }
 
+// MODIFICAT: CALCULEAZĂ AUTOMAT TRANZACȚIILE OPERATORULUI CURENT ȘI LE AFIȘEAZĂ ÎN POP-UP
 function deschidePanouRest() {
     let restCurent = fonduriRest[userActiv.id] || 0;
     document.getElementById("txtFondRestCurent").innerText = restCurent.toFixed(2) + " lei";
     document.getElementById("numSumaRest").value = "";
+    
+    // Calcul cifră de afaceri curentă încasată de operator
+    let uTranz = tranzactii.filter(t => t.userId === userActiv.id);
+    let cash = uTranz.filter(t => t.metoda === 'Cash').reduce((s,t)=>s+t.suma,0);
+    let card = uTranz.filter(t => t.metoda === 'Card').reduce((s,t)=>s+t.suma,0);
+    let token = uTranz.filter(t => t.metoda === 'Token').reduce((s,t)=>s+t.suma,0);
+    let total = cash + card + token;
+    
+    document.getElementById("popCash").innerText = cash.toFixed(2) + " lei";
+    document.getElementById("popCard").innerText = card.toFixed(2) + " lei";
+    document.getElementById("popToken").innerText = token.toFixed(2) + " lei";
+    document.getElementById("popTotal").innerText = total.toFixed(2) + " lei";
+
     document.getElementById("modalGestiuneRest").style.display = "flex";
 }
 
@@ -982,6 +1015,38 @@ function ajusteazaRest(directie) {
     document.getElementById("numSumaRest").value = "";
 }
 
+// NOU: FUNCȚIE DE EXPORT EXCLUSIV JSON PENTRU OPERATOR (NUME FORMAT: ID_DATA_ORA) COMPATIBILĂ CU MASTER CENTRALIZER
+function exportaJsonOperatorPentruCentralizer() {
+    let uTranz = tranzactii.filter(t => t.userId === userActiv.id);
+    if (uTranz.length === 0) {
+        alert("Nu există tranzacții înregistrate de acest operator pentru a fi exportate!");
+        return;
+    }
+
+    let configData = {
+        terminalId: terminalId,
+        tranzactii: uTranz 
+    };
+
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(configData, null, 2));
+    let descarcaAnchor = document.createElement('a');
+    descarcaAnchor.setAttribute("href", dataStr);
+    
+    // Generare format dată și oră pentru denumire fișier (Ex: POS-01_2026-06-25_14-30)
+    let acum = new Date();
+    let luna = String(acum.getMonth() + 1).padStart(2, '0');
+    let zi = String(acum.getDate()).padStart(2, '0');
+    let ore = String(acum.getHours()).padStart(2, '0');
+    let minute = String(acum.getMinutes()).padStart(2, '0');
+    
+    let denumireFisier = `DATE_${terminalId}_${acum.getFullYear()}-${luna}-${zi}_${ore}-${minute}.json`;
+    
+    descarcaAnchor.setAttribute("download", denumireFisier);
+    document.body.appendChild(descarcaAnchor);
+    descarcaAnchor.click();
+    descarcaAnchor.remove();
+}
+
 function deschideAlerteZOperator() {
     document.getElementById("modalConfirmareZ").style.display = "flex";
     document.getElementById("btnConfirmaZEfectiv").onclick = function() {
@@ -989,6 +1054,7 @@ function deschideAlerteZOperator() {
         executaRaportOperator('Z');
     };
 }
+
 function trimiteComandaRaportCautaZ() {
     let uId = document.getElementById("ddSelectUserMaster").value; if(!uId) return;
     document.getElementById("modalConfirmareZ").style.display = "flex";
