@@ -70,7 +70,7 @@
     </footer>
 
     <script>
-        const categories = ["All", "Spritz", "Cocktails", "Non-Alcoholic", "Specialty Coffee", "Beer", "Spirits", "Soft & Wine"];
+        const categories = ["All","Spritz","Cocktails","Non-Alcoholic","Specialty Coffee","Beer","Spirits","Soft & Wine"];
         const products = [
     {
         "id": 1,
@@ -179,7 +179,7 @@
         "category": "Non-Alcoholic",
         "price": "35 LEI",
         "desc": "Martini Nolo Vibrante, 0% Gin, Roasted pineapple soda.",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 15,
@@ -332,7 +332,9 @@
         "name": "Baby Cino",
         "category": "Specialty Coffee",
         "price": "10 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Just milk for your toddler",
+        "badge": ""
     },
     {
         "id": 36,
@@ -360,14 +362,16 @@
         "name": "Bucur Draught",
         "category": "Beer",
         "price": "18 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 40,
         "name": "Bucur",
         "category": "Beer",
         "price": "16 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "",
+        "badge": "0,33"
     },
     {
         "id": 41,
@@ -395,14 +399,14 @@
         "name": "Guinness",
         "category": "Beer",
         "price": "28 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 45,
         "name": "Weihenstephaner",
         "category": "Beer",
         "price": "30 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 46,
@@ -416,49 +420,57 @@
         "name": "Crowd Control N.E. IPA",
         "category": "Beer",
         "price": "30 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Hop Hooligans",
+        "badge": ""
     },
     {
         "id": 48,
         "name": "Shock Therapy",
         "category": "Beer",
         "price": "30 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Hop Hooligans",
+        "badge": ""
     },
     {
         "id": 49,
         "name": "Sencha",
         "category": "Beer",
         "price": "30 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Hop Hooligans",
+        "badge": ""
     },
     {
         "id": 50,
         "name": "Major Buzzkill Non Alc IPA",
         "category": "Beer",
         "price": "30 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Hop Hooligans",
+        "badge": ""
     },
     {
         "id": 51,
         "name": "Gelato Sourpuss Baklava",
         "category": "Beer",
         "price": "45 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 52,
         "name": "Smoothie Sour Ale",
         "category": "Beer",
         "price": "45 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 53,
         "name": "Rainbow Eyes Sour Ale",
         "category": "Beer",
         "price": "45 LEI",
-        "outOfStock": false
+        "outOfStock": true
     },
     {
         "id": 54,
@@ -523,7 +535,9 @@
         "name": "Lemonade",
         "category": "Soft & Wine",
         "price": "18 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Lemon/Apple/Mint/Blueberry",
+        "badge": ""
     },
     {
         "id": 63,
@@ -538,7 +552,9 @@
         "name": "Glass of Wine",
         "category": "Soft & Wine",
         "price": "28 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "",
+        "badge": "Rose/White"
     }
 ];
         let selectedCategory = "All";
