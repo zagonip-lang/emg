@@ -8,14 +8,14 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Damion&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        damion: ['Damion', 'cursive'],
+                        schoolbell: ['Schoolbell', 'cursive'],
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
@@ -275,7 +275,7 @@
             return `
                 <div class="py-3.5 flex items-baseline justify-between gap-4">
                     <div class="min-w-0 flex-1">
-                        <p class="text-xl font-damion text-menuRed tracking-wide leading-snug">${p.name}</p>
+                        <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug">${p.name}</p>
                         ${p.desc ? `<p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">${p.desc}</p>` : ''}
                         ${p.badge ? `<span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">${p.badge}</span>` : ''}
                     </div>
