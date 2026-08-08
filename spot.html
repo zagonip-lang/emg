@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SPOT | House of Experiences</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cursive: ['Playfair Display', 'serif'],
+                        script: ['Alex Brush', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        menuRed: '#A22D29',
+                        menuBg: '#FAF8F5',
+                        menuCard: '#FFFFFF'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #FAF8F5;
+            color: #2D2727;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        input:focus { outline: none; }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12 antialiased selection:bg-menuRed/10 selection:text-menuRed">
+
+    <header class="sticky top-0 z-50 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-menuRed/10 transition-all">
+        <div class="max-w-md mx-auto px-6 pt-6 pb-4 text-center relative">
+            <p class="text-[10px] tracking-widest text-menuRed/70 font-semibold uppercase mb-1">Matasari 32-34</p>
+            <h1 class="text-3xl font-black tracking-widest text-menuRed uppercase leading-none font-sans">
+                SPOT
+            </h1>
+            <p class="text-[11px] tracking-[0.25em] uppercase text-menuRed font-bold mt-1.5">House of Experiences</p>
+        </div>
+
+        <div class="max-w-md mx-auto px-6 flex gap-2 overflow-x-auto scrollbar-none border-t border-menuRed/10 py-3" id="categoryContainer">
+            </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-6 pt-6 space-y-6">
+        
+        <div class="relative flex items-center">
+            <svg class="w-4 h-4 absolute left-3.5 text-menuRed/40 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Caută băutură sau ingredient..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-white/80 rounded-xl text-xs text-stone-800 placeholder-stone-400 border border-menuRed/15 focus:border-menuRed focus:bg-white transition-all shadow-sm">
+        </div>
+
+        <div class="space-y-8 fade-in" id="productList">
+            </div>
+
+    </main>
+
+    <footer class="max-w-md mx-auto px-6 pt-10 pb-8 mt-12 border-t border-menuRed/15 text-center space-y-4">
+        <div class="text-[11px] text-stone-500 leading-relaxed space-y-1">
+            <p>• Băuturile din cafea pot fi preparate cu lapte vegetal (+4 LEI).</p>
+            <p>• Pentru informații privind alergenii, solicitați meniul fizic la bar.</p>
+        </div>
+
+        <div class="pt-2">
+            <p class="text-xs font-black tracking-widest uppercase text-menuRed">ORDERS AND PAYMENTS ARE MADE AT THE BAR</p>
+            <p class="text-[10px] text-stone-400 mt-1">SPOT • House of Experiences</p>
+        </div>
+    </footer>
+
+    <script>
+        const categories = [
+            "Toate", 
+            "Spritz", 
+            "Cocktails", 
+            "Non-Alcoholic", 
+            "Specialty Coffee", 
+            "Beer", 
+            "Spirits", 
+            "Soft & Wine"
+        ];
+        
+        const products = [
+            // --- SPRITZ (Din meniul din poză) ---
+            { id: 1, name: "Aperol Spritz", category: "Spritz", price: "34 LEI", desc: "Aperol, prosecco, sparkling water." },
+            { id: 2, name: "Martini Bitter Spritz", category: "Spritz", price: "37 LEI", desc: "Martini Bitter, prosecco, sparkling water." },
+            { id: 3, name: "Passoa Spritz", category: "Spritz", price: "39 LEI", desc: "Passoa, prosecco, rose water, hibiscus." },
+            { id: 4, name: "Peach Spritz", category: "Spritz", price: "34 LEI" },
+            { id: 5, name: "Colada Spritz", category: "Spritz", price: "34 LEI" },
+            { id: 6, name: "Limoncello Spritz", category: "Spritz", price: "34 LEI" },
+
+            // --- COCKTAILS (Din meniul din poză) ---
+            { id: 7, name: "Americano", category: "Cocktails", price: "35 LEI", desc: "Martini Bitter, Vermouth rosso, sparkling water." },
+            { id: 8, name: "Negroni", category: "Cocktails", price: "45 LEI", desc: "Gin, Bitter, Vermouth." },
+            { id: 9, name: "Boulevardier", category: "Cocktails", price: "47 LEI", desc: "Whiskey, Bitter, Vermouth rosso" },
+            { id: 10, name: "Espresso Martini", category: "Cocktails", price: "39 LEI", desc: "Vodka, espresso, Sweet" },
+            { id: 11, name: "Amaretto Sour", category: "Cocktails", price: "41 LEI", desc: "Amaretto, Foamer, Sweet&Sour" },
+            { id: 12, name: "Paloma", category: "Cocktails", price: "45 LEI", desc: "Tequila, lime juice, grephruit soda, salt." },
+
+            // --- NON-ALCOHOLIC (Din meniul din poză) ---
+            { id: 13, name: "Flavours from the garden", category: "Non-Alcoholic", price: "35 LEI", desc: "0% Gin, rose water, Tonic." },
+            { id: 14, name: "Dolce far Niente", category: "Non-Alcoholic", price: "35 LEI", desc: "Martini Nolo Vibrante, 0% Gin, Roasted pineapple soda." },
+            { id: 15, name: "Negroni 0%", category: "Non-Alcoholic", price: "45 LEI", desc: "0% Gin, 0% Bitter, 0% Vermouth." },
+            { id: 16, name: "Amaretto Sour 0%", category: "Non-Alcoholic", price: "41 LEI", desc: "0% Amaretto, Foamer, Sweet&Sour" },
+            { id: 17, name: "Gin Tonic 0%", category: "Non-Alcoholic", price: "45 LEI", desc: "0% Gin, Tonic." },
+
+            // --- SPECIALTY COFFEE ---
+            { id: 18, name: "Single Espresso", category: "Specialty Coffee", price: "10 LEI" },
+            { id: 19, name: "Double Espresso", category: "Specialty Coffee", price: "14 LEI" },
+            { id: 20, name: "Americano", category: "Specialty Coffee", price: "14 LEI" },
+            { id: 21, name: "Cappuccino", category: "Specialty Coffee", price: "14 / 16 LEI", badge: "S / L" },
+            { id: 22, name: "Flat White", category: "Specialty Coffee", price: "16 / 19 LEI", badge: "S / L" },
+            { id: 23, name: "Latte", category: "Specialty Coffee", price: "21 LEI" },
+            { id: 24, name: "AeroPress", category: "Specialty Coffee", price: "22 LEI" },
+            { id: 25, name: "V60", category: "Specialty Coffee", price: "23 / 29 LEI", badge: "S / L" },
+            { id: 26, name: "Espresso Tonic", category: "Specialty Coffee", price: "21 LEI" },
+            { id: 27, name: "Iced Latte", category: "Specialty Coffee", price: "21 LEI" },
+            { id: 28, name: "ColdBrew", category: "Specialty Coffee", price: "16 LEI" },
+            { id: 29, name: "ColdBrew Tonic", category: "Specialty Coffee", price: "21 LEI" },
+            { id: 30, name: "ColdBrew Latte", category: "Specialty Coffee", price: "21 LEI" },
+            { id: 31, name: "Matcha Latte", category: "Specialty Coffee", price: "29 LEI" },
+            { id: 32, name: "Tonic Matcha", category: "Specialty Coffee", price: "27 LEI" },
+            { id: 33, name: "Hot Chocolate", category: "Specialty Coffee", price: "20 LEI" },
+            { id: 34, name: "Hot Tea", category: "Specialty Coffee", price: "18 LEI" },
+            { id: 35, name: "Baby Cino", category: "Specialty Coffee", price: "10 LEI" },
+            { id: 36, name: "Extra Shot", category: "Specialty Coffee", price: "4 LEI" },
+            { id: 37, name: "Lapte Vegetal", category: "Specialty Coffee", price: "4 LEI" },
+
+            // --- BEER ---
+            { id: 38, name: "Tuborg Draught", category: "Beer", price: "15 LEI" },
+            { id: 39, name: "Bucur Draught", category: "Beer", price: "18 LEI" },
+            { id: 40, name: "Bucur", category: "Beer", price: "16 LEI" },
+            { id: 41, name: "Carlsberg", category: "Beer", price: "16 LEI" },
+            { id: 42, name: "Carlsberg Non Alc", category: "Beer", price: "16 LEI" },
+            { id: 43, name: "1664 Blanc", category: "Beer", price: "21 LEI" },
+            { id: 44, name: "Guinness", category: "Beer", price: "28 LEI" },
+            { id: 45, name: "Weihenstephaner", category: "Beer", price: "30 LEI" },
+            { id: 46, name: "Corona", category: "Beer", price: "22 LEI" },
+            { id: 47, name: "Crowd Control N.E. IPA", category: "Beer", price: "30 LEI" },
+            { id: 48, name: "Shock Therapy", category: "Beer", price: "30 LEI" },
+            { id: 49, name: "Sencha", category: "Beer", price: "30 LEI" },
+            { id: 50, name: "Major Buzzkill Non Alc IPA", category: "Beer", price: "30 LEI" },
+            { id: 51, name: "Gelato Sourpuss Baklava", category: "Beer", price: "45 LEI" },
+            { id: 52, name: "Smoothie Sour Ale", category: "Beer", price: "45 LEI" },
+            { id: 53, name: "Rainbow Eyes Sour Ale", category: "Beer", price: "45 LEI" },
+
+            // --- SPIRITS ---
+            { id: 54, name: "Gin Tonic", category: "Spirits", price: "40 LEI" },
+            { id: 55, name: "Havana Cuban", category: "Spirits", price: "30 LEI" },
+            { id: 56, name: "Jameson", category: "Spirits", price: "30 LEI" },
+
+            // --- SOFT & WINE ---
+            { id: 57, name: "Apa plata / Minerală", category: "Soft & Wine", price: "12 LEI" },
+            { id: 58, name: "Cola / PopCola / Zero", category: "Soft & Wine", price: "14 LEI" },
+            { id: 59, name: "Alchemico", category: "Soft & Wine", price: "18 LEI" },
+            { id: 60, name: "Mellow", category: "Soft & Wine", price: "18 LEI" },
+            { id: 61, name: "Socata", category: "Soft & Wine", price: "18 LEI" },
+            { id: 62, name: "Limonada", category: "Soft & Wine", price: "18 LEI" },
+            { id: 63, name: "Vin Spumant", category: "Soft & Wine", price: "21 / 79 LEI", badge: "Pahar / Sticlă" },
+            { id: 64, name: "Vin Pahar", category: "Soft & Wine", price: "28 LEI" }
+        ];
+
+        let selectedCategory = "Toate";
+
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="selectCategory('${cat}')" 
+                    class="px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border ${
+                        selectedCategory === cat 
+                        ? 'bg-menuRed text-white border-menuRed shadow-sm' 
+                        : 'bg-white/60 text-stone-600 border-menuRed/15 hover:border-menuRed/40'
+                    }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategories();
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (selectedCategory !== "Toate") {
+                const filtered = products.filter(p => p.category === selectedCategory && (p.name.toLowerCase().includes(searchVal) || (p.desc && p.desc.toLowerCase().includes(searchVal))));
+                renderSingleCategory(selectedCategory, filtered);
+            } else {
+                renderAllCategories(searchVal);
+            }
+        }
+
+        function renderAllCategories(searchVal) {
+            const container = document.getElementById('productList');
+            container.innerHTML = '';
+
+            const relevantCategories = categories.filter(cat => cat !== "Toate");
+
+            relevantCategories.forEach(cat => {
+                const catProducts = products.filter(p => p.category === cat && (p.name.toLowerCase().includes(searchVal) || (p.desc && p.desc.toLowerCase().includes(searchVal))));
+                
+                if (catProducts.length > 0) {
+                    const section = document.createElement('div');
+                    section.className = 'space-y-3';
+                    section.innerHTML = `
+                        <div class="text-center my-4">
+                            <h2 class="text-lg font-bold uppercase tracking-widest text-menuRed font-sans">${cat}</h2>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-2 shadow-sm">
+                            ${catProducts.map(p => renderProductItem(p)).join('')}
+                        </div>
+                    `;
+                    container.appendChild(section);
+                }
+            });
+        }
+
+        function renderSingleCategory(categoryName, items) {
+            const container = document.getElementById('productList');
+            if (items.length === 0) {
+                container.innerHTML = `<p class="text-xs text-stone-400 text-center py-10">Niciun produs găsit.</p>`;
+                return;
+            }
+            container.innerHTML = `
+                <div class="space-y-3">
+                    <div class="text-center my-4">
+                        <h2 class="text-lg font-bold uppercase tracking-widest text-menuRed font-sans">${categoryName}</h2>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-2 shadow-sm">
+                        ${items.map(p => renderProductItem(p)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProductItem(p) {
+            return `
+                <div class="py-3.5 flex items-baseline justify-between gap-4">
+                    <div class="min-w-0 flex-1">
+                        <p class="text-lg font-cursive italic text-menuRed leading-tight">${p.name}</p>
+                        ${p.desc ? `<p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">${p.desc}</p>` : ''}
+                        ${p.badge ? `<span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="shrink-0 text-right">
+                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">${p.price}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Init
+        renderCategories();
+        filterProducts();
+    </script>
+</body>
+</html>
