@@ -1,1223 +1,561 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SPOT | Menu Manager &amp; Preview</title>
+    <title>SPOT | House of Experiences</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        schoolbell: ['Schoolbell', 'cursive'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        menuRed: '#A22D29',
-                        menuBg: '#FAF8F5'
-                    }
+                    fontFamily: { schoolbell: ['Schoolbell', 'cursive'], sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { menuRed: '#A22D29', menuBg: '#FAF8F5' }
                 }
             }
         }
     </script>
-
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #FAF8F5;
-            color: #2D2727;
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FAF8F5; color: #2D2727; -webkit-tap-highlight-color: transparent; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
         .fade-in { animation: fadeIn 0.25s ease-in-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Plus Jakarta Sans, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.top-\[49px\]{top:49px}.z-50{z-index:50}.z-\[100\]{z-index:100}.mx-auto{margin-left:auto;margin-right:auto}.my-4{margin-top:1rem;margin-bottom:1rem}.mb-1{margin-bottom:0.25rem}.mt-1{margin-top:0.25rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-0\.5{margin-top:0.125rem}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-2\.5{height:0.625rem}.h-4{height:1rem}.min-h-screen{min-height:100vh}.w-2\.5{width:0.625rem}.w-4{width:1rem}.w-auto{width:auto}.w-full{width:100%}.min-w-0{min-width:0px}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.select-none{-webkit-user-select:none;user-select:none}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-2{gap:0.5rem}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.gap-1\.5{gap:0.375rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.divide-y > :not([hidden]) ~ :not([hidden]){--tw-divide-y-reverse:0;border-top-width:calc(1px * calc(1 - var(--tw-divide-y-reverse)));border-bottom-width:calc(1px * var(--tw-divide-y-reverse))}.divide-stone-100 > :not([hidden]) ~ :not([hidden]){--tw-divide-opacity:1;border-color:rgb(245 245 244 / var(--tw-divide-opacity, 1))}.divide-menuRed\/5 > :not([hidden]) ~ :not([hidden]){border-color:rgb(162 45 41 / 0.05)}.overflow-x-auto{overflow-x:auto}.scroll-smooth{scroll-behavior:smooth}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-b-2{border-bottom-width:2px}.border-menuRed\/10{border-color:rgb(162 45 41 / 0.1)}.border-menuRed\/15{border-color:rgb(162 45 41 / 0.15)}.border-stone-200{--tw-border-opacity:1;border-color:rgb(231 229 228 / var(--tw-border-opacity, 1))}.border-stone-700{--tw-border-opacity:1;border-color:rgb(68 64 60 / var(--tw-border-opacity, 1))}.border-stone-800{--tw-border-opacity:1;border-color:rgb(41 37 36 / var(--tw-border-opacity, 1))}.border-menuRed{--tw-border-opacity:1;border-color:rgb(162 45 41 / var(--tw-border-opacity, 1))}.bg-\[\#FAF8F5\]\/95{background-color:rgb(250 248 245 / 0.95)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-menuRed{--tw-bg-opacity:1;background-color:rgb(162 45 41 / var(--tw-bg-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-stone-100{--tw-bg-opacity:1;background-color:rgb(245 245 244 / var(--tw-bg-opacity, 1))}.bg-stone-200{--tw-bg-opacity:1;background-color:rgb(231 229 228 / var(--tw-bg-opacity, 1))}.bg-stone-50{--tw-bg-opacity:1;background-color:rgb(250 250 249 / var(--tw-bg-opacity, 1))}.bg-stone-800{--tw-bg-opacity:1;background-color:rgb(41 37 36 / var(--tw-bg-opacity, 1))}.bg-stone-900{--tw-bg-opacity:1;background-color:rgb(28 25 23 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-menuRed\/5{background-color:rgb(162 45 41 / 0.05)}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.bg-emerald-100{--tw-bg-opacity:1;background-color:rgb(209 250 229 / var(--tw-bg-opacity, 1))}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.p-2{padding:0.5rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-1{padding:0.25rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.pb-1{padding-bottom:0.25rem}.pb-12{padding-bottom:3rem}.pb-2{padding-bottom:0.5rem}.pb-8{padding-bottom:2rem}.pt-1{padding-top:0.25rem}.pt-10{padding-top:2.5rem}.pt-2{padding-top:0.5rem}.pt-5{padding-top:1.25rem}.pt-3{padding-top:0.75rem}.text-center{text-align:center}.text-right{text-align:right}.font-schoolbell{font-family:Schoolbell, cursive}.font-sans{font-family:Plus Jakarta Sans, sans-serif}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-\[9px\]{font-size:9px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.leading-snug{line-height:1.375}.leading-tight{line-height:1.25}.tracking-\[0\.25em\]{letter-spacing:0.25em}.tracking-\[0\.2em\]{letter-spacing:0.2em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.text-menuRed{--tw-text-opacity:1;color:rgb(162 45 41 / var(--tw-text-opacity, 1))}.text-menuRed\/70{color:rgb(162 45 41 / 0.7)}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.text-stone-200{--tw-text-opacity:1;color:rgb(231 229 228 / var(--tw-text-opacity, 1))}.text-stone-300{--tw-text-opacity:1;color:rgb(214 211 209 / var(--tw-text-opacity, 1))}.text-stone-400{--tw-text-opacity:1;color:rgb(168 162 158 / var(--tw-text-opacity, 1))}.text-stone-500{--tw-text-opacity:1;color:rgb(120 113 108 / var(--tw-text-opacity, 1))}.text-stone-600{--tw-text-opacity:1;color:rgb(87 83 78 / var(--tw-text-opacity, 1))}.text-stone-700{--tw-text-opacity:1;color:rgb(68 64 60 / var(--tw-text-opacity, 1))}.text-stone-800{--tw-text-opacity:1;color:rgb(41 37 36 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-menuRed\/40{color:rgb(162 45 41 / 0.4)}.text-menuRed\/80{color:rgb(162 45 41 / 0.8)}.text-emerald-800{--tw-text-opacity:1;color:rgb(6 95 70 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-amber-800{--tw-text-opacity:1;color:rgb(146 64 14 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.line-through{-webkit-text-decoration-line:line-through;text-decoration-line:line-through}.decoration-stone-400{-webkit-text-decoration-color:#a8a29e;text-decoration-color:#a8a29e}.underline-offset-2{text-underline-offset:2px}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.accent-menuRed{accent-color:#A22D29}.opacity-50{opacity:0.5}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-menuRed\/10 *::selection{background-color:rgb(162 45 41 / 0.1)}.selection\:text-menuRed *::selection{--tw-text-opacity:1;color:rgb(162 45 41 / var(--tw-text-opacity, 1))}.selection\:bg-menuRed\/10::selection{background-color:rgb(162 45 41 / 0.1)}.selection\:text-menuRed::selection{--tw-text-opacity:1;color:rgb(162 45 41 / var(--tw-text-opacity, 1))}.hover\:bg-red-200:hover{--tw-bg-opacity:1;background-color:rgb(254 202 202 / var(--tw-bg-opacity, 1))}.hover\:bg-red-800:hover{--tw-bg-opacity:1;background-color:rgb(153 27 27 / var(--tw-bg-opacity, 1))}.hover\:bg-stone-300:hover{--tw-bg-opacity:1;background-color:rgb(214 211 209 / var(--tw-bg-opacity, 1))}.hover\:bg-stone-700:hover{--tw-bg-opacity:1;background-color:rgb(68 64 60 / var(--tw-bg-opacity, 1))}.hover\:text-menuRed\/80:hover{color:rgb(162 45 41 / 0.8)}.hover\:text-red-700:hover{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.hover\:text-stone-800:hover{--tw-text-opacity:1;color:rgb(41 37 36 / var(--tw-text-opacity, 1))}.focus\:border-menuRed:focus{--tw-border-opacity:1;border-color:rgb(162 45 41 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}</style></head>
+</head>
 <body class="min-h-screen pb-12 antialiased selection:bg-menuRed/10 selection:text-menuRed">
-
-    
-
-    <div id="publicMenuContainer" class="">
-        <header class="sticky top-[49px] z-50 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-menuRed/15 transition-all">
-            <div class="max-w-md mx-auto px-6 pt-5 pb-2 text-center flex flex-col items-center">
-                <p class="text-[10px] tracking-[0.25em] text-menuRed/70 font-semibold uppercase mb-1">Mătăsari 32-34</p>
-                
-                <div class="py-1">
-                    <svg class="h-10 w-auto" viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M 42 22 C 30 22, 18 29, 21 41 C 24 53, 39 51, 40 57 C 41 62, 28 64, 18 60 M 18 26 C 28 20, 42 21, 42 22" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M 58 22 L 58 64 M 58 23 C 68 20, 88 23, 85 41 C 82 56, 68 49, 58 49" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M 128 42 C 128 26, 105 24, 102 42 C 99 60, 128 59, 128 42 Z" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M 148 24 L 188 24 M 168 24 L 168 64" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </div>
-                
-                <p class="text-[10px] tracking-[0.2em] uppercase text-menuRed font-bold mt-1">House of Experiences</p>
+    <header class="sticky top-0 z-50 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-menuRed/15 transition-all">
+        <div class="max-w-md mx-auto px-6 pt-5 pb-2 text-center flex flex-col items-center">
+            <p class="text-[10px] tracking-[0.25em] text-menuRed/70 font-semibold uppercase mb-1">Mătăsari 32-34</p>
+            <div class="py-1">
+                <svg class="h-10 w-auto" viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 42 22 C 30 22, 18 29, 21 41 C 24 53, 39 51, 40 57 C 41 62, 28 64, 18 60 M 18 26 C 28 20, 42 21, 42 22" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 58 22 L 58 64 M 58 23 C 68 20, 88 23, 85 41 C 82 56, 68 49, 58 49" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 128 42 C 128 26, 105 24, 102 42 C 99 60, 128 59, 128 42 Z" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 148 24 L 188 24 M 168 24 L 168 64" stroke="#A22D29" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
+            <p class="text-[10px] tracking-[0.2em] uppercase text-menuRed font-bold mt-1">House of Experiences</p>
+        </div>
+        <div class="max-w-md mx-auto px-2 border-t border-menuRed/15 mt-3 relative flex items-center">
+            <button onclick="scrollCategories(-120)" aria-label="Scroll left" class="px-3 py-1 text-menuRed hover:text-menuRed/80 focus:outline-none shrink-0 transition-colors flex items-center justify-center">
+                <span class="font-schoolbell text-3xl font-bold leading-none select-none pb-1">‹</span>
+            </button>
+            <div class="flex items-center gap-6 overflow-x-auto scrollbar-none py-2.5 scroll-smooth flex-1" id="categoryContainer"></div>
+            <button onclick="scrollCategories(120)" aria-label="Scroll right" class="px-3 py-1 text-menuRed hover:text-menuRed/80 focus:outline-none shrink-0 transition-colors flex items-center justify-center">
+                <span class="font-schoolbell text-3xl font-bold leading-none select-none pb-1">›</span>
+            </button>
+        </div>
+    </header>
 
-            <div class="max-w-md mx-auto px-2 border-t border-menuRed/15 mt-3 relative flex items-center">
-                <button onclick="scrollCategories(-120)" aria-label="Scroll left" class="px-3 py-1 text-menuRed hover:text-menuRed/80 focus:outline-none shrink-0 transition-colors flex items-center justify-center">
-                    <span class="font-schoolbell text-3xl font-bold leading-none select-none pb-1">‹</span>
-                </button>
+    <main class="max-w-md mx-auto px-6 pt-5 space-y-6">
+        <div class="space-y-6 fade-in" id="productList"></div>
+    </main>
 
-                <div class="flex items-center gap-6 overflow-x-auto scrollbar-none py-2.5 scroll-smooth flex-1" id="categoryContainer">
-                <button onclick="selectCategory('All')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed border-b-2 border-menuRed">
-                    All
-                </button>
-            
-                <button onclick="selectCategory('Spritz')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Spritz
-                </button>
-            
-                <button onclick="selectCategory('Cocktails')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Cocktails
-                </button>
-            
-                <button onclick="selectCategory('Non-Alcoholic')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Non-Alcoholic
-                </button>
-            
-                <button onclick="selectCategory('Specialty Coffee')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Specialty Coffee
-                </button>
-            
-                <button onclick="selectCategory('Beer')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Beer
-                </button>
-            
-                <button onclick="selectCategory('Spirits')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Spirits
-                </button>
-            
-                <button onclick="selectCategory('Soft &amp; Wine')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative text-menuRed/40 hover:text-menuRed/80">
-                    Soft &amp; Wine
-                </button>
-            </div>
-
-                <button onclick="scrollCategories(120)" aria-label="Scroll right" class="px-3 py-1 text-menuRed hover:text-menuRed/80 focus:outline-none shrink-0 transition-colors flex items-center justify-center">
-                    <span class="font-schoolbell text-3xl font-bold leading-none select-none pb-1">›</span>
-                </button>
-            </div>
-        </header>
-
-        <main class="max-w-md mx-auto px-6 pt-5 space-y-6">
-            <div class="space-y-6 fade-in" id="productList"><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Spritz</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 opacity-50">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug line-through decoration-stone-400">Aperol Spritz</p>
-                            <span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Aperol, prosecco, sparkling water.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">34 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Martini Bitter Spritz</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Martini Bitter, prosecco, sparkling water.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">37 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Passoa Spritz</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Passoa, prosecco, rose water, hibiscus.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">39 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Peach Spritz</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">34 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Colada Spritz</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">34 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Limoncello Spritz</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">34 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Cocktails</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Americano</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Martini Bitter, Vermouth rosso, sparkling water.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">35 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Negroni</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Gin, Bitter, Vermouth.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Boulevardier</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Whiskey, Bitter, Vermouth rosso</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">47 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Espresso Martini</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Vodka, espresso, Sweet</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">39 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Amaretto Sour</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Amaretto, Foamer, Sweet&amp;Sour</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">41 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 opacity-50">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug line-through decoration-stone-400">Paloma</p>
-                            <span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Tequila, lime juice, grapefruit soda, salt.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Non-Alcoholic</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Flavours from the garden</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">0% Gin, rose water, Tonic.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">35 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Dolce far Niente</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">Martini Nolo Vibrante, 0% Gin, Roasted pineapple soda.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">35 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Negroni 0%</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">0% Gin, 0% Bitter, 0% Vermouth.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Amaretto Sour 0%</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">0% Amaretto, Foamer, Sweet&amp;Sour</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">41 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Gin Tonic 0%</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">0% Gin, Tonic.</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Specialty Coffee</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Single Espresso</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">10 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Double Espresso</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">14 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Americano</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">14 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Cappuccino</p>
-                            
-                        </div>
-                        
-                        <span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">S / L</span>
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">14 / 16 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Flat White</p>
-                            
-                        </div>
-                        
-                        <span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">S / L</span>
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">16 / 19 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Latte</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">AeroPress</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">22 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">V60</p>
-                            
-                        </div>
-                        
-                        <span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">S / L</span>
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">23 / 29 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Espresso Tonic</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Iced Latte</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">ColdBrew</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">16 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">ColdBrew Tonic</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">ColdBrew Latte</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Matcha Latte</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">29 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Tonic Matcha</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">27 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Hot Chocolate</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">20 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Hot Tea</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Baby Cino</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">10 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Extra Shot</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">4 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Plant-Based Milk</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">4 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Beer</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 opacity-50">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug line-through decoration-stone-400">Tuborg Draught</p>
-                            <span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">15 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Bucur Draught</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Bucur</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">16 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Carlsberg</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">16 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Carlsberg Non Alc</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">16 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 opacity-50">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug line-through decoration-stone-400">1664 Blanc</p>
-                            <span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Guinness</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">28 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Weihenstephaner</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Corona</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">22 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Crowd Control N.E. IPA</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Shock Therapy</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Sencha</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Major Buzzkill Non Alc IPA</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Gelato Sourpuss Baklava</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Smoothie Sour Ale</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Rainbow Eyes Sour Ale</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">45 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Spirits</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Gin Tonic</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">40 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Havana Cuban</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Jameson</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">30 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div><div class="space-y-3">
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">Soft &amp; Wine</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Still / Sparkling Water</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">12 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Cola / PopCola / Zero</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">14 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Alchemico</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 opacity-50">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug line-through decoration-stone-400">Mellow</p>
-                            <span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Elderflower Drink</p>
-                            
-                        </div>
-                        <p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">SOCATA ARTIZANALA</p>
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Lemonade</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">18 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Sparkling Wine</p>
-                            
-                        </div>
-                        
-                        <span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">Glass / Bottle</span>
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">21 / 79 LEI</span>
-                    </div>
-                </div>
-            
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ">Glass of Wine</p>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">28 LEI</span>
-                    </div>
-                </div>
-            
-                        </div>
-                    </div></div>
-        </main>
-
-        <footer class="max-w-md mx-auto px-6 pt-10 pb-8 mt-12 border-t border-menuRed/15 text-center space-y-4">
-            <div class="text-[11px] text-stone-500 leading-relaxed space-y-1">
-                <p>• Coffee drinks can be prepared with plant-based milk (+4 LEI).</p>
-                <p>• For the complete list of allergens, ask at the bar.</p>
-            </div>
-
-            <div class="pt-2 border-t border-menuRed/10 mt-4">
-                <p class="text-xs font-black tracking-widest uppercase text-menuRed">ORDERS AND PAYMENTS ARE MADE AT THE BAR</p>
-                <p class="text-[11px] font-medium text-stone-600 mt-2">
-                    Reservations / Contact: 
-                    <a href="tel:0730001689" class="font-bold text-menuRed underline underline-offset-2">0730 001 689</a>
-                </p>
-                <p class="text-[10px] text-stone-400 mt-1">SPOT • House of Experiences • 32-34 Mătăsari St.</p>
-            </div>
-        </footer>
-    </div>
-
-    
+    <footer class="max-w-md mx-auto px-6 pt-10 pb-8 mt-12 border-t border-menuRed/15 text-center space-y-4">
+        <div class="text-[11px] text-stone-500 leading-relaxed space-y-1">
+            <p>• Coffee drinks can be prepared with plant-based milk (+4 LEI).</p>
+            <p>• For the complete list of allergens, ask at the bar.</p>
+        </div>
+        <div class="pt-2 border-t border-menuRed/10 mt-4">
+            <p class="text-xs font-black tracking-widest uppercase text-menuRed">ORDERS AND PAYMENTS ARE MADE AT THE BAR</p>
+            <p class="text-[11px] font-medium text-stone-600 mt-2">
+                Reservations / Contact: <a href="tel:0730001689" class="font-bold text-menuRed underline underline-offset-2">0730 001 689</a>
+            </p>
+            <p class="text-[10px] text-stone-400 mt-1">SPOT • House of Experiences • 32-34 Mătăsari St.</p>
+        </div>
+    </footer>
 
     <script>
-        // DATA INITIALA
-        const defaultCategories = ["Spritz", "Cocktails", "Non-Alcoholic", "Specialty Coffee", "Beer", "Spirits", "Soft & Wine"];
-        
-        const defaultProducts = [
-            { id: 1, name: "Aperol Spritz", category: "Spritz", price: "34 LEI", desc: "Aperol, prosecco, sparkling water.", outOfStock: false },
-            { id: 2, name: "Martini Bitter Spritz", category: "Spritz", price: "37 LEI", desc: "Martini Bitter, prosecco, sparkling water.", outOfStock: false },
-            { id: 3, name: "Passoa Spritz", category: "Spritz", price: "39 LEI", desc: "Passoa, prosecco, rose water, hibiscus.", outOfStock: false },
-            { id: 4, name: "Peach Spritz", category: "Spritz", price: "34 LEI", outOfStock: false },
-            { id: 5, name: "Colada Spritz", category: "Spritz", price: "34 LEI", outOfStock: false },
-            { id: 6, name: "Limoncello Spritz", category: "Spritz", price: "34 LEI", outOfStock: false },
-
-            { id: 7, name: "Americano", category: "Cocktails", price: "35 LEI", desc: "Martini Bitter, Vermouth rosso, sparkling water.", outOfStock: false },
-            { id: 8, name: "Negroni", category: "Cocktails", price: "45 LEI", desc: "Gin, Bitter, Vermouth.", outOfStock: false },
-            { id: 9, name: "Boulevardier", category: "Cocktails", price: "47 LEI", desc: "Whiskey, Bitter, Vermouth rosso", outOfStock: false },
-            { id: 10, name: "Espresso Martini", category: "Cocktails", price: "39 LEI", desc: "Vodka, espresso, Sweet", outOfStock: false },
-            { id: 11, name: "Amaretto Sour", category: "Cocktails", price: "41 LEI", desc: "Amaretto, Foamer, Sweet&Sour", outOfStock: false },
-            { id: 12, name: "Paloma", category: "Cocktails", price: "45 LEI", desc: "Tequila, lime juice, grapefruit soda, salt.", outOfStock: false },
-
-            { id: 13, name: "Flavours from the garden", category: "Non-Alcoholic", price: "35 LEI", desc: "0% Gin, rose water, Tonic.", outOfStock: false },
-            { id: 14, name: "Dolce far Niente", category: "Non-Alcoholic", price: "35 LEI", desc: "Martini Nolo Vibrante, 0% Gin, Roasted pineapple soda.", outOfStock: false },
-            { id: 15, name: "Negroni 0%", category: "Non-Alcoholic", price: "45 LEI", desc: "0% Gin, 0% Bitter, 0% Vermouth.", outOfStock: false },
-            { id: 16, name: "Amaretto Sour 0%", category: "Non-Alcoholic", price: "41 LEI", desc: "0% Amaretto, Foamer, Sweet&Sour", outOfStock: false },
-            { id: 17, name: "Gin Tonic 0%", category: "Non-Alcoholic", price: "45 LEI", desc: "0% Gin, Tonic.", outOfStock: false },
-
-            { id: 18, name: "Single Espresso", category: "Specialty Coffee", price: "10 LEI", outOfStock: false },
-            { id: 19, name: "Double Espresso", category: "Specialty Coffee", price: "14 LEI", outOfStock: false },
-            { id: 20, name: "Americano", category: "Specialty Coffee", price: "14 LEI", outOfStock: false },
-            { id: 21, name: "Cappuccino", category: "Specialty Coffee", price: "14 / 16 LEI", badge: "S / L", outOfStock: false },
-            { id: 22, name: "Flat White", category: "Specialty Coffee", price: "16 / 19 LEI", badge: "S / L", outOfStock: false },
-            { id: 23, name: "Latte", category: "Specialty Coffee", price: "21 LEI", outOfStock: false },
-            { id: 24, name: "AeroPress", category: "Specialty Coffee", price: "22 LEI", outOfStock: false },
-            { id: 25, name: "V60", category: "Specialty Coffee", price: "23 / 29 LEI", badge: "S / L", outOfStock: false },
-            { id: 26, name: "Espresso Tonic", category: "Specialty Coffee", price: "21 LEI", outOfStock: false },
-            { id: 27, name: "Iced Latte", category: "Specialty Coffee", price: "21 LEI", outOfStock: false },
-            { id: 28, name: "ColdBrew", category: "Specialty Coffee", price: "16 LEI", outOfStock: false },
-            { id: 29, name: "ColdBrew Tonic", category: "Specialty Coffee", price: "21 LEI", outOfStock: false },
-            { id: 30, name: "ColdBrew Latte", category: "Specialty Coffee", price: "21 LEI", outOfStock: false },
-            { id: 31, name: "Matcha Latte", category: "Specialty Coffee", price: "29 LEI", outOfStock: false },
-            { id: 32, name: "Tonic Matcha", category: "Specialty Coffee", price: "27 LEI", outOfStock: false },
-            { id: 33, name: "Hot Chocolate", category: "Specialty Coffee", price: "20 LEI", outOfStock: false },
-            { id: 34, name: "Hot Tea", category: "Specialty Coffee", price: "18 LEI", outOfStock: false },
-            { id: 35, name: "Baby Cino", category: "Specialty Coffee", price: "10 LEI", outOfStock: false },
-            { id: 36, name: "Extra Shot", category: "Specialty Coffee", price: "4 LEI", outOfStock: false },
-            { id: 37, name: "Plant-Based Milk", category: "Specialty Coffee", price: "4 LEI", outOfStock: false },
-
-            { id: 38, name: "Tuborg Draught", category: "Beer", price: "15 LEI", outOfStock: false },
-            { id: 39, name: "Bucur Draught", category: "Beer", price: "18 LEI", outOfStock: false },
-            { id: 40, name: "Bucur", category: "Beer", price: "16 LEI", outOfStock: false },
-            { id: 41, name: "Carlsberg", category: "Beer", price: "16 LEI", outOfStock: false },
-            { id: 42, name: "Carlsberg Non Alc", category: "Beer", price: "16 LEI", outOfStock: false },
-            { id: 43, name: "1664 Blanc", category: "Beer", price: "21 LEI", outOfStock: false },
-            { id: 44, name: "Guinness", category: "Beer", price: "28 LEI", outOfStock: false },
-            { id: 45, name: "Weihenstephaner", category: "Beer", price: "30 LEI", outOfStock: false },
-            { id: 46, name: "Corona", category: "Beer", price: "22 LEI", outOfStock: false },
-            { id: 47, name: "Crowd Control N.E. IPA", category: "Beer", price: "30 LEI", outOfStock: false },
-            { id: 48, name: "Shock Therapy", category: "Beer", price: "30 LEI", outOfStock: false },
-            { id: 49, name: "Sencha", category: "Beer", price: "30 LEI", outOfStock: false },
-            { id: 50, name: "Major Buzzkill Non Alc IPA", category: "Beer", price: "30 LEI", outOfStock: false },
-            { id: 51, name: "Gelato Sourpuss Baklava", category: "Beer", price: "45 LEI", outOfStock: false },
-            { id: 52, name: "Smoothie Sour Ale", category: "Beer", price: "45 LEI", outOfStock: false },
-            { id: 53, name: "Rainbow Eyes Sour Ale", category: "Beer", price: "45 LEI", outOfStock: false },
-
-            { id: 54, name: "Gin Tonic", category: "Spirits", price: "40 LEI", outOfStock: false },
-            { id: 55, name: "Havana Cuban", category: "Spirits", price: "30 LEI", outOfStock: false },
-            { id: 56, name: "Jameson", category: "Spirits", price: "30 LEI", outOfStock: false },
-
-            { id: 57, name: "Still / Sparkling Water", category: "Soft & Wine", price: "12 LEI", outOfStock: false },
-            { id: 58, name: "Cola / PopCola / Zero", category: "Soft & Wine", price: "14 LEI", outOfStock: false },
-            { id: 59, name: "Alchemico", category: "Soft & Wine", price: "18 LEI", outOfStock: false },
-            { id: 60, name: "Mellow", category: "Soft & Wine", price: "18 LEI", outOfStock: false },
-            { id: 61, name: "Elderflower Drink", category: "Soft & Wine", price: "18 LEI", outOfStock: false },
-            { id: 62, name: "Lemonade", category: "Soft & Wine", price: "18 LEI", outOfStock: false },
-            { id: 63, name: "Sparkling Wine", category: "Soft & Wine", price: "21 / 79 LEI", badge: "Glass / Bottle", outOfStock: false },
-            { id: 64, name: "Glass of Wine", category: "Soft & Wine", price: "28 LEI", outOfStock: false }
-        ];
-
-        // LOCAL STORAGE MANAGEMENT
-        let products = JSON.parse(localStorage.getItem('spot_products')) || defaultProducts;
-        let categoriesList = ["All", ...defaultCategories];
+        const categories = ["All", "Spritz", "Cocktails", "Non-Alcoholic", "Specialty Coffee", "Beer", "Spirits", "Soft & Wine"];
+        const products = [
+    {
+        "id": 1,
+        "name": "Aperol Spritz",
+        "category": "Spritz",
+        "price": "34 LEI",
+        "desc": "Aperol, prosecco, sparkling water.",
+        "outOfStock": true
+    },
+    {
+        "id": 2,
+        "name": "Martini Bitter Spritz",
+        "category": "Spritz",
+        "price": "37 LEI",
+        "desc": "Martini Bitter, prosecco, sparkling water.",
+        "outOfStock": false
+    },
+    {
+        "id": 3,
+        "name": "Passoa Spritz",
+        "category": "Spritz",
+        "price": "39 LEI",
+        "desc": "Passoa, prosecco, rose water, hibiscus.",
+        "outOfStock": false
+    },
+    {
+        "id": 4,
+        "name": "Peach Spritz",
+        "category": "Spritz",
+        "price": "34 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 5,
+        "name": "Colada Spritz",
+        "category": "Spritz",
+        "price": "34 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 6,
+        "name": "Limoncello Spritz",
+        "category": "Spritz",
+        "price": "34 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 7,
+        "name": "Americano",
+        "category": "Cocktails",
+        "price": "35 LEI",
+        "desc": "Martini Bitter, Vermouth rosso, sparkling water.",
+        "outOfStock": false
+    },
+    {
+        "id": 8,
+        "name": "Negroni",
+        "category": "Cocktails",
+        "price": "45 LEI",
+        "desc": "Gin, Bitter, Vermouth.",
+        "outOfStock": false
+    },
+    {
+        "id": 9,
+        "name": "Boulevardier",
+        "category": "Cocktails",
+        "price": "47 LEI",
+        "desc": "Whiskey, Bitter, Vermouth rosso",
+        "outOfStock": false
+    },
+    {
+        "id": 10,
+        "name": "Espresso Martini",
+        "category": "Cocktails",
+        "price": "39 LEI",
+        "desc": "Vodka, espresso, Sweet",
+        "outOfStock": false
+    },
+    {
+        "id": 11,
+        "name": "Amaretto Sour",
+        "category": "Cocktails",
+        "price": "41 LEI",
+        "desc": "Amaretto, Foamer, Sweet&Sour",
+        "outOfStock": false
+    },
+    {
+        "id": 12,
+        "name": "Paloma",
+        "category": "Cocktails",
+        "price": "45 LEI",
+        "desc": "Tequila, lime juice, grapefruit soda, salt.",
+        "outOfStock": true
+    },
+    {
+        "id": 13,
+        "name": "Flavours from the garden",
+        "category": "Non-Alcoholic",
+        "price": "35 LEI",
+        "desc": "0% Gin, rose water, Tonic.",
+        "outOfStock": false
+    },
+    {
+        "id": 14,
+        "name": "Dolce far Niente",
+        "category": "Non-Alcoholic",
+        "price": "35 LEI",
+        "desc": "Martini Nolo Vibrante, 0% Gin, Roasted pineapple soda.",
+        "outOfStock": false
+    },
+    {
+        "id": 15,
+        "name": "Negroni 0%",
+        "category": "Non-Alcoholic",
+        "price": "45 LEI",
+        "desc": "0% Gin, 0% Bitter, 0% Vermouth.",
+        "outOfStock": false
+    },
+    {
+        "id": 16,
+        "name": "Amaretto Sour 0%",
+        "category": "Non-Alcoholic",
+        "price": "41 LEI",
+        "desc": "0% Amaretto, Foamer, Sweet&Sour",
+        "outOfStock": false
+    },
+    {
+        "id": 17,
+        "name": "Gin Tonic 0%",
+        "category": "Non-Alcoholic",
+        "price": "45 LEI",
+        "desc": "0% Gin, Tonic.",
+        "outOfStock": false
+    },
+    {
+        "id": 18,
+        "name": "Single Espresso",
+        "category": "Specialty Coffee",
+        "price": "10 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 19,
+        "name": "Double Espresso",
+        "category": "Specialty Coffee",
+        "price": "14 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 20,
+        "name": "Americano",
+        "category": "Specialty Coffee",
+        "price": "14 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 21,
+        "name": "Cappuccino",
+        "category": "Specialty Coffee",
+        "price": "14 / 16 LEI",
+        "badge": "S / L",
+        "outOfStock": false
+    },
+    {
+        "id": 22,
+        "name": "Flat White",
+        "category": "Specialty Coffee",
+        "price": "16 / 19 LEI",
+        "badge": "S / L",
+        "outOfStock": false
+    },
+    {
+        "id": 23,
+        "name": "Latte",
+        "category": "Specialty Coffee",
+        "price": "21 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 24,
+        "name": "AeroPress",
+        "category": "Specialty Coffee",
+        "price": "22 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 25,
+        "name": "V60",
+        "category": "Specialty Coffee",
+        "price": "23 / 29 LEI",
+        "badge": "S / L",
+        "outOfStock": false
+    },
+    {
+        "id": 26,
+        "name": "Espresso Tonic",
+        "category": "Specialty Coffee",
+        "price": "21 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 27,
+        "name": "Iced Latte",
+        "category": "Specialty Coffee",
+        "price": "21 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 28,
+        "name": "ColdBrew",
+        "category": "Specialty Coffee",
+        "price": "16 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 29,
+        "name": "ColdBrew Tonic",
+        "category": "Specialty Coffee",
+        "price": "21 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 30,
+        "name": "ColdBrew Latte",
+        "category": "Specialty Coffee",
+        "price": "21 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 31,
+        "name": "Matcha Latte",
+        "category": "Specialty Coffee",
+        "price": "29 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 32,
+        "name": "Tonic Matcha",
+        "category": "Specialty Coffee",
+        "price": "27 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 33,
+        "name": "Hot Chocolate",
+        "category": "Specialty Coffee",
+        "price": "20 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 34,
+        "name": "Hot Tea",
+        "category": "Specialty Coffee",
+        "price": "18 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 35,
+        "name": "Baby Cino",
+        "category": "Specialty Coffee",
+        "price": "10 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 36,
+        "name": "Extra Shot",
+        "category": "Specialty Coffee",
+        "price": "4 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 37,
+        "name": "Plant-Based Milk",
+        "category": "Specialty Coffee",
+        "price": "4 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 38,
+        "name": "Tuborg Draught",
+        "category": "Beer",
+        "price": "15 LEI",
+        "outOfStock": true
+    },
+    {
+        "id": 39,
+        "name": "Bucur Draught",
+        "category": "Beer",
+        "price": "18 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 40,
+        "name": "Bucur",
+        "category": "Beer",
+        "price": "16 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 41,
+        "name": "Carlsberg",
+        "category": "Beer",
+        "price": "16 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 42,
+        "name": "Carlsberg Non Alc",
+        "category": "Beer",
+        "price": "16 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 43,
+        "name": "1664 Blanc",
+        "category": "Beer",
+        "price": "21 LEI",
+        "outOfStock": true
+    },
+    {
+        "id": 44,
+        "name": "Guinness",
+        "category": "Beer",
+        "price": "28 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 45,
+        "name": "Weihenstephaner",
+        "category": "Beer",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 46,
+        "name": "Corona",
+        "category": "Beer",
+        "price": "22 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 47,
+        "name": "Crowd Control N.E. IPA",
+        "category": "Beer",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 48,
+        "name": "Shock Therapy",
+        "category": "Beer",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 49,
+        "name": "Sencha",
+        "category": "Beer",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 50,
+        "name": "Major Buzzkill Non Alc IPA",
+        "category": "Beer",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 51,
+        "name": "Gelato Sourpuss Baklava",
+        "category": "Beer",
+        "price": "45 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 52,
+        "name": "Smoothie Sour Ale",
+        "category": "Beer",
+        "price": "45 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 53,
+        "name": "Rainbow Eyes Sour Ale",
+        "category": "Beer",
+        "price": "45 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 54,
+        "name": "Gin Tonic",
+        "category": "Spirits",
+        "price": "40 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 55,
+        "name": "Havana Cuban",
+        "category": "Spirits",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 56,
+        "name": "Jameson",
+        "category": "Spirits",
+        "price": "30 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 57,
+        "name": "Still / Sparkling Water",
+        "category": "Soft & Wine",
+        "price": "12 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 58,
+        "name": "Cola / PopCola / Zero",
+        "category": "Soft & Wine",
+        "price": "14 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 59,
+        "name": "Alchemico",
+        "category": "Soft & Wine",
+        "price": "18 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 60,
+        "name": "Mellow",
+        "category": "Soft & Wine",
+        "price": "18 LEI",
+        "outOfStock": true
+    },
+    {
+        "id": 61,
+        "name": "Elderflower Drink",
+        "category": "Soft & Wine",
+        "price": "18 LEI",
+        "outOfStock": false,
+        "desc": "SOCATA ARTIZANALA",
+        "badge": ""
+    },
+    {
+        "id": 62,
+        "name": "Lemonade",
+        "category": "Soft & Wine",
+        "price": "18 LEI",
+        "outOfStock": false
+    },
+    {
+        "id": 63,
+        "name": "Sparkling Wine",
+        "category": "Soft & Wine",
+        "price": "21 / 79 LEI",
+        "badge": "Glass / Bottle",
+        "outOfStock": false
+    },
+    {
+        "id": 64,
+        "name": "Glass of Wine",
+        "category": "Soft & Wine",
+        "price": "28 LEI",
+        "outOfStock": false
+    }
+];
         let selectedCategory = "All";
-        let isAdminOpen = false;
-
-        function saveData() {
-            localStorage.setItem('spot_products', JSON.stringify(products));
-            renderMenu();
-            renderAdminPanel();
-        }
-
-        function toggleMode() {
-            isAdminOpen = !isAdminOpen;
-            const adminPanel = document.getElementById('adminPanel');
-            const publicMenu = document.getElementById('publicMenuContainer');
-            const btn = document.getElementById('toggleBtn');
-
-            if (isAdminOpen) {
-                adminPanel.classList.remove('hidden');
-                publicMenu.classList.add('hidden');
-                btn.innerHTML = "👁️ Vezi Meniu Public";
-                renderAdminPanel();
-            } else {
-                adminPanel.classList.add('hidden');
-                publicMenu.classList.remove('hidden');
-                btn.innerHTML = "⚙️ Deschide Admin";
-                renderMenu();
-            }
-        }
-
-        // RENDER MENIU PUBLIC
-        function renderMenu() {
-            renderCategories();
-            filterProducts();
-        }
 
         function renderCategories() {
             const container = document.getElementById('categoryContainer');
-            container.innerHTML = categoriesList.map(cat => `
-                <button onclick="selectCategory('${cat}')" 
-                    class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative ${
-                        selectedCategory === cat 
-                        ? 'text-menuRed border-b-2 border-menuRed' 
-                        : 'text-menuRed/40 hover:text-menuRed/80'
-                    }">
-                    ${cat}
-                </button>
+            container.innerHTML = categories.map(cat => `
+                <button onclick="selectCategory('${cat}')" class="text-xs font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-all relative ${selectedCategory === cat ? 'text-menuRed border-b-2 border-menuRed' : 'text-menuRed/40 hover:text-menuRed/80'}">${cat}</button>
             `).join('');
         }
 
-        function scrollCategories(distance) {
-            document.getElementById('categoryContainer').scrollBy({ left: distance, behavior: 'smooth' });
-        }
-
-        function selectCategory(cat) {
-            selectedCategory = cat;
-            renderCategories();
-            filterProducts();
-        }
+        function scrollCategories(distance) { document.getElementById('categoryContainer').scrollBy({ left: distance, behavior: 'smooth' }); }
+        function selectCategory(cat) { selectedCategory = cat; renderCategories(); filterProducts(); }
 
         function filterProducts() {
             if (selectedCategory !== "All") {
-                const filtered = products.filter(p => p.category === selectedCategory);
-                renderSingleCategory(selectedCategory, filtered);
+                renderSingleCategory(selectedCategory, products.filter(p => p.category === selectedCategory));
             } else {
                 renderAllCategories();
             }
@@ -1226,21 +564,12 @@
         function renderAllCategories() {
             const container = document.getElementById('productList');
             container.innerHTML = '';
-            const activeCats = categoriesList.filter(c => c !== "All");
-
-            activeCats.forEach(cat => {
+            categories.filter(cat => cat !== "All").forEach(cat => {
                 const catProducts = products.filter(p => p.category === cat);
                 if (catProducts.length > 0) {
                     const section = document.createElement('div');
                     section.className = 'space-y-3';
-                    section.innerHTML = `
-                        <div class="text-center my-4">
-                            <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">${cat}</h2>
-                        </div>
-                        <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                            ${catProducts.map(p => renderProductItem(p)).join('')}
-                        </div>
-                    `;
+                    section.innerHTML = `<div class="text-center my-4"><h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">${cat}</h2></div><div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">${catProducts.map(p => renderProductItem(p)).join('')}</div>`;
                     container.appendChild(section);
                 }
             });
@@ -1248,25 +577,13 @@
 
         function renderSingleCategory(categoryName, items) {
             const container = document.getElementById('productList');
-            if (items.length === 0) {
-                container.innerHTML = `<p class="text-xs text-stone-400 text-center py-10">No products found in this category.</p>`;
-                return;
-            }
-            container.innerHTML = `
-                <div class="space-y-3">
-                    <div class="text-center my-4">
-                        <h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">${categoryName}</h2>
-                    </div>
-                    <div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">
-                        ${items.map(p => renderProductItem(p)).join('')}
-                    </div>
-                </div>
-            `;
+            if (items.length === 0) { container.innerHTML = `<p class="text-xs text-stone-400 text-center py-10">No products found.</p>`; return; }
+            container.innerHTML = `<div class="space-y-3"><div class="text-center my-4"><h2 class="text-base font-bold uppercase tracking-widest text-menuRed font-sans border-b border-menuRed/15 pb-1 inline-block px-4">${categoryName}</h2></div><div class="bg-white/90 rounded-2xl border border-menuRed/10 divide-y divide-menuRed/5 px-5 py-1 shadow-sm">${items.map(p => renderProductItem(p)).join('')}</div></div>`;
         }
 
         function renderProductItem(p) {
             return `
-                <div class="py-3.5 flex items-baseline justify-between gap-4 ${p.outOfStock ? 'opacity-50' : ''}">
+                <div class="py-3.5 flex items-baseline justify-between gap-4 ${p.outOfStock ? 'opacity-40' : ''}">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-2">
                             <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ${p.outOfStock ? 'line-through decoration-stone-400' : ''}">${p.name}</p>
@@ -1275,153 +592,12 @@
                         ${p.desc ? `<p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">${p.desc}</p>` : ''}
                         ${p.badge ? `<span class="inline-block mt-1 text-[9px] text-menuRed/80 bg-menuRed/5 px-2 py-0.5 rounded-full font-semibold font-sans">${p.badge}</span>` : ''}
                     </div>
-                    <div class="shrink-0 text-right">
-                        <span class="text-sm font-bold text-menuRed tracking-tight font-sans">${p.price}</span>
-                    </div>
-                </div>
-            `;
+                    <div class="shrink-0 text-right"><span class="text-sm font-bold text-menuRed tracking-tight font-sans">${p.price}</span></div>
+                </div>`;
         }
 
-        // RENDER ADMIN PANEL
-        function renderAdminPanel() {
-            // Fill Categories Dropdown
-            const select = document.getElementById('prodCategory');
-            select.innerHTML = defaultCategories.map(c => `<option value="${c}">${c}</option>`).join('');
-
-            // Fill Product List
-            const list = document.getElementById('adminProductList');
-            document.getElementById('totalProductsCount').innerText = `${products.length} produse`;
-
-            list.innerHTML = products.map(p => `
-                <div class="pt-3 pb-2 flex items-center justify-between gap-2">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-bold ${p.outOfStock ? 'text-stone-400 line-through' : 'text-stone-800'}">${p.name}</span>
-                            <span class="text-[9px] text-stone-400">(${p.category})</span>
-                        </div>
-                        <p class="text-[10px] text-menuRed font-bold">${p.price}</p>
-                    </div>
-                    
-                    <div class="flex items-center gap-1 shrink-0">
-                        <button onclick="toggleStock(${p.id})" class="px-2 py-1 rounded text-[10px] font-bold ${p.outOfStock ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
-                            ${p.outOfStock ? 'In Stoc' : 'Out of Stock'}
-                        </button>
-                        <button onclick="editProduct(${p.id})" class="p-1 text-stone-500 hover:text-stone-800">✏️</button>
-                        <button onclick="deleteProduct(${p.id})" class="p-1 text-red-400 hover:text-red-700">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ACTIONS ADMIN
-        function handleProductSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('editProductId').value;
-            const name = document.getElementById('prodName').value.trim();
-            const category = document.getElementById('prodCategory').value;
-            const price = document.getElementById('prodPrice').value.trim();
-            const desc = document.getElementById('prodDesc').value.trim();
-            const badge = document.getElementById('prodBadge').value.trim();
-            const outOfStock = document.getElementById('prodOutOfStock').checked;
-
-            if (id) {
-                // Edit
-                const index = products.findIndex(p => p.id == id);
-                if (index !== -1) {
-                    products[index] = { ...products[index], name, category, price, desc, badge, outOfStock };
-                }
-            } else {
-                // Add New
-                const newProd = { id: Date.now(), name, category, price, desc, badge, outOfStock };
-                products.push(newProd);
-            }
-
-            saveData();
-            resetForm();
-        }
-
-        function toggleStock(id) {
-            const product = products.find(p => p.id === id);
-            if (product) {
-                product.outOfStock = !product.outOfStock;
-                saveData();
-            }
-        }
-
-        function editProduct(id) {
-            const product = products.find(p => p.id === id);
-            if (product) {
-                document.getElementById('editProductId').value = product.id;
-                document.getElementById('prodName').value = product.name;
-                document.getElementById('prodCategory').value = product.category;
-                document.getElementById('prodPrice').value = product.price;
-                document.getElementById('prodDesc').value = product.desc || '';
-                document.getElementById('prodBadge').value = product.badge || '';
-                document.getElementById('prodOutOfStock').checked = product.outOfStock || false;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }
-
-        function deleteProduct(id) {
-            if (confirm("Sigur vrei să ștergi acest produs?")) {
-                products = products.filter(p => p.id !== id);
-                saveData();
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('productForm').reset();
-            document.getElementById('editProductId').value = '';
-        }
-
-        function resetToDefaultData() {
-            if (confirm("Această acțiune va reseta toate produsele la lista inițială. Ești sigur?")) {
-                products = defaultProducts;
-                saveData();
-            }
-        }
-
-        function downloadJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", "spot_menu_backup.json");
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-        }
-
-        // EXPORT HTML PUBLIC (fără Admin Bar și fără script de admin)
-        function exportPublicHTML() {
-            const clonedDoc = document.documentElement.cloneNode(true);
-            
-            // Eliminăm bar-ul de admin și panoul de editare din clona HTML
-            const adminBar = clonedDoc.querySelector('#adminBar');
-            const adminPanel = clonedDoc.querySelector('#adminPanel');
-            if (adminBar) adminBar.remove();
-            if (adminPanel) adminPanel.remove();
-
-            // Ne asigurăm că meniul public este vizibil
-            const publicMenu = clonedDoc.querySelector('#publicMenuContainer');
-            if (publicMenu) publicMenu.classList.remove('hidden');
-
-            // Injectăm datele curente direct în scriptul generat
-            const htmlContent = "<!DOCTYPE html>\n" + clonedDoc.outerHTML;
-            
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'index.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-
-        // INIT
-        renderMenu();
+        renderCategories();
+        filterProducts();
     </script>
-
-
-</body></html>
+</body>
+</html>
