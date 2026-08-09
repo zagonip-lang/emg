@@ -70,7 +70,7 @@
     </footer>
 
     <script>
-        const categories = ["All","Spritz","Cocktails","Non-Alcoholic","Specialty Coffee","Beer","Spirits","Soft & Wine","Bites"];
+        const categories = ["All","Specialty Coffee","Spritz","Cocktails","Beer","Non-Alcoholic","Spirits","Soft & Wine","Bites"];
         const products = [
     {
         "id": 1,
@@ -78,7 +78,9 @@
         "category": "Spritz",
         "price": "34 LEI",
         "desc": "Aperol, prosecco, sparkling water.",
-        "outOfStock": true
+        "outOfStock": true,
+        "quantity": "250ml",
+        "badge": ""
     },
     {
         "id": 2,
@@ -87,7 +89,8 @@
         "price": "37 LEI",
         "desc": "Martini Bitter, prosecco, sparkling water.",
         "outOfStock": false,
-        "badge": ""
+        "badge": "",
+        "quantity": "250ML"
     },
     {
         "id": 3,
@@ -95,7 +98,9 @@
         "category": "Spritz",
         "price": "39 LEI",
         "desc": "Passoa, prosecco, rose water, hibiscus.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "250ml",
+        "badge": ""
     },
     {
         "id": 4,
@@ -104,14 +109,18 @@
         "price": "34 LEI",
         "outOfStock": false,
         "desc": "Peachtree, prosecco, sparkling water.",
-        "badge": ""
+        "badge": "",
+        "quantity": "250ml"
     },
     {
         "id": 5,
         "name": "Colada Spritz",
         "category": "Spritz",
         "price": "34 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "desc": "Coconut rum, prosecco, sparkling water.",
+        "badge": "",
+        "quantity": "250ml"
     },
     {
         "id": 6,
@@ -120,7 +129,8 @@
         "price": "34 LEI",
         "outOfStock": false,
         "desc": "Limoncello, prosecco, sparkling water.",
-        "badge": ""
+        "badge": "",
+        "quantity": "250ml"
     },
     {
         "id": 7,
@@ -675,8 +685,9 @@
             return `
                 <div class="py-3.5 flex items-baseline justify-between gap-4 ${p.outOfStock ? 'opacity-40' : ''}">
                     <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
                             <p class="text-lg font-schoolbell text-menuRed font-bold tracking-wide leading-snug ${p.outOfStock ? 'line-through decoration-stone-400' : ''}">${p.name}</p>
+                            ${p.quantity ? `<span class="text-[10px] text-stone-400 font-sans font-medium">(${p.quantity})</span>` : ''}
                             ${p.outOfStock ? '<span class="text-[9px] bg-stone-200 text-stone-700 font-sans font-bold uppercase px-1.5 py-0.5 rounded">Out of Stock</span>' : ''}
                         </div>
                         ${p.desc ? `<p class="text-[11px] text-stone-500 leading-tight mt-0.5 font-sans">${p.desc}</p>` : ''}
