@@ -70,7 +70,7 @@
     </footer>
 
     <script>
-        const categories = ["All","Specialty Coffee","Spritz","Cocktails","Beer","Non-Alcoholic","Spirits","Soft & Wine","Bites"];
+        const categories = ["All","Specialty Coffee","Spritz","Beer","Cocktails","Non-Alcoholic","Spirits","Soft & Wine","Bites"];
         const products = [
     {
         "id": 1,
@@ -138,7 +138,9 @@
         "category": "Cocktails",
         "price": "35 LEI",
         "desc": "Martini Bitter, Vermouth rosso, sparkling water.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "180ml",
+        "badge": ""
     },
     {
         "id": 8,
@@ -146,7 +148,9 @@
         "category": "Cocktails",
         "price": "45 LEI",
         "desc": "Gin, Bitter, Vermouth.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "120ml",
+        "badge": ""
     },
     {
         "id": 9,
@@ -154,7 +158,9 @@
         "category": "Cocktails",
         "price": "47 LEI",
         "desc": "Whiskey, Bitter, Vermouth rosso",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "120ml",
+        "badge": ""
     },
     {
         "id": 10,
@@ -162,7 +168,9 @@
         "category": "Cocktails",
         "price": "39 LEI",
         "desc": "Vodka, espresso, Sweet",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "140ml",
+        "badge": ""
     },
     {
         "id": 11,
@@ -170,7 +178,9 @@
         "category": "Cocktails",
         "price": "41 LEI",
         "desc": "Amaretto, Foamer, Sweet&Sour",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "120ml",
+        "badge": ""
     },
     {
         "id": 12,
@@ -186,7 +196,9 @@
         "category": "Non-Alcoholic",
         "price": "35 LEI",
         "desc": "0% Gin, rose water, Tonic.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "200ml",
+        "badge": ""
     },
     {
         "id": 14,
@@ -202,7 +214,9 @@
         "category": "Non-Alcoholic",
         "price": "45 LEI",
         "desc": "0% Gin, 0% Bitter, 0% Vermouth.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "120ml",
+        "badge": ""
     },
     {
         "id": 16,
@@ -210,7 +224,9 @@
         "category": "Non-Alcoholic",
         "price": "41 LEI",
         "desc": "0% Amaretto, Foamer, Sweet&Sour",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "120ml",
+        "badge": ""
     },
     {
         "id": 17,
@@ -218,28 +234,39 @@
         "category": "Non-Alcoholic",
         "price": "45 LEI",
         "desc": "0% Gin, Tonic.",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "200ml",
+        "badge": ""
     },
     {
         "id": 18,
         "name": "Single Espresso",
         "category": "Specialty Coffee",
         "price": "10 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "30ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 19,
         "name": "Double Espresso",
         "category": "Specialty Coffee",
         "price": "14 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "60ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 20,
         "name": "Americano",
         "category": "Specialty Coffee",
         "price": "14 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "200ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 21,
@@ -247,7 +274,9 @@
         "category": "Specialty Coffee",
         "price": "14 / 16 LEI",
         "badge": "S / L",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "180ml / 250ml",
+        "desc": ""
     },
     {
         "id": 22,
@@ -255,21 +284,29 @@
         "category": "Specialty Coffee",
         "price": "16 / 19 LEI",
         "badge": "S / L",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "180ml / 250ml",
+        "desc": ""
     },
     {
         "id": 23,
         "name": "Latte",
         "category": "Specialty Coffee",
         "price": "21 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 24,
         "name": "AeroPress",
         "category": "Specialty Coffee",
         "price": "22 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "200ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 25,
@@ -284,63 +321,90 @@
         "name": "Espresso Tonic",
         "category": "Specialty Coffee",
         "price": "21 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 27,
         "name": "Iced Latte",
         "category": "Specialty Coffee",
         "price": "21 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 28,
         "name": "ColdBrew",
         "category": "Specialty Coffee",
         "price": "16 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "200ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 29,
         "name": "ColdBrew Tonic",
         "category": "Specialty Coffee",
         "price": "21 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "300ml",
+        "badge": ""
     },
     {
         "id": 30,
         "name": "ColdBrew Latte",
         "category": "Specialty Coffee",
         "price": "21 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 31,
         "name": "Matcha Latte",
         "category": "Specialty Coffee",
         "price": "29 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "250ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 32,
         "name": "Tonic Matcha",
         "category": "Specialty Coffee",
         "price": "27 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 33,
         "name": "Hot Chocolate",
         "category": "Specialty Coffee",
         "price": "20 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "250ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 34,
         "name": "Hot Tea",
         "category": "Specialty Coffee",
         "price": "18 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "300ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 35,
@@ -349,28 +413,48 @@
         "price": "10 LEI",
         "outOfStock": false,
         "desc": "Just milk for your toddler",
-        "badge": ""
+        "badge": "",
+        "quantity": "150ml"
     },
     {
         "id": 36,
-        "name": "Extra Shot",
+        "name": "Extra Shot Espresso",
         "category": "Specialty Coffee",
         "price": "4 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "30ml",
+        "desc": "",
+        "badge": ""
     },
     {
         "id": 37,
-        "name": "Plant-Based Milk",
+        "name": "Plant-Based Milk/ Lactose free",
         "category": "Specialty Coffee",
         "price": "4 LEI",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "",
+        "desc": "",
+        "badge": ""
     },
     {
-        "id": 38,
-        "name": "Tuborg Draught",
+        "id": 40,
+        "name": "Bucur",
         "category": "Beer",
-        "price": "15 LEI",
-        "outOfStock": true
+        "price": "16 LEI",
+        "outOfStock": false,
+        "desc": "",
+        "badge": "",
+        "quantity": "330ml"
+    },
+    {
+        "id": 41,
+        "name": "Carlsberg",
+        "category": "Beer",
+        "price": "16 LEI",
+        "outOfStock": false,
+        "desc": "",
+        "badge": "",
+        "quantity": "330ml"
     },
     {
         "id": 39,
@@ -380,22 +464,11 @@
         "outOfStock": true
     },
     {
-        "id": 40,
-        "name": "Bucur 0,33",
+        "id": 38,
+        "name": "Tuborg Draught",
         "category": "Beer",
-        "price": "16 LEI",
-        "outOfStock": false,
-        "desc": "",
-        "badge": ""
-    },
-    {
-        "id": 41,
-        "name": "Carlsberg 0,33",
-        "category": "Beer",
-        "price": "16 LEI",
-        "outOfStock": false,
-        "desc": "",
-        "badge": ""
+        "price": "15 LEI",
+        "outOfStock": true
     },
     {
         "id": 42,
@@ -427,48 +500,63 @@
     },
     {
         "id": 46,
-        "name": "Corona 0,355",
+        "name": "Corona",
         "category": "Beer",
         "price": "22 LEI",
         "outOfStock": false,
         "desc": "",
-        "badge": ""
+        "badge": "",
+        "quantity": "355ml"
+    },
+    {
+        "id": 1786264393554,
+        "name": "Corona Cero 0,0%",
+        "category": "Beer",
+        "price": "22 LEI",
+        "quantity": "330ml",
+        "desc": "",
+        "badge": "",
+        "outOfStock": false
     },
     {
         "id": 47,
-        "name": "Crowd Control N.E. IPA 0,5",
+        "name": "Crowd Control N.E. IPA",
         "category": "Beer",
         "price": "30 LEI",
         "outOfStock": false,
         "desc": "Hop Hooligans",
-        "badge": ""
+        "badge": "",
+        "quantity": "500ml"
     },
     {
         "id": 48,
-        "name": "Shock Therapy 0,5",
+        "name": "Shock Therapy",
         "category": "Beer",
         "price": "30 LEI",
         "outOfStock": false,
         "desc": "Hop Hooligans",
-        "badge": ""
+        "badge": "",
+        "quantity": "500ml"
     },
     {
         "id": 49,
-        "name": "Sencha 0,5",
+        "name": "Sencha",
         "category": "Beer",
         "price": "30 LEI",
         "outOfStock": false,
         "desc": "Hop Hooligans",
-        "badge": ""
+        "badge": "",
+        "quantity": "500ml"
     },
     {
         "id": 50,
-        "name": "Major Buzzkill Non Alc IPA 0,5",
+        "name": "Major Buzzkill Non Alc IPA",
         "category": "Beer",
         "price": "30 LEI",
         "outOfStock": false,
         "desc": "Hop Hooligans",
-        "badge": ""
+        "badge": "",
+        "quantity": "500ml"
     },
     {
         "id": 51,
@@ -485,56 +573,54 @@
         "outOfStock": true
     },
     {
-        "id": 53,
-        "name": "Rainbow Eyes Sour Ale",
-        "category": "Beer",
-        "price": "45 LEI",
-        "outOfStock": true
-    },
-    {
         "id": 54,
         "name": "Gin Tonic",
         "category": "Cocktails",
         "price": "40 LEI",
         "outOfStock": false,
         "desc": "Gin, Tonic",
-        "badge": ""
-    },
-    {
-        "id": 55,
-        "name": "Havana Cuban 40ML",
-        "category": "Spirits",
-        "price": "30 LEI",
-        "outOfStock": false,
-        "desc": "",
-        "badge": ""
+        "badge": "",
+        "quantity": "200ml"
     },
     {
         "id": 56,
-        "name": "Jameson 40ML",
+        "name": "Jameson",
         "category": "Spirits",
         "price": "30 LEI",
         "outOfStock": false,
-        "desc": "",
-        "badge": ""
+        "desc": "Irish Whisky",
+        "badge": "",
+        "quantity": "40ml"
+    },
+    {
+        "id": 1786213852814,
+        "name": "SLANE",
+        "category": "Spirits",
+        "price": "29 LEI",
+        "desc": "Irish Whisky",
+        "badge": "",
+        "outOfStock": false,
+        "quantity": "40ml"
     },
     {
         "id": 57,
-        "name": "Still / Sparkling Water 0,5",
+        "name": "Still / Sparkling Water",
         "category": "Soft & Wine",
         "price": "12 LEI",
         "outOfStock": false,
         "desc": "",
-        "badge": ""
+        "badge": "",
+        "quantity": "500ml"
     },
     {
         "id": 58,
-        "name": "Cola / PopCola / Zero 0,33",
+        "name": "Cola / PopCola / Zero",
         "category": "Soft & Wine",
         "price": "14 LEI",
         "outOfStock": false,
         "desc": "",
-        "badge": ""
+        "badge": "",
+        "quantity": "330ml"
     },
     {
         "id": 59,
@@ -552,75 +638,83 @@
     },
     {
         "id": 61,
-        "name": "Elderflower Drink 275ml",
+        "name": "Elderflower Drink",
         "category": "Soft & Wine",
         "price": "18 LEI",
         "outOfStock": false,
         "desc": "SOCATA ARTIZANALA",
-        "badge": ""
+        "badge": "",
+        "quantity": "275ml"
     },
     {
         "id": 62,
-        "name": "Lemonade 0,6",
+        "name": "Lemonade",
         "category": "Soft & Wine",
         "price": "18 LEI",
         "outOfStock": false,
         "desc": "Lemon/Apple/Mint/Blueberry",
-        "badge": ""
+        "badge": "",
+        "quantity": "600ml"
     },
     {
         "id": 63,
-        "name": "Prosecco 150ml /0,75L",
+        "name": "Prosecco",
         "category": "Soft & Wine",
         "price": "21 / 79 LEI",
         "badge": "Glass / Bottle",
         "outOfStock": false,
-        "desc": ""
+        "desc": "",
+        "quantity": "150ml /0,75L"
     },
     {
         "id": 64,
-        "name": "Glass of Wine 150ml",
+        "name": "Glass of Wine",
         "category": "Soft & Wine",
         "price": "28 LEI",
         "outOfStock": false,
         "desc": "",
-        "badge": "Rose/White"
-    },
-    {
-        "id": 1786213094512,
-        "name": "Amaro Montenegro (Freezer) 40ML",
-        "category": "Spirits",
-        "price": "30 LEI",
-        "desc": "",
-        "badge": "",
-        "outOfStock": false
-    },
-    {
-        "id": 1786213852814,
-        "name": "SLANE 40ML",
-        "category": "Spirits",
-        "price": "29 LEI",
-        "desc": "",
-        "badge": "",
-        "outOfStock": false
+        "badge": "Rose/White",
+        "quantity": "150ml"
     },
     {
         "id": 1786213898739,
-        "name": "Laphroaig 10yo 40ml",
+        "name": "Laphroaig 10yo",
         "category": "Spirits",
         "price": "60 Lei",
-        "desc": "",
+        "desc": "Single malt Scotch whisky",
         "badge": "",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "40ml"
+    },
+    {
+        "id": 55,
+        "name": "Havana Cuban",
+        "category": "Spirits",
+        "price": "30 LEI",
+        "outOfStock": false,
+        "desc": "Cuban rum",
+        "badge": "",
+        "quantity": "40ml"
     },
     {
         "id": 1786213918075,
-        "name": "Diplomatico 40ml",
+        "name": "Diplomatico",
         "category": "Spirits",
         "price": "44 Lei",
-        "desc": "",
+        "desc": "Premium rum from Venezuela",
         "badge": "",
-        "outOfStock": false
+        "outOfStock": false,
+        "quantity": "40ml"
+    },
+    {
+        "id": 1786213094512,
+        "name": "Amaro Montenegro (Freezer)",
+        "category": "Spirits",
+        "price": "30 LEI",
+        "desc": "Italian bittersweet herbal liqueur",
+        "badge": "",
+        "outOfStock": false,
+        "quantity": "40ml"
     },
     {
         "id": 1786214186294,
@@ -638,6 +732,13 @@
         "price": "13 LEI",
         "desc": "",
         "badge": "",
+        "outOfStock": true
+    },
+    {
+        "id": 53,
+        "name": "Rainbow Eyes Sour Ale",
+        "category": "Beer",
+        "price": "45 LEI",
         "outOfStock": true
     }
 ];
